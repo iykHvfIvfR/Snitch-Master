@@ -405,7 +405,7 @@ public class ChatSnitchParser
                         return;
                     }
 
-                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/jalist " + jaListIndex);
+                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/jalistlong " + jaListIndex);
                     jaListIndex++;
                     nextUpdate = System.currentTimeMillis() + (long) (waitTime * 1000);
 
