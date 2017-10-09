@@ -343,8 +343,10 @@ public class ChatSnitchParser
                     hoverText = event.getValue().getUnformattedComponentText();
 
                     Matcher matcher = jaListPattern.matcher(hoverText);
-                    if (!matcher.matches())
+                    if (!matcher.matches()) {
+                        SnitchMaster.SendMessageToPlayer("[Snitch Master] Error: /jalist hover text regex doesn't match");
                         continue;
+                    }
                     Snitch snitch = parseSnitchFromJaList(matcher);
 
                     if(loadedSnitches != null)
