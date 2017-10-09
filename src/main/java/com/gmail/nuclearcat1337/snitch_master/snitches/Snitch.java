@@ -295,7 +295,7 @@ public class Snitch extends LocatableObject<Snitch>
     /**
      * The number of parameters in a comma separated value string representing a Snitch object
      */
-    private static final int NUMBER_OF_CSV_PARAMS = 8;
+    private static final int NUMBER_OF_CSV_PARAMS = 9;
     private static final String CSV_SEPARATOR = ",";
     private static final String DESCRIPTION_SEPARATOR = ";";
     private static final String TAG_SEPARATOR = "#";
