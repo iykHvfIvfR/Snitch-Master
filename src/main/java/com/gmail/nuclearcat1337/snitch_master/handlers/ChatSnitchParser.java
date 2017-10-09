@@ -118,6 +118,12 @@ public class ChatSnitchParser
                 manager.saveSnitches();
                 return;
             }
+        } else if (msgText.contains(" * ")) {
+            if (tryParseSnitchNotificationMessage(msg))
+            {
+                manager.saveSnitches();
+                return;
+            }
         }
 
         //Only check for reset sequences or /jalist messages if we are updating
@@ -255,6 +261,29 @@ public class ChatSnitchParser
         {
             return null;
         }
+    }
+
+    private boolean tryParseSnitchNotificationMessage(ITextComponent msg)
+    {
+        List<ITextComponent> siblings = msg.getSiblings();
+        if (siblings.size() <= 0)
+            return false;
+
+        ITextComponent hoverComponent = siblings.get(0);
+
+        HoverEvent hover = hoverComponent.getStyle().getHoverEvent();
+        if (hover != null)
+        {
+            String text = hover.getValue().getUnformattedComponentText();
+            Snitch snitch = parseSnitchFromChat(text);
+            if (snitch != null)
+            {
+                manager.submitSnitch(snitch);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean tryParseBreakMessage(ITextComponent msg)
