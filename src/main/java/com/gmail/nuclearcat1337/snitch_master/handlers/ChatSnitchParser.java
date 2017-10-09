@@ -248,13 +248,14 @@ public class ChatSnitchParser
             double cullTime;
             String ctGroup = matcher.group(5);
             String type = matcher.group(6).toLowerCase();
+            String name = matcher.group(9);
 
             return new Snitch(
                 new Location(x, y, z, worldName),
                 SnitchTags.FROM_JALIST,
                 SnitchMaster.CULL_TIME_ENABLED ? Snitch.MAX_CULL_TIME : Double.NaN,
                 ctGroup,
-                Snitch.DEFAULT_NAME,
+                name,
                 type);
         }
         catch (Exception e)
