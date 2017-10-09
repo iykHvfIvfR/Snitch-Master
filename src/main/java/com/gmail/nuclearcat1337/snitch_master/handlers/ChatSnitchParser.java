@@ -240,15 +240,16 @@ public class ChatSnitchParser
             int y = Integer.parseInt(matcher.group(3));
             int z = Integer.parseInt(matcher.group(4));
             double cullTime;
-
             String ctGroup = matcher.group(5);
+            String type = matcher.group(6).toLowerCase();
 
             return new Snitch(
                 new Location(x, y, z, worldName),
                 SnitchTags.FROM_JALIST,
                 SnitchMaster.CULL_TIME_ENABLED ? Snitch.MAX_CULL_TIME : Double.NaN,
                 ctGroup,
-               Snitch.DEFAULT_NAME);
+                Snitch.DEFAULT_NAME,
+                type);
         }
         catch (Exception e)
         {
@@ -385,9 +386,10 @@ public class ChatSnitchParser
             cullTime = Double.parseDouble(cullTimeString);
 
         String ctGroup = matcher.group(5);
+        String type = matcher.group(6).toLowerCase();
         String name = matcher.group(9);
 
-        return new Snitch(new Location(x, y, z, worldName), SnitchTags.FROM_JALIST, cullTime, ctGroup, name);
+        return new Snitch(new Location(x, y, z, worldName), SnitchTags.FROM_JALIST, cullTime, ctGroup, name, type);
     }
 
     @SubscribeEvent

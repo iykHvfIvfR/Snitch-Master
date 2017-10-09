@@ -64,6 +64,11 @@ public class Snitch extends LocatableObject<Snitch>
     private String name;
 
     /**
+     * 'entry' or 'logging'
+     */
+    private String type;
+
+    /**
      * Array of SnitchLists that this Snitch is a part of.
      */
     final List<SnitchList> attachedSnitchLists;
@@ -84,6 +89,7 @@ public class Snitch extends LocatableObject<Snitch>
         this.cullTime = SnitchMaster.CULL_TIME_ENABLED ? MAX_CULL_TIME : Double.NaN;
         this.ctGroup = DEFAULT_NAME;
         this.name = DEFAULT_NAME;
+        this.type = "entry";
         attachedSnitchLists = new ArrayList<>();
         description = null;
     }
@@ -105,12 +111,17 @@ public class Snitch extends LocatableObject<Snitch>
      * @param ctGroup    The Citadel group name of the group this Snitch is reinforced under.
      * @param snitchName The name of this Snitch.
      */
-    public Snitch(ILocation location, String tag, double culltime, String ctGroup, String snitchName)
+    public Snitch(ILocation location, String tag, double culltime, String ctGroup, String snitchName, String snitchType)
     {
         this(location, tag);
         this.cullTime = culltime;
         this.ctGroup = ctGroup == null ? DEFAULT_NAME : ctGroup;
         this.name = snitchName == null || snitchName.isEmpty() ? DEFAULT_NAME : snitchName;
+        if (snitchType != null) {
+            this.type = snitchType.toLowerCase();
+        } else {
+            this.type = "entry";
+        }
     }
 
     void setCullTime(double cullTime)
@@ -183,6 +194,11 @@ public class Snitch extends LocatableObject<Snitch>
         return name;
     }
 
+    public String getType()
+    {
+        return type;
+    }
+
     public String getGroupName()
     {
         return ctGroup;
@@ -207,6 +223,11 @@ public class Snitch extends LocatableObject<Snitch>
     void setGroupName(String groupName)
     {
         this.ctGroup = groupName;
+    }
+
+    void setType(String type)
+    {
+        this.type = type;
     }
 
     @Override
@@ -285,7 +306,7 @@ public class Snitch extends LocatableObject<Snitch>
      */
     static String ConvertSnitchToCSV(Snitch snitch)
     {
-        //x, y, z, world, oring, groupName, snitchName, cullTime
+        //x, y, z, world, oring, groupName, snitchName, cullTime, type
         StringBuilder builder = new StringBuilder();
         builder.append(snitch.location.getX()).append(CSV_SEPARATOR);
         builder.append(snitch.location.getY()).append(CSV_SEPARATOR);
@@ -295,6 +316,7 @@ public class Snitch extends LocatableObject<Snitch>
         builder.append(Scrub(snitch.getGroupName())).append(CSV_SEPARATOR);
         builder.append(Scrub(snitch.getSnitchName())).append(CSV_SEPARATOR);
         builder.append(snitch.getCullTime()).append(CSV_SEPARATOR);
+        builder.append(snitch.getType()).append(CSV_SEPARATOR);
 
         List<String> description = snitch.getDescription();
         if (description != null)
@@ -335,11 +357,12 @@ public class Snitch extends LocatableObject<Snitch>
                 String groupName = Scrub(args[index++]);
                 String snitchName = Scrub(args[index++]);
                 double cullTime = Double.parseDouble(args[index++]);
+                String type = Scrub(args[index++]).toLowerCase();
 
                 if (snitchName.isEmpty())
                     snitchName = DEFAULT_NAME;
 
-                Snitch snitch = new Snitch(new Location(x, y, z, world), null, cullTime, groupName, snitchName);
+                Snitch snitch = new Snitch(new Location(x, y, z, world), null, cullTime, groupName, snitchName, type);
                 for(String str : origins)
                     snitch.tags.add(str);
 

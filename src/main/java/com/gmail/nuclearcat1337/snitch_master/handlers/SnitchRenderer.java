@@ -21,6 +21,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
+import org.apache.commons.lang3.text.WordUtils;
 
 /**
  * Created by Mr_Little_Kitty on 6/26/2016.
@@ -73,10 +74,11 @@ public class SnitchRenderer
                         {
                             if (GeneralUtils.DistanceSquared(location.getX(), location.getZ(), location.getY(), (int) mc.thePlayer.posX, (int) mc.thePlayer.posZ, (int) mc.thePlayer.posY) <= TEXT_RENDER_DISTANCE * TEXT_RENDER_DISTANCE)
                             {
-                                String[] text = new String[3];
+                                String[] text = new String[4];
                                 text[0] = "Name: " + snitch.getSnitchName();
                                 text[1] = "Group: " + snitch.getGroupName();
                                 text[2] = "Location: " + location.toString();
+                                text[3] = "Type: " + WordUtils.capitalize(snitch.getType());
 
                                 RenderFloatingText(text, (float) location.getX() + 0.5f, location.getY() + 1.01f, location.getZ() + 0.5f, 0xFFFFFF, true, event.getPartialTicks());
                             }
