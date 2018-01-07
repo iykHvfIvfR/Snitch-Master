@@ -41,7 +41,7 @@ public class KeyHandler
         if (toggleAllRender.isPressed())
         {
             snitchMaster.getManager().toggleGlobalRender();
-            SnitchMaster.SendMessageToPlayer("Global render is now: " + (snitchMaster.getManager().getGlobalRender() ? "On" : "Off"));
+            SnitchMaster.SendMessageToPlayer("Global render " + (snitchMaster.getManager().getGlobalRender() ? "ON" : "OFF"));
         }
     }
 }
