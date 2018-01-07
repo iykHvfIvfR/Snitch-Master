@@ -31,7 +31,7 @@ public class SnitchRemoveColumn implements TableColumn<Snitch>
     {
         mc = Minecraft.getMinecraft();
 
-        buttonWidth = mc.fontRendererObj.getStringWidth(BUTTON_TEXT + "---");
+        buttonWidth = mc.fontRenderer.getStringWidth(BUTTON_TEXT + "---");
         this.manager = snitchMaster.getManager();
         //removedSnitches = new HashSet<>();
     }
@@ -94,10 +94,10 @@ public class SnitchRemoveColumn implements TableColumn<Snitch>
         yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
         int xPos = xPosition + (columnWidth / 2) - (buttonWidth / 2);
 
-        buttons[0].yPosition = yPosition;
-        buttons[0].xPosition = xPos;
+        buttons[0].y = yPosition;
+        buttons[0].x = xPos;
 
-        buttons[0].drawButton(mc, mouseX, mouseY);
+        buttons[0].drawButton(mc, mouseX, mouseY, 0);
     }
 
     @Override

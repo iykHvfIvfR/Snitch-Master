@@ -430,7 +430,7 @@ public class ChatSnitchParser
             if (System.currentTimeMillis() > nextUpdate)
             {
                 //If they disconnect while updating is running we dont want the game to crash
-                if (Minecraft.getMinecraft().thePlayer != null)
+                if (Minecraft.getMinecraft().player != null)
                 {
                     if (maxJaListIndex != -1 && jaListIndex - 1 >= maxJaListIndex)
                     {
@@ -439,7 +439,7 @@ public class ChatSnitchParser
                         return;
                     }
 
-                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/jalistlong " + jaListIndex);
+                    Minecraft.getMinecraft().player.sendChatMessage("/jalistlong " + jaListIndex);
                     jaListIndex++;
                     nextUpdate = System.currentTimeMillis() + (long) (waitTime * 1000);
 
@@ -478,7 +478,7 @@ public class ChatSnitchParser
                 snitchesCopy.add(snitch); //Then we add it to the copy list
         }
 
-        Minecraft.getMinecraft().thePlayer.sendChatMessage("/tps");
+        Minecraft.getMinecraft().player.sendChatMessage("/tps");
         nextUpdate = System.currentTimeMillis() + 2000;
         updatingSnitchList = true;
     }
@@ -490,7 +490,7 @@ public class ChatSnitchParser
         jaListIndex = startIndex;
         maxJaListIndex = stopIndex;
 
-        Minecraft.getMinecraft().thePlayer.sendChatMessage("/tps");
+        Minecraft.getMinecraft().player.sendChatMessage("/tps");
         nextUpdate = System.currentTimeMillis() + 2000;
         updatingSnitchList = true;
 

@@ -93,26 +93,26 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList>
         yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
 
         //Set the y position of all 3 buttons
-        buttons[0].yPosition = yPosition;
-        buttons[1].yPosition = yPosition;
-        buttons[2].yPosition = yPosition;
+        buttons[0].y = yPosition;
+        buttons[1].y = yPosition;
+        buttons[2].y = yPosition;
 
         int xPos = xPosition + (columnWidth / 2) - (ENTRY_WIDTH / 2);
 
-        buttons[0].xPosition = xPos;
+        buttons[0].x = xPos;
 
         xPos += buttons[0].width + GuiConstants.SMALL_SEPARATION_DISTANCE;
 
         buttons[1].displayString = list.shouldRenderSnitches() ? "On" : "Off";
-        buttons[1].xPosition = xPos;
+        buttons[1].x = xPos;
 
         xPos += buttons[1].width + GuiConstants.SMALL_SEPARATION_DISTANCE;
 
-        buttons[2].xPosition = xPos;
+        buttons[2].x = xPos;
 
-        buttons[0].drawButton(mc, mouseX, mouseY);
-        buttons[1].drawButton(mc, mouseX, mouseY);
-        buttons[2].drawButton(mc, mouseX, mouseY);
+        buttons[0].drawButton(mc, mouseX, mouseY, 0);
+        buttons[1].drawButton(mc, mouseX, mouseY, 0);
+        buttons[2].drawButton(mc, mouseX, mouseY, 0);
     }
 
     @Override

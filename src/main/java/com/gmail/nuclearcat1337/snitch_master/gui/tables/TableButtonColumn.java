@@ -71,10 +71,10 @@ public class TableButtonColumn<T> implements TableColumn<T>
         yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
         int xPos = xPosition + (columnWidth / 2) - (buttonWidth / 2);
 
-        buttons[0].yPosition = yPosition;
-        buttons[0].xPosition = xPos;
+        buttons[0].y = yPosition;
+        buttons[0].x = xPos;
 
-        buttons[0].drawButton(mc, mouseX, mouseY);
+        buttons[0].drawButton(mc, mouseX, mouseY, 0);
     }
 
     @Override

@@ -52,9 +52,9 @@ public class WorldInfoListener
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event)
     {
-        if (!mc.isSingleplayer() && mc.thePlayer != null && !mc.thePlayer.isDead)
+        if (!mc.isSingleplayer() && mc.player != null && !mc.player.isDead)
         {
-            if (mc.thePlayer.getDisplayName().equals(event.getEntity().getDisplayName()))
+            if (mc.player.getDisplayName().equals(event.getEntity().getDisplayName()))
             {
                 worldID = null;
                 if (this.channel != null)
@@ -83,7 +83,7 @@ public class WorldInfoListener
         if (lastResponse < lastRequest)
         {
             //No WorldInfo response so just use vanilla world names
-            WorldProvider provider = Minecraft.getMinecraft().theWorld.provider;
+            WorldProvider provider = Minecraft.getMinecraft().world.provider;
             if (provider instanceof WorldProviderEnd)
                 return "world_the_end";
             else if (provider instanceof WorldProviderHell)

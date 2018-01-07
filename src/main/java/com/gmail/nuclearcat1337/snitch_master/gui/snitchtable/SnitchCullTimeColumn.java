@@ -58,17 +58,17 @@ public class SnitchCullTimeColumn implements TableColumn<Snitch>
     public void draw(Snitch snitch, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY)
     {
         String text = SnitchMaster.CULL_TIME_ENABLED ? (Double.isNaN(snitch.getCullTime()) ? "Off" : CULL_TIME_FORMAT.format(snitch.getCullTime())) : "Off";
-        int yFinal = yPos + ((slotHeight - mc.fontRendererObj.FONT_HEIGHT) / 2);
-        int nameWidth = mc.fontRendererObj.getStringWidth(text);
+        int yFinal = yPos + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
+        int nameWidth = mc.fontRenderer.getStringWidth(text);
         int namePos = xPos + (columnWidth / 2) - (nameWidth / 2);
-        mc.fontRendererObj.drawString(text, namePos, yFinal, 16777215);
+        mc.fontRenderer.drawString(text, namePos, yFinal, 16777215);
     }
 
     @Override
     public int getDrawWidth(Snitch snitch)
     {
         String text = SnitchMaster.CULL_TIME_ENABLED ? (Double.isNaN(snitch.getCullTime()) ? "Off" : CULL_TIME_FORMAT.format(snitch.getCullTime())) : "Off";
-        return mc.fontRendererObj.getStringWidth(text);
+        return mc.fontRenderer.getStringWidth(text);
     }
 
     @Override

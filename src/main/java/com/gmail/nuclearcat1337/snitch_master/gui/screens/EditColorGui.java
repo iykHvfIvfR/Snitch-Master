@@ -38,36 +38,36 @@ public class EditColorGui extends GuiScreen
         this.callback = callback;
 
         this.titleText = titleText;
-        this.titleWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(titleText);
+        this.titleWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(titleText);
     }
 
     private static final int MAX_COLOR_TEXT_LENGTH = 3;
 
     public void initGui()
     {
-        greenWidth = mc.fontRendererObj.getStringWidth("Green");
+        greenWidth = mc.fontRenderer.getStringWidth("Green");
 
-        int width = mc.fontRendererObj.getStringWidth(SnitchList.MAX_NAME_CHARACTERS + "WWW");
+        int width = mc.fontRenderer.getStringWidth(SnitchList.MAX_NAME_CHARACTERS + "WWW");
         int xPos = (this.width / 2) - (GuiConstants.LARGE_TEXBOX_LENGTH / 2);
         int yPos = (this.height / 2) - (GuiConstants.STANDARD_TEXTBOX_HEIGHT) - (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 
         int rgbBoxWidth = (width - GuiConstants.STANDARD_SEPARATION_DISTANCE) / 3;
         int buttonWidth = (width - GuiConstants.STANDARD_SEPARATION_DISTANCE) / 3;
 
-        this.redBox = new TextBox("", fontRendererObj, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+        this.redBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
         redBox.setClamp(0, 255);
         redBox.setText(Integer.toString(baseColor.getRedInt()));
         redBox.setFocused(true);
 
         yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-        this.greenBox = new TextBox("", fontRendererObj, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+        this.greenBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
         greenBox.setClamp(0, 255);
         greenBox.setText(Integer.toString(baseColor.getGreenInt()));
 
         yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-        this.blueBox = new TextBox("", fontRendererObj, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+        this.blueBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
         blueBox.setClamp(0, 255);
         blueBox.setText(Integer.toString(baseColor.getBlueInt()));
 
@@ -132,17 +132,17 @@ public class EditColorGui extends GuiScreen
         this.greenBox.drawTextBox();
         this.blueBox.drawTextBox();
 
-        int constYValue = (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - mc.fontRendererObj.FONT_HEIGHT / 2;
+        int constYValue = (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - mc.fontRenderer.FONT_HEIGHT / 2;
         int constXValue = GuiConstants.SMALL_SEPARATION_DISTANCE + greenWidth;
 
-        mc.fontRendererObj.drawString("Blue", blueBox.xPosition - constXValue, blueBox.yPosition + constYValue, 16777215);
-        mc.fontRendererObj.drawString("Green", greenBox.xPosition - constXValue, greenBox.yPosition + constYValue, 16777215);
-        mc.fontRendererObj.drawString("Red", redBox.xPosition - constXValue, redBox.yPosition + constYValue, 16777215);
+        mc.fontRenderer.drawString("Blue", blueBox.x - constXValue, blueBox.y + constYValue, 16777215);
+        mc.fontRenderer.drawString("Green", greenBox.x - constXValue, greenBox.y + constYValue, 16777215);
+        mc.fontRenderer.drawString("Red", redBox.x - constXValue, redBox.y + constYValue, 16777215);
 
-        int xPos = redBox.xPosition + (redBox.width / 2) - (titleWidth / 2);
-        int yPos = redBox.yPosition - mc.fontRendererObj.FONT_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
+        int xPos = redBox.x + (redBox.width / 2) - (titleWidth / 2);
+        int yPos = redBox.y - mc.fontRenderer.FONT_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-        mc.fontRendererObj.drawString(titleText, xPos, yPos, 16777215);
+        mc.fontRenderer.drawString(titleText, xPos, yPos, 16777215);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

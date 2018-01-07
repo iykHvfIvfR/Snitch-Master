@@ -68,7 +68,7 @@ public class SnitchManager
     public void onEntityJoinWorld(EntityJoinWorldEvent event)
     {
         //Make sure the player isn't dead and isn't null (idk why?)
-        if (mc.thePlayer == null || (!mc.thePlayer.isDead && mc.thePlayer.getDisplayName().equals(event.getEntity().getDisplayName())))
+        if (mc.player == null || (!mc.player.isDead && mc.player.getDisplayName().equals(event.getEntity().getDisplayName())))
         {
             //The name of the server they just joined
             String newServer = null;

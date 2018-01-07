@@ -143,8 +143,8 @@ public class SnitchMaster
 
     public static void SendMessageToPlayer(String message)
     {
-        if (mc.thePlayer != null)
-            mc.thePlayer.addChatComponentMessage(new TextComponentString("[Snitch Master] " + message));
+        if (mc.player != null)
+            mc.player.sendMessage(new TextComponentString("[Snitch Master] " + message));
     }
 
     private static class ObjectParser implements Settings.ValueParser

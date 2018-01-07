@@ -41,7 +41,7 @@ public class QuietTimeGui extends GuiScreen
 
         int upperYPos = startingYPos - GuiConstants.STANDARD_SEPARATION_DISTANCE - GuiConstants.STANDARD_TEXTBOX_HEIGHT;
 
-        messageBox = new TextBox("", mc.fontRendererObj, centerXPos, upperYPos, BUTTON_WIDTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
+        messageBox = new TextBox("", mc.fontRenderer, centerXPos, upperYPos, BUTTON_WIDTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
         setTextBoxContent();
         messageBox.setEnabled(false);
 

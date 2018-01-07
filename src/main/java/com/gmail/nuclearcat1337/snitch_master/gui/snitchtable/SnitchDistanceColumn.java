@@ -66,10 +66,10 @@ public class SnitchDistanceColumn implements TableColumn<Snitch>
             text = "" + distance;
         }
 
-        int yFinal = yPos + ((slotHeight - mc.fontRendererObj.FONT_HEIGHT) / 2);
-        int nameWidth = mc.fontRendererObj.getStringWidth(text);
+        int yFinal = yPos + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
+        int nameWidth = mc.fontRenderer.getStringWidth(text);
         int namePos = xPos + (columnWidth / 2) - (nameWidth / 2);
-        mc.fontRendererObj.drawString(text, namePos, yFinal, 16777215);
+        mc.fontRenderer.drawString(text, namePos, yFinal, 16777215);
     }
 
     @Override
@@ -78,11 +78,11 @@ public class SnitchDistanceColumn implements TableColumn<Snitch>
         ILocation loc = snitch.getLocation();
 
         if (!SnitchMaster.instance.getCurrentWorld().equalsIgnoreCase(loc.getWorld()))
-            return mc.fontRendererObj.getStringWidth("NA");
+            return mc.fontRenderer.getStringWidth("NA");
 
         int distance = getDistanceFromPlayer(loc.getX(), loc.getY(), loc.getZ());
         String text = "" + distance;
-        return mc.fontRendererObj.getStringWidth(text);
+        return mc.fontRenderer.getStringWidth(text);
     }
 
     @Override
@@ -120,9 +120,9 @@ public class SnitchDistanceColumn implements TableColumn<Snitch>
 
     private int getDistanceFromPlayer(int x, int y, int z)
     {
-        int x1 = x - (int) mc.thePlayer.posX;
-        int y1 = y - (int) mc.thePlayer.posY;
-        int z1 = z - (int) mc.thePlayer.posZ;
+        int x1 = x - (int) mc.player.posX;
+        int y1 = y - (int) mc.player.posY;
+        int z1 = z - (int) mc.player.posZ;
 
         return (int) Math.sqrt((x1 * x1) + (y1 * y1) + (z1 * z1));
     }

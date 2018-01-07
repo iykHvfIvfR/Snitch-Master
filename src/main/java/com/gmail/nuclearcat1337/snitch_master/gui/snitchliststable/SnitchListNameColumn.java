@@ -61,17 +61,17 @@ public class SnitchListNameColumn implements TableColumn<SnitchList>
     @Override
     public void draw(SnitchList list, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY)
     {
-        int stringYPosition = yPos + ((slotHeight - mc.fontRendererObj.FONT_HEIGHT) / 2);
+        int stringYPosition = yPos + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
         String text = list.getListName();
-        int stringWidth = mc.fontRendererObj.getStringWidth(text);
+        int stringWidth = mc.fontRenderer.getStringWidth(text);
         int namePos = xPos + (columnWidth / 2) - (stringWidth / 2);
-        mc.fontRendererObj.drawString(text, namePos, stringYPosition, 16777215);
+        mc.fontRenderer.drawString(text, namePos, stringYPosition, 16777215);
     }
 
     @Override
     public int getDrawWidth(SnitchList list)
     {
-        return mc.fontRendererObj.getStringWidth(list.getListName());
+        return mc.fontRenderer.getStringWidth(list.getListName());
     }
 
     @Override

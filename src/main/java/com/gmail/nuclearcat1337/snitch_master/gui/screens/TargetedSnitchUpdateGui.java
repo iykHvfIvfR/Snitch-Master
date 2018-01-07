@@ -36,8 +36,8 @@ public class TargetedSnitchUpdateGui extends GuiScreen
         //this.snitchMaster = snitchMaster;
         this.chatParser = chatParser;
 
-        startTextWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(START_BOX_TEXT);
-        stopTextWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(STOP_BOX_TEXT);
+        startTextWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(START_BOX_TEXT);
+        stopTextWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(STOP_BOX_TEXT);
     }
 
     public void initGui()
@@ -45,13 +45,13 @@ public class TargetedSnitchUpdateGui extends GuiScreen
         int yPos = (this.height / 2) - (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2);
         int xPos = (this.width / 2) - GuiConstants.STANDARD_SEPARATION_DISTANCE / 2 - BOX_AND_BUTTON_WIDTH;
 
-        startIndexBox = new TextBox("", fontRendererObj, xPos, yPos, BOX_AND_BUTTON_WIDTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, 3);
+        startIndexBox = new TextBox("", fontRenderer, xPos, yPos, BOX_AND_BUTTON_WIDTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, 3);
         startIndexBox.setClamp(0, 999);
         startIndexBox.setFocused(true);
 
         xPos += (startIndexBox.width + GuiConstants.STANDARD_SEPARATION_DISTANCE);
 
-        stopIndexBox = new TextBox("", fontRendererObj, xPos, yPos, BOX_AND_BUTTON_WIDTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, 3);
+        stopIndexBox = new TextBox("", fontRenderer, xPos, yPos, BOX_AND_BUTTON_WIDTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, 3);
         stopIndexBox.setClamp(0, 999);
 
         yPos += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
@@ -103,13 +103,13 @@ public class TargetedSnitchUpdateGui extends GuiScreen
     {
         this.drawDefaultBackground();
 
-        int textYHeight = (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - (mc.fontRendererObj.FONT_HEIGHT / 2) - GuiConstants.STANDARD_TEXTBOX_HEIGHT;
+        int textYHeight = (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - (mc.fontRenderer.FONT_HEIGHT / 2) - GuiConstants.STANDARD_TEXTBOX_HEIGHT;
 
         //Draw the text above the start index text box
-        mc.fontRendererObj.drawString(START_BOX_TEXT, startIndexBox.xPosition + (startIndexBox.width / 2) - (startTextWidth / 2), startIndexBox.yPosition + textYHeight, 16777215);
+        mc.fontRenderer.drawString(START_BOX_TEXT, startIndexBox.x + (startIndexBox.width / 2) - (startTextWidth / 2), startIndexBox.y + textYHeight, 16777215);
 
         //Draw the text above the stop index text box
-        mc.fontRendererObj.drawString(STOP_BOX_TEXT, stopIndexBox.xPosition + (stopIndexBox.width / 2) - (stopTextWidth / 2), startIndexBox.yPosition + textYHeight, 16777215);
+        mc.fontRenderer.drawString(STOP_BOX_TEXT, stopIndexBox.x + (stopIndexBox.width / 2) - (stopTextWidth / 2), startIndexBox.y + textYHeight, 16777215);
 
         this.startIndexBox.drawTextBox();
         this.stopIndexBox.drawTextBox();

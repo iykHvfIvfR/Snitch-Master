@@ -32,8 +32,8 @@ public class TableColumnSelector<T> extends GuiListExtended
     {
         super(Minecraft.getMinecraft(), parent.width, parent.height, 32, parent.height - 32, 20);
 
-        this.renderLength = mc.fontRendererObj.getStringWidth(RENDER_HEADER + "--");
-        this.setHasListHeader(true, (int) ((float) mc.fontRendererObj.FONT_HEIGHT * 1.5));
+        this.renderLength = mc.fontRenderer.getStringWidth(RENDER_HEADER + "--");
+        this.setHasListHeader(true, (int) ((float) mc.fontRenderer.FONT_HEIGHT * 1.5));
 
         entries = new ArrayList<>(allColumns.size());
 
@@ -42,12 +42,12 @@ public class TableColumnSelector<T> extends GuiListExtended
         for (TableColumn<T> col : allColumns)
         {
             entries.add(new ColumnEntry(col, renderColumns.contains(col)));
-            int length = mc.fontRendererObj.getStringWidth(col.getColumnName() + "-");
+            int length = mc.fontRenderer.getStringWidth(col.getColumnName() + "-");
             if (length > maxNameLength)
                 maxNameLength = length;
         }
 
-        int columnNameLength = mc.fontRendererObj.getStringWidth("-Column Name-");
+        int columnNameLength = mc.fontRenderer.getStringWidth("-Column Name-");
         if (columnNameLength > maxNameLength)
             maxNameLength = columnNameLength;
 
@@ -59,26 +59,26 @@ public class TableColumnSelector<T> extends GuiListExtended
     {
         String root = ChatFormatting.UNDERLINE + "" + ChatFormatting.BOLD;
 
-        int controlsWidth = mc.fontRendererObj.getStringWidth(root + CONTROLS_HEADER);
-        int nameWidth = mc.fontRendererObj.getStringWidth(root + NAME_HEADER);
-        int renderWidth = mc.fontRendererObj.getStringWidth(root + RENDER_HEADER);
+        int controlsWidth = mc.fontRenderer.getStringWidth(root + CONTROLS_HEADER);
+        int nameWidth = mc.fontRenderer.getStringWidth(root + NAME_HEADER);
+        int renderWidth = mc.fontRenderer.getStringWidth(root + RENDER_HEADER);
 
         int workingWidth = (this.width - xPosition);
         int startingXPos = xPosition + (workingWidth / 2) - (entryWidth / 2);
 
         int drawXPos = startingXPos + (renderLength / 2) - (controlsWidth / 2);
 
-        this.mc.fontRendererObj.drawString(root + CONTROLS_HEADER, drawXPos, yPosition, 16777215);
+        this.mc.fontRenderer.drawString(root + CONTROLS_HEADER, drawXPos, yPosition, 16777215);
 
         startingXPos += (renderWidth + GuiConstants.STANDARD_SEPARATION_DISTANCE);
         drawXPos = startingXPos + (maxNameLength / 2) - (nameWidth / 2);
 
-        this.mc.fontRendererObj.drawString(root + NAME_HEADER, drawXPos, yPosition, 16777215);
+        this.mc.fontRenderer.drawString(root + NAME_HEADER, drawXPos, yPosition, 16777215);
 
         startingXPos += (maxNameLength + GuiConstants.STANDARD_SEPARATION_DISTANCE);
         drawXPos = startingXPos + (renderLength / 2) - (renderWidth / 2);
 
-        this.mc.fontRendererObj.drawString(root + RENDER_HEADER, drawXPos, yPosition, 16777215);
+        this.mc.fontRenderer.drawString(root + RENDER_HEADER, drawXPos, yPosition, 16777215);
     }
 
     private void swapItems(int index1, int index2)
@@ -164,38 +164,44 @@ public class TableColumnSelector<T> extends GuiListExtended
         }
 
         @Override
-        public void drawEntry(int slotIndex, int xPosition, int yPosition, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected)
+        public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_)
         {
-            int stringYPosition = yPosition + ((slotHeight - mc.fontRendererObj.FONT_HEIGHT) / 2);
+
+        }
+
+        @Override
+        public void drawEntry(int slotIndex, int xPosition, int yPosition, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
+        {
+            int stringYPosition = yPosition + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
             yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
 
             int workingWidth = (width - xPosition);
             int xPos = xPosition + (workingWidth / 2) - (entryWidth / 2);
 
-            upButton.yPosition = yPosition;// + (upButton.height/3);
-            upButton.xPosition = xPos;
+            upButton.y = yPosition;// + (upButton.height/3);
+            upButton.x = xPos;
 
             xPos += upButton.width + GuiConstants.SMALL_SEPARATION_DISTANCE;
 
-            downButton.yPosition = yPosition;// + (downButton.height/3);
-            downButton.xPosition = xPos;
+            downButton.y = yPosition;// + (downButton.height/3);
+            downButton.x = xPos;
 
             xPos += downButton.width + (GuiConstants.STANDARD_SEPARATION_DISTANCE);
 
-            int stringWidth = mc.fontRendererObj.getStringWidth(column.getColumnName());
+            int stringWidth = mc.fontRenderer.getStringWidth(column.getColumnName());
 
             int namePos = xPos + (maxNameLength / 2) - (stringWidth / 2);
 
-            mc.fontRendererObj.drawString(column.getColumnName(), namePos, stringYPosition, 16777215);
+            mc.fontRenderer.drawString(column.getColumnName(), namePos, stringYPosition, 16777215);
 
             xPos += maxNameLength + (GuiConstants.STANDARD_SEPARATION_DISTANCE);
 
-            renderButton.yPosition = yPosition;
-            renderButton.xPosition = xPos + (renderLength / 2) - (renderButton.width / 2);
+            renderButton.y = yPosition;
+            renderButton.x = xPos + (renderLength / 2) - (renderButton.width / 2);
 
-            this.upButton.drawButton(mc, mouseX, mouseY);
-            this.downButton.drawButton(mc, mouseX, mouseY);
-            this.renderButton.drawButton(mc, mouseX, mouseY);
+            this.upButton.drawButton(mc, mouseX, mouseY, 0);
+            this.downButton.drawButton(mc, mouseX, mouseY, 0);
+            this.renderButton.drawButton(mc, mouseX, mouseY, 0);
         }
 
         @Override
@@ -235,12 +241,6 @@ public class TableColumnSelector<T> extends GuiListExtended
             this.upButton.mouseReleased(xPos, yPos);
             this.downButton.mouseReleased(xPos, yPos);
             this.renderButton.mouseReleased(xPos, yPos);
-        }
-
-        @Override
-        public void setSelected(int i, int i1, int i2)
-        {
-
         }
     }
 }

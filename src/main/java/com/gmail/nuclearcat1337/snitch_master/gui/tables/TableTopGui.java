@@ -38,7 +38,7 @@ public abstract class TableTopGui<T> extends GuiScreen
         this.parentScreen = parentScreen;
         this.items = items;
         this.title = title;
-        this.titleWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(title);
+        this.titleWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(title);
     }
 
     protected abstract void initializeButtons(int firstId);
@@ -83,7 +83,7 @@ public abstract class TableTopGui<T> extends GuiScreen
 
         doneButton = new GuiButton(0, xPos, yPos, DONE_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Back");
 
-        int buttonWidth = mc.fontRendererObj.getStringWidth("--Columns--");
+        int buttonWidth = mc.fontRenderer.getStringWidth("--Columns--");
         xPos -= ((GuiConstants.STANDARD_SEPARATION_DISTANCE * 4) + buttonWidth);
 
         columnsButton = new GuiButton(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Columns");
@@ -157,11 +157,11 @@ public abstract class TableTopGui<T> extends GuiScreen
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         //Create positioning info for drawing the title
-        int yPos = 16 - (mc.fontRendererObj.FONT_HEIGHT / 2);
+        int yPos = 16 - (mc.fontRenderer.FONT_HEIGHT / 2);
         int xPos = (this.width / 2) - (titleWidth / 2);
 
         //Draw the title
-        mc.fontRendererObj.drawString(title, xPos, yPos, 16777215);
+        mc.fontRenderer.drawString(title, xPos, yPos, 16777215);
 
         if (mouseY >= tableGui.top && mouseY <= tableGui.bottom)
         {

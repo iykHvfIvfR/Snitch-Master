@@ -33,7 +33,7 @@ public class EditStringGui extends GuiScreen
         this.maxStringLength = maxStringLength;
 
         this.titleText = titleText;
-        this.titleWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(titleText);
+        this.titleWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(titleText);
     }
 
     public void initGui()
@@ -41,7 +41,7 @@ public class EditStringGui extends GuiScreen
         int xPos = (this.width / 2) - (GuiConstants.LARGE_TEXBOX_LENGTH / 2);
         int yPos = (this.height / 2) - (GuiConstants.STANDARD_TEXTBOX_HEIGHT) - (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 
-        stringBox = new TextBox(editString, fontRendererObj, xPos, yPos, GuiConstants.LARGE_TEXBOX_LENGTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, maxStringLength);
+        stringBox = new TextBox(editString, fontRenderer, xPos, yPos, GuiConstants.LARGE_TEXBOX_LENGTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, maxStringLength);
         stringBox.setFocused(true);
 
         this.buttonList.clear();
@@ -77,10 +77,10 @@ public class EditStringGui extends GuiScreen
         this.drawDefaultBackground();
         this.stringBox.drawTextBox();
 
-        int xPos = stringBox.xPosition + (stringBox.width / 2) - (titleWidth / 2);
-        int yPos = stringBox.yPosition - mc.fontRendererObj.FONT_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
+        int xPos = stringBox.x + (stringBox.width / 2) - (titleWidth / 2);
+        int yPos = stringBox.y - mc.fontRenderer.FONT_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-        mc.fontRendererObj.drawString(titleText, xPos, yPos, 16777215);
+        mc.fontRenderer.drawString(titleText, xPos, yPos, 16777215);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

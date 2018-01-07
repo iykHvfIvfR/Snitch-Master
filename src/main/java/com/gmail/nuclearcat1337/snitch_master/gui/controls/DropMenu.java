@@ -30,12 +30,12 @@ public class DropMenu extends GuiButton
     }
 
     @Override
-    public void drawButton(Minecraft mc, int mouseX, int mouseY)
+    public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
     {
         if (this.visible)
         {
             //GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+            this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             int i = this.getHoverState(this.hovered);
 
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -45,8 +45,8 @@ public class DropMenu extends GuiButton
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
             mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
-            this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
+            this.drawTexturedModalRect(this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
+            this.drawTexturedModalRect(this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
 
             //            if(i == 2) //They are hovering over the button
             //            {
@@ -58,7 +58,7 @@ public class DropMenu extends GuiButton
             //            }
 
             mc.getTextureManager().bindTexture(MENU_BUTTON);
-            this.drawTexturedModalRect(this.xPosition + 4, this.yPosition + 4, 0, 0, 8, 8);
+            this.drawTexturedModalRect(this.x + 4, this.y + 4, 0, 0, 8, 8);
 
             this.mouseDragged(mc, mouseX, mouseY);
         }

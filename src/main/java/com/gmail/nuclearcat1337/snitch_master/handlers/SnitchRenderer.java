@@ -11,7 +11,7 @@ import com.gmail.nuclearcat1337.snitch_master.util.GeneralUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -61,7 +61,7 @@ public class SnitchRenderer
                 {
                     Color renderColor = renderList.getListColor();
                     ILocation location = snitch.getLocation();
-                    double distanceSquared = GeneralUtils.DistanceSquared(location.getX(), location.getZ(), (int) mc.thePlayer.posX, (int) mc.thePlayer.posZ);
+                    double distanceSquared = GeneralUtils.DistanceSquared(location.getX(), location.getZ(), (int) mc.player.posX, (int) mc.player.posZ);
 
                     if (distanceSquared <= BLOCK_RENDER_DISTANCE * BLOCK_RENDER_DISTANCE)
                     {
@@ -72,7 +72,7 @@ public class SnitchRenderer
 
                         if (renderText)
                         {
-                            if (GeneralUtils.DistanceSquared(location.getX(), location.getZ(), location.getY(), (int) mc.thePlayer.posX, (int) mc.thePlayer.posZ, (int) mc.thePlayer.posY) <= TEXT_RENDER_DISTANCE * TEXT_RENDER_DISTANCE)
+                            if (GeneralUtils.DistanceSquared(location.getX(), location.getZ(), location.getY(), (int) mc.player.posX, (int) mc.player.posZ, (int) mc.player.posY) <= TEXT_RENDER_DISTANCE * TEXT_RENDER_DISTANCE)
                             {
                                 String[] text = new String[3];
                                 text[0] = snitch.getSnitchName();
@@ -106,9 +106,9 @@ public class SnitchRenderer
 
         RenderManager renderManager = mc.getRenderManager();
 
-        float playerX = (float) (mc.thePlayer.lastTickPosX + (mc.thePlayer.posX - mc.thePlayer.lastTickPosX) * partialTickTime);
-        float playerY = (float) (mc.thePlayer.lastTickPosY + (mc.thePlayer.posY - mc.thePlayer.lastTickPosY) * partialTickTime);
-        float playerZ = (float) (mc.thePlayer.lastTickPosZ + (mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ) * partialTickTime);
+        float playerX = (float) (mc.player.lastTickPosX + (mc.player.posX - mc.player.lastTickPosX) * partialTickTime);
+        float playerY = (float) (mc.player.lastTickPosY + (mc.player.posY - mc.player.lastTickPosY) * partialTickTime);
+        float playerZ = (float) (mc.player.lastTickPosZ + (mc.player.posZ - mc.player.lastTickPosZ) * partialTickTime);
 
         float dx = x - playerX;
         float dy = y - playerY;
@@ -131,7 +131,7 @@ public class SnitchRenderer
         int textWidth = 0;
         for (String thisMessage : text)
         {
-            int thisMessageWidth = mc.fontRendererObj.getStringWidth(thisMessage);
+            int thisMessageWidth = mc.fontRenderer.getStringWidth(thisMessage);
 
             if (thisMessageWidth > textWidth)
                 textWidth = thisMessageWidth;
@@ -145,7 +145,7 @@ public class SnitchRenderer
             int stringMiddle = textWidth / 2;
 
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer vertexBuffer = tessellator.getBuffer();
+            BufferBuilder vertexBuffer = tessellator.getBuffer();
 
             GlStateManager.disableTexture2D();
 
@@ -164,8 +164,8 @@ public class SnitchRenderer
         int i = 0;
         for (String message : text)
         {
-            int messageWidth = mc.fontRendererObj.getStringWidth(message);
-            mc.fontRendererObj.drawString(message, 0 - (messageWidth / 2), (i * lineHeight) - initialValue, color);
+            int messageWidth = mc.fontRenderer.getStringWidth(message);
+            mc.fontRenderer.drawString(message, 0 - (messageWidth / 2), (i * lineHeight) - initialValue, color);
             i++;
         }
 
@@ -177,9 +177,9 @@ public class SnitchRenderer
 
     private void renderBox(int x, int y, int z, int radius, Color color, double alpha, double outlineAlpha, float partialTicks)
     {
-        double renderPosX = (float) (mc.thePlayer.lastTickPosX + (mc.thePlayer.posX - mc.thePlayer.lastTickPosX) * partialTicks);
-        double renderPosY = (float) (mc.thePlayer.lastTickPosY + (mc.thePlayer.posY - mc.thePlayer.lastTickPosY) * partialTicks);
-        double renderPosZ = (float) (mc.thePlayer.lastTickPosZ + (mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ) * partialTicks);
+        double renderPosX = (float) (mc.player.lastTickPosX + (mc.player.posX - mc.player.lastTickPosX) * partialTicks);
+        double renderPosY = (float) (mc.player.lastTickPosY + (mc.player.posY - mc.player.lastTickPosY) * partialTicks);
+        double renderPosZ = (float) (mc.player.lastTickPosZ + (mc.player.posZ - mc.player.lastTickPosZ) * partialTicks);
 
         GL11.glPushMatrix();
 
@@ -232,7 +232,7 @@ public class SnitchRenderer
     private void drawBoundingBoxQuads(AxisAlignedBB bb)
     {
         Tessellator tess = Tessellator.getInstance();
-        VertexBuffer buffer = tess.getBuffer();
+        BufferBuilder buffer = tess.getBuffer();
 
         buffer.begin(GL11.GL_QUADS, format);
         buffer.pos(bb.maxX, bb.maxY, bb.maxZ).endVertex();
@@ -304,7 +304,7 @@ public class SnitchRenderer
     private static void drawCrossedOutlinedBoundingBox(AxisAlignedBB bb)
     {
         Tessellator tess = Tessellator.getInstance();
-        VertexBuffer buffer = tess.getBuffer();
+        BufferBuilder buffer = tess.getBuffer();
 
         buffer.begin(GL11.GL_LINE_STRIP, format);
         buffer.pos(bb.maxX, bb.maxY, bb.maxZ).endVertex();

@@ -49,37 +49,37 @@ public class NewSnitchListGui extends GuiScreen
 
     public void initGui()
     {
-        qualifierBoxWidth = mc.fontRendererObj.getStringWidth(SnitchList.MAX_NAME_CHARACTERS + "WWW"); //TODO---Idk this is kind of just an arbitrary width
+        qualifierBoxWidth = mc.fontRenderer.getStringWidth(SnitchList.MAX_NAME_CHARACTERS + "WWW"); //TODO---Idk this is kind of just an arbitrary width
         nameBoxWidth = qualifierBoxWidth;
         rgbBoxWidth = nameBoxWidth / 3;
-        qualifierStringWidth = mc.fontRendererObj.getStringWidth("Qualifier");
-        createNewListStringWidth = mc.fontRendererObj.getStringWidth(CREATE_NEW_LIST_STRING);
+        qualifierStringWidth = mc.fontRenderer.getStringWidth("Qualifier");
+        createNewListStringWidth = mc.fontRenderer.getStringWidth(CREATE_NEW_LIST_STRING);
         buttonWidth = (qualifierBoxWidth - GuiConstants.STANDARD_SEPARATION_DISTANCE) / 3;
 
         int yPos = (this.height / 2) - (GuiConstants.STANDARD_BUTTON_HEIGHT * 3) - (GuiConstants.STANDARD_SEPARATION_DISTANCE);
         int xPos = (this.width / 2) - (nameBoxWidth / 2);
 
-        nameBox = new TextBox("", fontRendererObj, xPos, yPos, nameBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, MAX_NAME_TEXT_LENGTH);
+        nameBox = new TextBox("", fontRenderer, xPos, yPos, nameBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, MAX_NAME_TEXT_LENGTH);
         nameBox.setFocused(true);
 
         yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
-        xPos = nameBox.xPosition;
+        xPos = nameBox.x;
 
-        this.qualifierBox = new TextBox("", fontRendererObj, xPos, yPos, qualifierBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, SnitchListQualifier.MAX_QUALIFIER_TEXT_LENGTH);
+        this.qualifierBox = new TextBox("", fontRenderer, xPos, yPos, qualifierBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, SnitchListQualifier.MAX_QUALIFIER_TEXT_LENGTH);
 
         yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-        this.redBox = new TextBox("", fontRendererObj, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+        this.redBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
         redBox.setClamp(0, 255);
 
         yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-        this.greenBox = new TextBox("", fontRendererObj, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+        this.greenBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
         greenBox.setClamp(0, 255);
 
         yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-        this.blueBox = new TextBox("", fontRendererObj, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+        this.blueBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
         blueBox.setClamp(0, 255);
 
         this.buttonList.clear();
@@ -160,19 +160,19 @@ public class NewSnitchListGui extends GuiScreen
     {
         this.drawDefaultBackground();
 
-        int constYValue = (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - mc.fontRendererObj.FONT_HEIGHT / 2;
+        int constYValue = (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - mc.fontRenderer.FONT_HEIGHT / 2;
         int constXValue = GuiConstants.SMALL_SEPARATION_DISTANCE + qualifierStringWidth;
 
-        mc.fontRendererObj.drawString("Blue", blueBox.xPosition - constXValue, blueBox.yPosition + constYValue, 16777215);
-        mc.fontRendererObj.drawString("Green", greenBox.xPosition - constXValue, greenBox.yPosition + constYValue, 16777215);
-        mc.fontRendererObj.drawString("Red", redBox.xPosition - constXValue, redBox.yPosition + constYValue, 16777215);
-        mc.fontRendererObj.drawString("Qualifier", qualifierBox.xPosition - constXValue, qualifierBox.yPosition + constYValue, 16777215);
-        mc.fontRendererObj.drawString("Name", nameBox.xPosition - constXValue, nameBox.yPosition + constYValue, 16777215);
+        mc.fontRenderer.drawString("Blue", blueBox.x - constXValue, blueBox.y + constYValue, 16777215);
+        mc.fontRenderer.drawString("Green", greenBox.x - constXValue, greenBox.y + constYValue, 16777215);
+        mc.fontRenderer.drawString("Red", redBox.x - constXValue, redBox.y + constYValue, 16777215);
+        mc.fontRenderer.drawString("Qualifier", qualifierBox.x - constXValue, qualifierBox.y + constYValue, 16777215);
+        mc.fontRenderer.drawString("Name", nameBox.x - constXValue, nameBox.y + constYValue, 16777215);
 
-        int yPos = nameBox.yPosition - GuiConstants.STANDARD_SEPARATION_DISTANCE - mc.fontRendererObj.FONT_HEIGHT;
-        int xPos = nameBox.xPosition + (nameBoxWidth / 2) - (createNewListStringWidth / 2);
+        int yPos = nameBox.y - GuiConstants.STANDARD_SEPARATION_DISTANCE - mc.fontRenderer.FONT_HEIGHT;
+        int xPos = nameBox.x + (nameBoxWidth / 2) - (createNewListStringWidth / 2);
 
-        mc.fontRendererObj.drawString(CREATE_NEW_LIST_STRING, xPos, yPos, 16777215);
+        mc.fontRenderer.drawString(CREATE_NEW_LIST_STRING, xPos, yPos, 16777215);
 
         this.nameBox.drawTextBox();
         this.qualifierBox.drawTextBox();

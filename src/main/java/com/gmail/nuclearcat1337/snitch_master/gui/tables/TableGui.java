@@ -38,7 +38,7 @@ public class TableGui<T> extends GuiListExtended
         this.tableTop = tableTop;
         this.columns = columns;
 
-        this.setHasListHeader(true, (int) ((float) mc.fontRendererObj.FONT_HEIGHT * 1.5));
+        this.setHasListHeader(true, (int) ((float) mc.fontRenderer.FONT_HEIGHT * 1.5));
 
         columnBounds = new HashMap<>(columns.size());
         columnWidths = new HashMap<>(columns.size());
@@ -61,7 +61,7 @@ public class TableGui<T> extends GuiListExtended
         String root = ChatFormatting.UNDERLINE + "" + ChatFormatting.BOLD;
         for (TableColumn<T> col : columns)
         {
-            int headerWidth = mc.fontRendererObj.getStringWidth(root + col.getColumnName() + (col.canSort() ? "vv" : ""));
+            int headerWidth = mc.fontRenderer.getStringWidth(root + col.getColumnName() + (col.canSort() ? "vv" : ""));
             if (!columnWidths.containsKey(col) || headerWidth > columnWidths.get(col))
                 columnWidths.put(col, headerWidth);
         }
@@ -176,9 +176,9 @@ public class TableGui<T> extends GuiListExtended
             if (sortColumn != null && sortColumn.getColumnName().equalsIgnoreCase(col.getColumnName()))
                 text += (sortAscending ? " /\\" : " \\/");
 
-            int textWidth = mc.fontRendererObj.getStringWidth(text);
+            int textWidth = mc.fontRenderer.getStringWidth(text);
             int drawXPos = xPos + (columnWidth / 2) - (textWidth / 2);
-            this.mc.fontRendererObj.drawString(text, drawXPos, yPosition, 16777215);
+            this.mc.fontRenderer.drawString(text, drawXPos, yPosition, 16777215);
             xPos += (columnWidth + SEPARATION_DISTANCE);
         }
     }
@@ -233,7 +233,13 @@ public class TableGui<T> extends GuiListExtended
         }
 
         @Override
-        public void drawEntry(int slotIndex, int xPosition, int yPosition, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected)
+        public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_)
+        {
+
+        }
+
+        @Override
+        public void drawEntry(int slotIndex, int xPosition, int yPosition, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
             int workingWidth = (width - xPosition);
             int xPos = xPosition + (workingWidth / 2) - (entryWidth / 2);
@@ -281,12 +287,6 @@ public class TableGui<T> extends GuiListExtended
                     break;
                 }
             }
-        }
-
-        @Override
-        public void setSelected(int i, int i1, int i2)
-        {
-
         }
     }
 }
