@@ -118,7 +118,7 @@ public class EditSnitchScreen extends GuiScreen
 
         int delWidth = ((xTotalWidth - GuiConstants.SMALL_BUTTON_WIDTH*2 - GuiConstants.SMALL_SEPARATION_DISTANCE) - GuiConstants.SMALL_SEPARATION_DISTANCE*2)/2;
 
-        this.buttonList.add(new GuiButton(3,xLeft,yHeight,delWidth,GuiConstants.STANDARD_BUTTON_HEIGHT,"X"));
+        this.buttonList.add(new GuiButton(3,xLeft,yHeight,delWidth,GuiConstants.STANDARD_BUTTON_HEIGHT,"x"));
 
         super.initGui();
     }

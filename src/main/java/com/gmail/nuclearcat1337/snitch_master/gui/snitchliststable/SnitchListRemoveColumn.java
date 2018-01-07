@@ -19,7 +19,7 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList>
 {
     private static Minecraft mc;
 
-    private static final String BUTTON_TEXT = "X";
+    private static final String BUTTON_TEXT = "x";
     //private static final int BUTTON_WIDTH = 5;
 
     private final int buttonWidth;
