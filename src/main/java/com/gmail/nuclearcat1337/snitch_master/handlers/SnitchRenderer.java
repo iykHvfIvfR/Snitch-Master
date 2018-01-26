@@ -77,7 +77,7 @@ public class SnitchRenderer
                                 String[] text = new String[3];
                                 text[0] = snitch.getSnitchName();
                                 text[1] = String.format("[%s] %s", snitch.getGroupName(), WordUtils.capitalize(snitch.getType()));
-                                text[2] = location.toString();
+                                text[2] = String.format("[%d %d %d]", location.getX(), location.getY(), location.getZ());
 
                                 RenderFloatingText(text, (float) location.getX() + 0.5f, location.getY() + 1.01f, location.getZ() + 0.5f, 0xFFFFFF, true, event.getPartialTicks());
                             }
