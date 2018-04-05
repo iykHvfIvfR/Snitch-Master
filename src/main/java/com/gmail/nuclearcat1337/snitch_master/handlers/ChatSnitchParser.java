@@ -166,69 +166,73 @@ public class ChatSnitchParser
 
     private boolean tryParseNameChangeMessage(ITextComponent msg)
     {
-        List<ITextComponent> siblings = msg.getSiblings();
-        if (siblings.size() <= 0)
+        String text = hoverInMessageToString(msg);
+        if (text == null) {
             return false;
+        }
 
-        ITextComponent hoverComponent = siblings.get(0);
+        try {
+            Pattern placePattern = Pattern.compile(
+                "^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:Hours to cull:\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
+            Matcher matcher = placePattern.matcher(text);
+            if (!matcher.matches())
+               return false;
 
-        HoverEvent hover = hoverComponent.getStyle().getHoverEvent();
-        if (hover != null)
+            String world = matcher.group(1);
+            int x = Integer.parseInt(matcher.group(2));
+            int y = Integer.parseInt(matcher.group(3));
+            int z = Integer.parseInt(matcher.group(4));
+
+            String newName = matcher.group(9);
+
+            Location loc = new Location(x, y, z, world);
+            Snitch snitch = manager.getSnitches().get(loc);
+
+            if(snitch != null)
+            {
+                manager.setSnitchName(snitch, newName);
+                return true;
+            }
+        }
+        catch (Exception e)
         {
-            String text = hover.getValue().getUnformattedComponentText();
-            try
-            {
-                Pattern placePattern = Pattern.compile(
-                    "^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:Hours to cull:\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
-                Matcher matcher = placePattern.matcher(text);
-                if (!matcher.matches())
-                   return false;
-
-                String world = matcher.group(1);
-                int x = Integer.parseInt(matcher.group(2));
-                int y = Integer.parseInt(matcher.group(3));
-                int z = Integer.parseInt(matcher.group(4));
-
-                String newName = matcher.group(9);
-
-                Location loc = new Location(x, y, z, world);
-                Snitch snitch = manager.getSnitches().get(loc);
-
-                if(snitch != null)
-                {
-                    manager.setSnitchName(snitch, newName);
-                    return true;
-                }
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            return false;
         }
         return false;
     }
 
+    private String hoverInMessageToString(ITextComponent msg) {
+        HoverEvent hover;
+        List<ITextComponent> siblings = msg.getSiblings();
+        if (siblings == null || siblings.size() <= 0) {
+            hover = msg.getStyle().getHoverEvent();
+        } else {
+            ITextComponent hoverComponent = siblings.get(0);
+            hover = hoverComponent.getStyle().getHoverEvent();
+        }
+        if (hover == null) {
+            return null;
+        }
+        String text = hover.getValue().getUnformattedComponentText();
+        if (text.trim().isEmpty()) {
+            return null;
+        }
+        return text;
+    }
+
     private boolean tryParsePlaceMessage(ITextComponent msg)
     {
-        List<ITextComponent> siblings = msg.getSiblings();
-        if (siblings.size() <= 0)
+        String text = hoverInMessageToString(msg);
+        if (text == null) {
             return false;
-
-        ITextComponent hoverComponent = siblings.get(0);
-
-        HoverEvent hover = hoverComponent.getStyle().getHoverEvent();
-        if (hover != null)
-        {
-            String text = hover.getValue().getUnformattedComponentText();
-            Snitch snitch = parseSnitchFromChat(text);
-            if (snitch != null)
-            {
-                manager.submitSnitch(snitch);
-                return true;
-            }
         }
 
-        return false;
+        Snitch snitch = parseSnitchFromChat(text);
+        if (snitch == null) {
+            return false;
+        }
+        manager.submitSnitch(snitch);
+        return true;
     }
 
     private Snitch parseSnitchFromChat(String text)
@@ -266,46 +270,30 @@ public class ChatSnitchParser
 
     private boolean tryParseSnitchNotificationMessage(ITextComponent msg)
     {
-        List<ITextComponent> siblings = msg.getSiblings();
-        if (siblings.size() <= 0)
+        String text = hoverInMessageToString(msg);
+        if (text == null) {
             return false;
-
-        ITextComponent hoverComponent = siblings.get(0);
-
-        HoverEvent hover = hoverComponent.getStyle().getHoverEvent();
-        if (hover != null)
-        {
-            String text = hover.getValue().getUnformattedComponentText();
-            Snitch snitch = parseSnitchFromChat(text);
-            if (snitch != null)
-            {
-                manager.submitSnitch(snitch);
-                return true;
-            }
         }
 
-        return false;
+        Snitch snitch = parseSnitchFromChat(text);
+        if (snitch == null) {
+            return true;
+        }
+        manager.submitSnitch(snitch);
+        return true;
     }
 
     private boolean tryParseBreakMessage(ITextComponent msg)
     {
-        List<ITextComponent> siblings = msg.getSiblings();
-        if (siblings.size() <= 0)
+        String text = hoverInMessageToString(msg);
+        if (text == null) {
             return false;
-
-        ITextComponent hoverComponent = siblings.get(0);
-
-        HoverEvent hover = hoverComponent.getStyle().getHoverEvent();
-        if (hover != null)
-        {
-            String text = hover.getValue().getUnformattedComponentText();
-            Location loc = parseSnitchFromChatBreak(text);
-
-            manager.getSnitches().remove(loc);
-            manager.saveSnitches();
-            return true;
         }
-        return false;
+
+        Location loc = parseSnitchFromChatBreak(text);
+        manager.getSnitches().remove(loc);
+        manager.saveSnitches();
+        return true;
     }
 
     private Location parseSnitchFromChatBreak(String text)
