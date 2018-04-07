@@ -16,6 +16,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import com.google.gson.JsonParser;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,8 +34,6 @@ import java.util.regex.Pattern;
  */
 public class ChatSnitchParser
 {
-    private static final Pattern jaListPattern = Pattern.compile(
-        "^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:Cull:\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
     private static final Pattern snitchAlertPattern = Pattern.compile("\\s*\\*\\s*([^\\s]*)\\s\\b(entered snitch at|logged out in snitch at|logged in to snitch at)\\b\\s*([^\\s]*)\\s\\[([^\\s]*)\\s([-\\d]*)\\s([-\\d]*)\\s([-\\d]*)\\]");
 
     private static final String[] resetSequences = {"Unknown command", " is empty", "You do not own any snitches nearby!"};
@@ -235,12 +239,10 @@ public class ChatSnitchParser
         return true;
     }
 
-    private Snitch parseSnitchFromChat(String text)
-    {
-        try
-        {
+    private Snitch parseSnitchFromChat(String text) {
+        try {
             Pattern placePattern = Pattern.compile(
-                "^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:Hours to cull:\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
+                "^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:(?:Hours to cull|Cull):\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
             Matcher matcher = placePattern.matcher(text);
             if (!matcher.matches())
                return null;
@@ -249,21 +251,24 @@ public class ChatSnitchParser
             int x = Integer.parseInt(matcher.group(2));
             int y = Integer.parseInt(matcher.group(3));
             int z = Integer.parseInt(matcher.group(4));
-            double cullTime;
             String ctGroup = matcher.group(5);
             String type = matcher.group(6).toLowerCase();
+            Double cullTime;
+            if (matcher.group(7) == null || matcher.group(7).isEmpty()) {
+                cullTime = SnitchMaster.CULL_TIME_ENABLED ? Snitch.MAX_CULL_TIME : Double.NaN;
+            } else {
+                cullTime = Double.parseDouble(matcher.group(7));
+            }
             String name = matcher.group(9);
 
             return new Snitch(
                 new Location(x, y, z, worldName),
                 SnitchTags.FROM_JALIST,
-                SnitchMaster.CULL_TIME_ENABLED ? Snitch.MAX_CULL_TIME : Double.NaN,
+                cullTime,
                 ctGroup,
                 name,
                 type);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -322,6 +327,29 @@ public class ChatSnitchParser
         }
     }
 
+    private boolean tryParseJalistMsg(ITextComponent msg) {
+        String snitchLines = stripMinecraftFormattingCodes(msg.getUnformattedText());
+        if (!snitchLines.trim().startsWith("Snitch List for")) {
+            return false;
+        }
+        SnitchMaster.logger.info("[SnitchMaster] Parsing /jalist message with the legacy parser ...");
+        if (tryParseJalistMsgLegacy(msg)) {
+            return true;
+        }
+        SnitchMaster.logger.info("[SnitchMaster] The legacy parser failed, trying the JSON parser ...");
+        if (tryParseJalistMsgJson(msg)) {
+            return true;
+        }
+        SnitchMaster.logger.info("[SnitchMaster] The JSON parser failed, trying the fallback parser ...");
+        if (tryParseJalistMsgFallback(msg)) {
+            return true;
+        }
+        String errMsg = "[SnitchMaster] Error: Failed to parse the /jalist message.";
+        SnitchMaster.logger.error(errMsg);
+        SnitchMaster.SendMessageToPlayer(errMsg);
+        return false;
+    }
+
     /**
      * Attempt parsing a chat message as a /jalist message, fails quickly returning false,
      * or submits all contained snitches for processing.
@@ -329,58 +357,49 @@ public class ChatSnitchParser
      * @param msg
      * @return true if it was parsed as /jalist message, false if it is a different message
      */
-    private boolean tryParseJalistMsg(ITextComponent msg)
-    {
+    private boolean tryParseJalistMsgLegacy(ITextComponent msg) {
         List<ITextComponent> snitchRows;
-        try
-        {
+        try {
             ITextComponent snitchListComponent = msg.getSiblings().get(0);
             snitchRows = snitchListComponent.getSiblings();
 
-            if (snitchRows.isEmpty())
+            if (snitchRows.isEmpty()) {
                 return false;
-
-        }
-        catch (IndexOutOfBoundsException e)
-        {
+            }
+        } catch (IndexOutOfBoundsException e) {
             return false;
-        }
-        catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             return false;
         }
 
-        for (ITextComponent row : snitchRows)
-        {
+        Pattern jaListPattern = Pattern.compile(
+           "^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:Cull:\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
+
+        for (ITextComponent row : snitchRows) {
             String hoverText = "";
-            try
-            {
+            try {
                 //For some reason row.getStyle() is never null
                 HoverEvent event = row.getStyle().getHoverEvent();
-                if (event != null)
-                {
+                if (event != null) {
                     hoverText = event.getValue().getUnformattedComponentText();
-
                     Matcher matcher = jaListPattern.matcher(hoverText);
                     if (!matcher.matches()) {
-                        SnitchMaster.SendMessageToPlayer("[Snitch Master] Error: /jalist hover text regex doesn't match");
+                        SnitchMaster.SendMessageToPlayer(
+                            "[Snitch Master] Error: /jalist hover text regex doesn't match");
                         continue;
                     }
-                    Snitch snitch = parseSnitchFromJaList(matcher);
 
-                    if(loadedSnitches != null)
+                    Snitch snitch = parseSnitchFromJaListLegacy(matcher);
+                    if (loadedSnitches != null) {
                         loadedSnitches.add(snitch);
-
+                    }
                     manager.submitSnitch(snitch);
                 }
-            }
-            catch (IllegalStateException e)
-            {
+            } catch (IllegalStateException e) {
                 SnitchMaster.SendMessageToPlayer("No match on /jalist hover text " + hoverText);
                 e.printStackTrace();
             }
         }
-
         return true;
     }
 
@@ -389,8 +408,7 @@ public class ChatSnitchParser
      *
      * @param matcher the {@link Matcher} object, on which `.matches()` or similar has to be called already
      */
-    private Snitch parseSnitchFromJaList(Matcher matcher)
-    {
+    private Snitch parseSnitchFromJaListLegacy(Matcher matcher) {
         String worldName = matcher.group(1);
         int x = Integer.parseInt(matcher.group(2));
         int y = Integer.parseInt(matcher.group(3));
@@ -408,6 +426,112 @@ public class ChatSnitchParser
         String name = matcher.group(9);
 
         return new Snitch(new Location(x, y, z, worldName), SnitchTags.FROM_JALIST, cullTime, ctGroup, name, type);
+    }
+
+    private boolean tryParseJalistMsgJson(ITextComponent msg) {
+        String json = ITextComponent.Serializer.componentToJson(msg);
+        JsonElement jelement = new JsonParser().parse(json);
+
+        JsonObject jobject = jelement.getAsJsonObject();
+        if (!jobject.has("extra")) {
+            return false;
+        }
+        JsonArray jarray = jobject.getAsJsonArray("extra");
+
+        List<String> hovers = new ArrayList<String>();
+        for (JsonElement line : jarray) {
+            jobject = line.getAsJsonObject();
+            if (!jobject.has("hoverEvent")) {
+                continue;
+            }
+            jobject = jobject.getAsJsonObject("hoverEvent");
+
+            if (!jobject.has("value")) {
+                continue;
+            }
+            jobject = jobject.getAsJsonObject("value");
+
+            if (!jobject.has("text")) {
+                continue;
+            }
+            String text = jobject.get("text").getAsString();
+            text = text.replaceAll("\\\\n", " ").replaceAll("^\"+", "").replaceAll("\"+$", "").replaceAll("\\\\", "\\");
+            hovers.add(text);
+        }
+        SnitchMaster.logger.info(
+            String.format("[SnitchMaster] JSON parser: Hover snitch line count in message: %d/10.", hovers.size()));
+        if (hovers.size() == 0) {
+            return false;
+        }
+
+        Snitch snitch;
+        for (String hover : hovers) {
+            snitch = parseSnitchFromChat(hover);
+            if (snitch == null) {
+                SnitchMaster.logger.error(
+                    String.format(
+                        "[SnitchMaster] JSON parser: Error: Failed to parse snitch from hover '%s'.", hover));
+                return false;
+            }
+            if (loadedSnitches != null) {
+                loadedSnitches.add(snitch);
+            }
+            manager.submitSnitch(snitch);
+        }
+        return true;
+    }
+
+    private boolean tryParseJalistMsgFallback(ITextComponent msg) {
+        String snitchLines = stripMinecraftFormattingCodes(msg.getUnformattedText());
+        if (!snitchLines.trim().startsWith("Snitch List for")) {
+            return false;
+        }
+
+        Pattern worldPattern = Pattern.compile("^\\s*Snitch List for (\\S+?)\\s*$");
+        // [-293 10 1099]     651.83   SN Bunker
+        Pattern snitchPattern = Pattern.compile(
+            "^(?i)\\s*\\[(-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*([0-9]+\\.[0-9]+)h?\\s+(\\S+?)(?:\\s|$)\\s*(\\S*?)\\s*$");
+
+        String world = "world";
+        for (String line : snitchLines.split("\n")) {
+            Matcher matcher = snitchPattern.matcher(line);
+            if (!matcher.matches()) {
+                matcher = worldPattern.matcher(line);
+                if (matcher.matches()) {
+                    world = matcher.group(1);
+                }
+                continue;
+            }
+            Snitch snitch = parseSnitchFromJaListFallback(matcher, world);
+            if (loadedSnitches != null) {
+                loadedSnitches.add(snitch);
+            }
+            manager.submitSnitch(snitch);
+        }
+        return true;
+    }
+
+    public static String stripMinecraftFormattingCodes(String str) {
+        return str.replaceAll("(?i)\\u00A7[a-z0-9]", "");
+    }
+
+    private Snitch parseSnitchFromJaListFallback(Matcher matcher, String world) {
+        int x = Integer.parseInt(matcher.group(1));
+        int y = Integer.parseInt(matcher.group(2));
+        int z = Integer.parseInt(matcher.group(3));
+
+        String cullTimeString = matcher.group(4);
+        double cullTime;
+        if (cullTimeString == null || cullTimeString.isEmpty())
+            cullTime = Double.NaN;
+        else
+            cullTime = Double.parseDouble(cullTimeString);
+
+        String ctGroup = matcher.group(5);
+        String type = null;
+        String name = matcher.group(6);
+
+        return new Snitch(new Location(x, y, z, world), SnitchTags.FROM_JALIST, cullTime, ctGroup, name, type);
     }
 
     @SubscribeEvent
