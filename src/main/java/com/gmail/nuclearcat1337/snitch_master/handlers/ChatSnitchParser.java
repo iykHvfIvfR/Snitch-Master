@@ -454,8 +454,7 @@ public class ChatSnitchParser
             if (!jobject.has("text")) {
                 continue;
             }
-            String text = jobject.get("text").getAsString();
-            text = text.replaceAll("\\\\n", " ").replaceAll("^\"+", "").replaceAll("\"+$", "").replaceAll("\\\\", "\\");
+            String text = jobject.get("text").getAsString().replaceAll("\\\\n", " ");
             hovers.add(text);
         }
         SnitchMaster.logger.info(
