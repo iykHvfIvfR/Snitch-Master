@@ -7,8 +7,7 @@ import com.gmail.nuclearcat1337.snitch_master.util.Color;
  * Created by Mr_Little_Kitty on 6/25/2016.
  * A structure that handles the grouping of Snitches by common traits or specified functions.
  */
-public class SnitchList
-{
+public class SnitchList {
 	/**
 	 * The maximum number of characters allowed for a SnitchList name.
 	 */
@@ -24,8 +23,7 @@ public class SnitchList
 	private SnitchListQualifier listQualifier;
 	private boolean renderSnitches;
 
-	SnitchList(SnitchManager manager, SnitchListQualifier listQualifier, boolean render)
-	{
+	SnitchList(SnitchManager manager, SnitchListQualifier listQualifier, boolean render) {
 		this.manager = manager;
 		listName = defaultName;
 		listColor = defaultColor;
@@ -33,8 +31,7 @@ public class SnitchList
 		this.renderSnitches = render;
 	}
 
-	SnitchList(SnitchManager manager, SnitchListQualifier listQualifier, boolean render, String name)
-	{
+	SnitchList(SnitchManager manager, SnitchListQualifier listQualifier, boolean render, String name) {
 		this.manager = manager;
 		this.listName = name;
 		listColor = defaultColor;
@@ -42,8 +39,7 @@ public class SnitchList
 		this.renderSnitches = render;
 	}
 
-	SnitchList(SnitchManager manager, SnitchListQualifier listQualifier, boolean render, Color color)
-	{
+	SnitchList(SnitchManager manager, SnitchListQualifier listQualifier, boolean render, Color color) {
 		this.manager = manager;
 		listName = defaultName;
 		listColor = color;
@@ -51,8 +47,7 @@ public class SnitchList
 		this.renderSnitches = render;
 	}
 
-	SnitchList(SnitchManager manager, SnitchListQualifier listQualifier, boolean render, String name, Color color)
-	{
+	SnitchList(SnitchManager manager, SnitchListQualifier listQualifier, boolean render, String name, Color color) {
 		this.manager = manager;
 		this.listName = name;
 		listColor = color;
@@ -60,13 +55,11 @@ public class SnitchList
 		this.renderSnitches = render;
 	}
 
-	public String getListName()
-	{
+	public String getListName() {
 		return listName;
 	}
 
-	public void setListName(String name)
-	{
+	public void setListName(String name) {
 		this.listName = name;
 		if (listName.length() > 20) {
 			listName = listName.substring(0, 19);
@@ -75,57 +68,46 @@ public class SnitchList
 		manager.journeyMapRedisplay(this);
 	}
 
-	public int getRenderPriority()
-	{
+	public int getRenderPriority() {
 		return renderPriority;
 	}
 
-	void setRenderPriorityUnchecked(int newPriority)
-	{
+	void setRenderPriorityUnchecked(int newPriority) {
 		this.renderPriority = newPriority;
 	}
 
-	public void increaseRenderPriority()
-	{
+	public void increaseRenderPriority() {
 		manager.changeListRenderPriority(this, true);
 	}
 
-	public void decreaseRenderPriority()
-	{
+	public void decreaseRenderPriority() {
 		manager.changeListRenderPriority(this, false);
 	}
 
-	public Color getListColor()
-	{
+	public Color getListColor() {
 		return listColor;
 	}
 
-	public void setListColor(Color newColor)
-	{
+	public void setListColor(Color newColor) {
 		this.listColor = newColor;
 		manager.journeyMapRedisplay(this);
 	}
 
-	public boolean shouldRenderSnitches()
-	{
+	public boolean shouldRenderSnitches() {
 		return renderSnitches;
 	}
 
-	public void setShouldRenderSnitches(boolean render)
-	{
+	public void setShouldRenderSnitches(boolean render) {
 		this.renderSnitches = render;
 		manager.journeyMapRedisplay(this);
 	}
 
-	public SnitchListQualifier getQualifier()
-	{
+	public SnitchListQualifier getQualifier() {
 		return listQualifier;
 	}
 
-	public boolean updateQualifier(String newQualifier)
-	{
-		if (SnitchListQualifier.isSyntaxValid(newQualifier))
-		{
+	public boolean updateQualifier(String newQualifier) {
+		if (SnitchListQualifier.isSyntaxValid(newQualifier)) {
 			this.listQualifier = new SnitchListQualifier(newQualifier);
 			manager.requalifyList(this);
 			return true;
@@ -134,8 +116,7 @@ public class SnitchList
 	}
 
 	@Override
-	public boolean equals(Object o)
-	{
+	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
 		}
@@ -149,8 +130,7 @@ public class SnitchList
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return listName.hashCode();
 	}
 
@@ -161,8 +141,7 @@ public class SnitchList
 	 * Returns a String representing the given SnitchList.
 	 * The returned String is in comma separated value form.
 	 */
-	public static String ConvertSnitchListToCSV(SnitchList list)
-	{
+	public static String ConvertSnitchListToCSV(SnitchList list) {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(Scrub(list.getListName())).append(CSV_SEPARATOR);
@@ -177,11 +156,9 @@ public class SnitchList
 	/**
 	 * Returns a SnitchList built from the given comma separated value String.
 	 */
-	static SnitchList GetSnitchListFromCSV(String csv, SnitchManager manager)
-	{
+	static SnitchList GetSnitchListFromCSV(String csv, SnitchManager manager) {
 		String[] args = csv.split(CSV_SEPARATOR);
-		if (args.length != NUMBER_OF_CSV_PARAMS)
-		{
+		if (args.length != NUMBER_OF_CSV_PARAMS) {
 			new NumberFormatException("The CSV string provided does not have the correct number of arguments for a Snitch List.").printStackTrace();
 			return null;
 		}
@@ -200,8 +177,7 @@ public class SnitchList
 		return list;
 	}
 
-	private static String Scrub(String string)
-	{
+	private static String Scrub(String string) {
 		return string.replace(CSV_SEPARATOR, "");
 	}
 }

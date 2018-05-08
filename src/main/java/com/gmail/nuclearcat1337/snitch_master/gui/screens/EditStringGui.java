@@ -12,8 +12,7 @@ import java.io.IOException;
 /**
  * Created by Mr_Little_Kitty on 9/23/2016.
  */
-public class EditStringGui extends GuiScreen
-{
+public class EditStringGui extends GuiScreen {
 	private GuiScreen cancelToScreen;
 
 	private final String titleText;
@@ -25,8 +24,7 @@ public class EditStringGui extends GuiScreen
 
 	private final int maxStringLength;
 
-	public EditStringGui(GuiScreen cancelToScreen, String editString, String titleText, Acceptor<String> callback, int maxStringLength)
-	{
+	public EditStringGui(GuiScreen cancelToScreen, String editString, String titleText, Acceptor<String> callback, int maxStringLength) {
 		this.cancelToScreen = cancelToScreen;
 		this.editString = editString;
 		this.callback = callback;
@@ -36,8 +34,7 @@ public class EditStringGui extends GuiScreen
 		this.titleWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(titleText);
 	}
 
-	public void initGui()
-	{
+	public void initGui() {
 		int xPos = (this.width / 2) - (GuiConstants.LARGE_TEXBOX_LENGTH / 2);
 		int yPos = (this.height / 2) - (GuiConstants.STANDARD_TEXTBOX_HEIGHT) - (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 
@@ -58,22 +55,20 @@ public class EditStringGui extends GuiScreen
 		super.initGui();
 	}
 
-	public void updateScreen()
-	{
+	public void updateScreen() {
 		stringBox.updateCursorCounter();
 		super.updateScreen();
 	}
 
-	public void keyTyped(char par1, int par2) throws IOException
-	{
-		if (stringBox.isFocused())
+	public void keyTyped(char par1, int par2) throws IOException {
+		if (stringBox.isFocused()) {
 			stringBox.textboxKeyTyped(par1, par2);
+		}
 		super.keyTyped(par1, par2);
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
-	{
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.stringBox.drawTextBox();
 
@@ -85,16 +80,13 @@ public class EditStringGui extends GuiScreen
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	public void mouseClicked(int one, int two, int three) throws IOException
-	{
+	public void mouseClicked(int one, int two, int three) throws IOException {
 		this.stringBox.mouseClicked(one, two, three);
 		super.mouseClicked(one, two, three);
 	}
 
-	public void actionPerformed(GuiButton button)
-	{
-		switch (button.id)
-		{
+	public void actionPerformed(GuiButton button) {
+		switch (button.id) {
 			case 1:
 				mc.displayGuiScreen(cancelToScreen);
 				break;
@@ -108,8 +100,7 @@ public class EditStringGui extends GuiScreen
 	}
 
 	@Override
-	public boolean doesGuiPauseGame()
-	{
+	public boolean doesGuiPauseGame() {
 		return false;
 	}
 }

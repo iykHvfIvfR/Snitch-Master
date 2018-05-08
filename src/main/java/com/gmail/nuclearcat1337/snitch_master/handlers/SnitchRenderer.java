@@ -27,8 +27,7 @@ import org.apache.commons.lang3.text.WordUtils;
  * Created by Mr_Little_Kitty on 6/26/2016.
  * Handles the rendering of Snitches in the Minecraft world that the player is currently in.
  */
-public class SnitchRenderer
-{
+public class SnitchRenderer {
 	private static final int BLOCK_RENDER_DISTANCE = 60;
 	private static final int BOX_RENDER_DISTANCE = 36;
 	private static final int TEXT_RENDER_DISTANCE = (int) ((double) ((Snitch.SNITCH_RADIUS) + 1) * Math.sqrt(2)) + 2;
@@ -37,8 +36,7 @@ public class SnitchRenderer
 	private final SnitchMaster snitchMaster;
 	private final SnitchManager manager;
 
-	public SnitchRenderer(SnitchMaster snitchMaster)
-	{
+	public SnitchRenderer(SnitchMaster snitchMaster) {
 		this.snitchMaster = snitchMaster;
 		manager = snitchMaster.getManager();
 
@@ -49,31 +47,23 @@ public class SnitchRenderer
 	 * Renders all the Snitches in that current world that are in a certain distance of the player
 	 */
 	@SubscribeEvent
-	public void renderSnitches(RenderWorldLastEvent event)
-	{
-		if (manager.getGlobalRender())
-		{
+	public void renderSnitches(RenderWorldLastEvent event) {
+		if (manager.getGlobalRender()) {
 			boolean renderText = (Boolean) (snitchMaster.getSettings().getValue(Settings.RENDER_TEXT_KEY));
-			for (Snitch snitch : manager.getSnitches().getItemsForWorld(snitchMaster.getCurrentWorld()))
-			{
+			for (Snitch snitch : manager.getSnitches().getItemsForWorld(snitchMaster.getCurrentWorld())) {
 				SnitchList renderList = manager.getRenderListForSnitch(snitch);
-				if (renderList != null)
-				{
+				if (renderList != null) {
 					Color renderColor = renderList.getListColor();
 					ILocation location = snitch.getLocation();
 					double distanceSquared = GeneralUtils.DistanceSquared(location.getX(), location.getZ(), (int) mc.player.posX, (int) mc.player.posZ);
 
-					if (distanceSquared <= BLOCK_RENDER_DISTANCE * BLOCK_RENDER_DISTANCE)
-					{
-						if (distanceSquared <= BOX_RENDER_DISTANCE * BOX_RENDER_DISTANCE)
-						{
+					if (distanceSquared <= BLOCK_RENDER_DISTANCE * BLOCK_RENDER_DISTANCE) {
+						if (distanceSquared <= BOX_RENDER_DISTANCE * BOX_RENDER_DISTANCE) {
 							renderBox(location.getX(), location.getY(), location.getZ(), Snitch.SNITCH_RADIUS, renderColor, 0.1D, 0.25D, event.getPartialTicks());
 						}
 
-						if (renderText)
-						{
-							if (GeneralUtils.DistanceSquared(location.getX(), location.getZ(), location.getY(), (int) mc.player.posX, (int) mc.player.posZ, (int) mc.player.posY) <= TEXT_RENDER_DISTANCE * TEXT_RENDER_DISTANCE)
-							{
+						if (renderText) {
+							if (GeneralUtils.DistanceSquared(location.getX(), location.getZ(), location.getY(), (int) mc.player.posX, (int) mc.player.posZ, (int) mc.player.posY) <= TEXT_RENDER_DISTANCE * TEXT_RENDER_DISTANCE) {
 								String[] text = new String[3];
 								text[0] = snitch.getSnitchName();
 								text[1] = String.format("[%s] %s", snitch.getGroupName(), WordUtils.capitalize(snitch.getType()));
@@ -99,8 +89,7 @@ public class SnitchRenderer
 
 	private static final float SCALE_STEP = (MAX_TEXT_RENDER_SCALE - MIN_TEXT_RENDER_SCALE) / TEXT_RENDER_DISTANCE;
 
-	private static void RenderFloatingText(String[] text, float x, float y, float z, int color, boolean renderBlackBackground, float partialTickTime)
-	{
+	private static void RenderFloatingText(String[] text, float x, float y, float z, int color, boolean renderBlackBackground, float partialTickTime) {
 		//Thanks to Electric-Expansion mod for the majority of this code
 		//https://github.com/Alex-hawks/Electric-Expansion/blob/master/src/electricexpansion/client/render/RenderFloatingText.java
 
@@ -129,8 +118,7 @@ public class SnitchRenderer
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 		int textWidth = 0;
-		for (String thisMessage : text)
-		{
+		for (String thisMessage : text) {
 			int thisMessageWidth = mc.fontRenderer.getStringWidth(thisMessage);
 
 			if (thisMessageWidth > textWidth)
@@ -140,8 +128,7 @@ public class SnitchRenderer
 		int lineHeight = 10;
 		int initialValue = lineHeight * text.length;
 
-		if (renderBlackBackground)
-		{
+		if (renderBlackBackground) {
 			int stringMiddle = textWidth / 2;
 
 			Tessellator tessellator = Tessellator.getInstance();
@@ -162,8 +149,7 @@ public class SnitchRenderer
 		}
 
 		int i = 0;
-		for (String message : text)
-		{
+		for (String message : text) {
 			int messageWidth = mc.fontRenderer.getStringWidth(message);
 			mc.fontRenderer.drawString(message, 0 - (messageWidth / 2), (i * lineHeight) - initialValue, color);
 			i++;
@@ -175,8 +161,7 @@ public class SnitchRenderer
 		GL11.glPopMatrix();
 	}
 
-	private void renderBox(int x, int y, int z, int radius, Color color, double alpha, double outlineAlpha, float partialTicks)
-	{
+	private void renderBox(int x, int y, int z, int radius, Color color, double alpha, double outlineAlpha, float partialTicks) {
 		double renderPosX = (float) (mc.player.lastTickPosX + (mc.player.posX - mc.player.lastTickPosX) * partialTicks);
 		double renderPosY = (float) (mc.player.lastTickPosY + (mc.player.posY - mc.player.lastTickPosY) * partialTicks);
 		double renderPosZ = (float) (mc.player.lastTickPosZ + (mc.player.posZ - mc.player.lastTickPosZ) * partialTicks);
@@ -200,8 +185,7 @@ public class SnitchRenderer
 		double max = radius + 1.01D;   // +.99D; //.99
 		double min = radius + .01D;    // - .01D;//-.01
 
-		if (radius == 0)
-		{
+		if (radius == 0) {
 			min = 0.01D;
 			max = 1.01;
 		}
@@ -229,8 +213,7 @@ public class SnitchRenderer
 
 	private static final VertexFormat format = DefaultVertexFormats.POSITION;
 
-	private void drawBoundingBoxQuads(AxisAlignedBB bb)
-	{
+	private void drawBoundingBoxQuads(AxisAlignedBB bb) {
 		Tessellator tess = Tessellator.getInstance();
 		BufferBuilder buffer = tess.getBuffer();
 
@@ -301,8 +284,7 @@ public class SnitchRenderer
 		tess.draw();
 	}
 
-	private static void drawCrossedOutlinedBoundingBox(AxisAlignedBB bb)
-	{
+	private static void drawCrossedOutlinedBoundingBox(AxisAlignedBB bb) {
 		Tessellator tess = Tessellator.getInstance();
 		BufferBuilder buffer = tess.getBuffer();
 

@@ -9,8 +9,7 @@ import java.util.List;
 /**
  * Created by Mr_Little_Kitty on 12/31/2016.
  */
-public interface TableColumn<T> extends Comparator<T>
-{
+public interface TableColumn<T> extends Comparator<T> {
 	GuiButton[] prepareEntry(T item);
 
 	//Must be less than or equal to column width (this is also the header)

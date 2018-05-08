@@ -14,8 +14,7 @@ import java.util.List;
 /**
  * Created by Mr_Little_Kitty on 12/31/2016.
  */
-public abstract class TableTopGui<T> extends GuiScreen
-{
+public abstract class TableTopGui<T> extends GuiScreen {
 	private static final int DONE_BUTTON_WIDTH = GuiConstants.SMALL_BUTTON_WIDTH * 3;
 
 	protected final GuiScreen parentScreen;
@@ -33,8 +32,7 @@ public abstract class TableTopGui<T> extends GuiScreen
 
 	private TableGui<T> tableGui;
 
-	public TableTopGui(GuiScreen parentScreen, Collection<T> items, String title)
-	{
+	public TableTopGui(GuiScreen parentScreen, Collection<T> items, String title) {
 		this.parentScreen = parentScreen;
 		this.items = items;
 		this.title = title;
@@ -45,14 +43,12 @@ public abstract class TableTopGui<T> extends GuiScreen
 
 	protected abstract Collection<Pair<TableColumn<T>, Boolean>> initializeColumns();
 
-	public void saveColumns(List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns)
-	{
+	public void saveColumns(List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns) {
 
 	}
 
 	@Override
-	public void initGui()
-	{
+	public void initGui() {
 		Collection<Pair<TableColumn<T>, Boolean>> initialColumns = initializeColumns();
 
 		assert initialColumns != null && !initialColumns.isEmpty();
@@ -61,12 +57,10 @@ public abstract class TableTopGui<T> extends GuiScreen
 		renderColumns = new ArrayList<>();
 		columnsToBoundsCheck = new ArrayList<>();
 
-		for (Pair<TableColumn<T>, Boolean> pair : initialColumns)
-		{
+		for (Pair<TableColumn<T>, Boolean> pair : initialColumns) {
 			allColumns.add(pair.getOne());
 
-			if (pair.getTwo())
-			{
+			if (pair.getTwo()) {
 				renderColumns.add(pair.getOne());
 
 				if (pair.getOne().doBoundsCheck()) {
@@ -97,28 +91,23 @@ public abstract class TableTopGui<T> extends GuiScreen
 		super.initGui();
 	}
 
-	protected Collection<T> getItems()
-	{
+	protected Collection<T> getItems() {
 		return items;
 	}
 
-	public int getTableSize()
-	{
+	public int getTableSize() {
 		return tableGui.getSize();
 	}
 
-	public T getTableItem(int tableIndex)
-	{
+	public T getTableItem(int tableIndex) {
 		return tableGui.getItemForSlotIndex(tableIndex);
 	}
 
-	public void swapTableItems(int tableIndex, int nextTableIndex)
-	{
+	public void swapTableItems(int tableIndex, int nextTableIndex) {
 		tableGui.swapItems(tableIndex, nextTableIndex);
 	}
 
-	public void setRenderColumns(List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns)
-	{
+	public void setRenderColumns(List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns) {
 		//We need both columns lists so that the column order can be changed
 		this.allColumns = allColumns;
 		this.renderColumns = renderColumns;
@@ -133,13 +122,11 @@ public abstract class TableTopGui<T> extends GuiScreen
 	}
 
 	@Override
-	public void actionPerformed(GuiButton button)
-	{
+	public void actionPerformed(GuiButton button) {
 		if (!button.enabled) {
 			return;
 		}
-		switch (button.id)
-		{
+		switch (button.id) {
 			case 0: //Done
 				this.mc.displayGuiScreen(parentScreen);
 				break;
@@ -150,8 +137,7 @@ public abstract class TableTopGui<T> extends GuiScreen
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
-	{
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		//Draw the background, the actual table, and anything from out parent
 		this.drawDefaultBackground();
 		this.tableGui.drawScreen(mouseX, mouseY, partialTicks);
@@ -164,16 +150,12 @@ public abstract class TableTopGui<T> extends GuiScreen
 		//Draw the title
 		mc.fontRenderer.drawString(title, xPos, yPos, 16777215);
 
-		if (mouseY >= tableGui.top && mouseY <= tableGui.bottom)
-		{
+		if (mouseY >= tableGui.top && mouseY <= tableGui.bottom) {
 			int index = tableGui.getSlotIndexFromScreenCoords(mouseX, mouseY);
-			if (index >= 0)
-			{
-				for (TableColumn<T> col : columnsToBoundsCheck)
-				{
+			if (index >= 0) {
+				for (TableColumn<T> col : columnsToBoundsCheck) {
 					Pair<Integer, Integer> bounds = tableGui.getBoundsForColumn(col);
-					if (mouseX >= bounds.getOne() && mouseX <= bounds.getTwo())
-					{
+					if (mouseX >= bounds.getOne() && mouseX <= bounds.getTwo()) {
 						List<String> text = col.hover(tableGui.getItemForSlotIndex(index), xPos, yPos);
 						if (text != null && !text.isEmpty()) {
 							drawHoveringText(text, mouseX, mouseY);
@@ -186,60 +168,49 @@ public abstract class TableTopGui<T> extends GuiScreen
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseEvent)
-	{
+	protected void mouseClicked(int mouseX, int mouseY, int mouseEvent) {
 		tableGui.mouseClicked(mouseX, mouseY, mouseEvent);
 
 		//Hopefully this determines if they clicked in the header area
-		if (mouseY >= tableGui.top && mouseY <= tableGui.top + tableGui.headerPadding && tableGui.getSlotIndexFromScreenCoords(mouseX, mouseY) < 0)
-		{
-			for (TableColumn<T> col : renderColumns)
-			{
+		if (mouseY >= tableGui.top && mouseY <= tableGui.top + tableGui.headerPadding && tableGui.getSlotIndexFromScreenCoords(mouseX, mouseY) < 0) {
+			for (TableColumn<T> col : renderColumns) {
 				Pair<Integer, Integer> bounds = tableGui.getBoundsForColumn(col);
-				if (mouseX >= bounds.getOne() && mouseX <= bounds.getTwo())
-				{
+				if (mouseX >= bounds.getOne() && mouseX <= bounds.getTwo()) {
 					tableGui.sortByColumn(col);
 					break;
 				}
 			}
 		}
 
-		try
-		{
+		try {
 			super.mouseClicked(mouseX, mouseY, mouseEvent);
 		}
-		catch (IOException e)
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void mouseReleased(int arg1, int arg2, int arg3)
-	{
+	public void mouseReleased(int arg1, int arg2, int arg3) {
 		//This method is ESSENTIAL to the functioning of the scroll bar
 		tableGui.mouseReleased(arg1, arg2, arg3);
 		super.mouseReleased(arg1, arg2, arg3);
 	}
 
 	@Override
-	public void handleMouseInput()
-	{
+	public void handleMouseInput() {
 		//This method is ESSENTIAL to the functioning of the scroll bar
 		tableGui.handleMouseInput();
-		try
-		{
+		try {
 			super.handleMouseInput();
 		}
-		catch (IOException e)
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public boolean doesGuiPauseGame()
-	{
+	public boolean doesGuiPauseGame() {
 		return false;
 	}
 }

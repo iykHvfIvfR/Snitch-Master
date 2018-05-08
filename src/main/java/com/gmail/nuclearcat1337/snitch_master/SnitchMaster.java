@@ -22,8 +22,7 @@ import java.util.List;
  * The main class for the SnitchMaster mod.
  */
 @Mod(modid = SnitchMaster.MODID, name = SnitchMaster.MODNAME, version = SnitchMaster.MODVERSION, guiFactory = "com.gmail.nuclearcat1337.snitch_master.gui.ConfigGuiFactory")
-public class SnitchMaster
-{
+public class SnitchMaster {
 	public static final String MODID = "snitchmaster";
 	public static final String MODNAME = "Snitch Master";
 	public static final String MODVERSION = "1.0.9";
@@ -54,8 +53,7 @@ public class SnitchMaster
 	private WorldInfoListener worldInfoListener;
 
 	@Mod.EventHandler
-	public void preInit(FMLPreInitializationEvent event)
-	{
+	public void preInit(FMLPreInitializationEvent event) {
 		File file = new File(modDataFolder);
 		if (!file.exists()) {
 			file.mkdir();
@@ -69,8 +67,7 @@ public class SnitchMaster
 	}
 
 	@Mod.EventHandler
-	public void init(FMLInitializationEvent event)
-	{
+	public void init(FMLInitializationEvent event) {
 		chatSnitchParser = new ChatSnitchParser(this);
 
 		new SnitchRenderer(this);
@@ -80,13 +77,11 @@ public class SnitchMaster
 		chatSnitchParser.addAlertRecipient(new QuietTimeHandler(getSettings()));
 	}
 
-	public SnitchManager getManager()
-	{
+	public SnitchManager getManager() {
 		return manager;
 	}
 
-	private void initializeSettings()
-	{
+	private void initializeSettings() {
 		settings = new Settings(new ObjectParser());
 		settings.loadSettings();
 
@@ -99,71 +94,60 @@ public class SnitchMaster
 		settings.saveSettings();
 	}
 
-	public void fullJourneyMapUpdate()
-	{
+	public void fullJourneyMapUpdate() {
 		if (jmInterface != null) {
 			jmInterface.refresh(manager.getSnitches()); //TODO---Do better
 		}
 	}
 
-	public void individualJourneyMapUpdate(Snitch snitch)
-	{
+	public void individualJourneyMapUpdate(Snitch snitch) {
 		if (jmInterface != null) {
 			jmInterface.displaySnitch(snitch); //TODO--Do better
 		}
 	}
 
-	public void snitchListJourneyMapUpdate(SnitchList list)
-	{
-		if (jmInterface != null)
-		{
+	public void snitchListJourneyMapUpdate(SnitchList list) {
+		if (jmInterface != null) {
 			List<Snitch> snitches = manager.getSnitchesInList(list);
 			for (Snitch snitch : snitches)
 				individualJourneyMapUpdate(snitch); //TODO---Do better
 		}
 	}
 
-	public Settings getSettings()
-	{
+	public Settings getSettings() {
 		return settings;
 	}
 
 	/**
 	 * Returns the instance of the ChatSnitchParser for dealing with chat Snitch loading.
 	 */
-	public ChatSnitchParser getChatSnitchParser()
-	{
+	public ChatSnitchParser getChatSnitchParser() {
 		return chatSnitchParser;
 	}
 
 	/**
 	 * Returns the name of the current world or "single player" if in single player.
 	 */
-	public String getCurrentWorld()
-	{
+	public String getCurrentWorld() {
 		return worldInfoListener.getWorldID();
 	}
 
-	public static void SendMessageToPlayer(String message)
-	{
+	public static void SendMessageToPlayer(String message) {
 		if (mc.player != null) {
 			mc.player.sendMessage(new TextComponentString("[Snitch Master] " + message));
 		}
 	}
 
-	private static class ObjectParser implements Settings.ValueParser
-	{
+	private static class ObjectParser implements Settings.ValueParser {
 		@Override
-		public Object parse(String key, String value)
-		{
+		public Object parse(String key, String value) {
 			if (key.equalsIgnoreCase(Settings.RENDER_TEXT_KEY)) {
 				return Boolean.parseBoolean(value);
 			} else if (key.equalsIgnoreCase(Settings.CHAT_SPAM_KEY)) {
 				return Settings.ChatSpamState.valueOf(value);
 			} else if (key.equalsIgnoreCase(QuietTimeHandler.QUIET_TIME_CONFIG_KEY)) {
 				return QuietTimeConfig.FromString(value);
-			} else
-			{
+			} else {
 				if (value.equalsIgnoreCase(Boolean.FALSE.toString())) {
 					return Boolean.FALSE;
 				} else if (value.equalsIgnoreCase(Boolean.TRUE.toString())) {

@@ -14,8 +14,7 @@ import java.util.List;
 /**
  * Created by Mr_Little_Kitty on 1/1/2017.
  */
-public class TableColumnSelector<T> extends GuiListExtended
-{
+public class TableColumnSelector<T> extends GuiListExtended {
 	private static final String CONTROLS_HEADER = "Controls";
 	private static final String NAME_HEADER = "Column Name";
 	private static final String RENDER_HEADER = "Render Enabled";
@@ -27,8 +26,7 @@ public class TableColumnSelector<T> extends GuiListExtended
 
 	private int maxNameLength = 0;
 
-	public TableColumnSelector(GuiScreen parent, List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns)
-	{
+	public TableColumnSelector(GuiScreen parent, List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns) {
 		super(Minecraft.getMinecraft(), parent.width, parent.height, 32, parent.height - 32, 20);
 
 		this.renderLength = mc.fontRenderer.getStringWidth(RENDER_HEADER + "--");
@@ -38,8 +36,7 @@ public class TableColumnSelector<T> extends GuiListExtended
 
 		maxNameLength = 0;
 
-		for (TableColumn<T> col : allColumns)
-		{
+		for (TableColumn<T> col : allColumns) {
 			entries.add(new ColumnEntry(col, renderColumns.contains(col)));
 			int length = mc.fontRenderer.getStringWidth(col.getColumnName() + "-");
 			if (length > maxNameLength)
@@ -55,8 +52,7 @@ public class TableColumnSelector<T> extends GuiListExtended
 
 	}
 
-	protected void drawListHeader(int xPosition, int yPosition, Tessellator tessalator)
-	{
+	protected void drawListHeader(int xPosition, int yPosition, Tessellator tessalator) {
 		String root = ChatFormatting.UNDERLINE + "" + ChatFormatting.BOLD;
 
 		int controlsWidth = mc.fontRenderer.getStringWidth(root + CONTROLS_HEADER);
@@ -81,8 +77,7 @@ public class TableColumnSelector<T> extends GuiListExtended
 		this.mc.fontRenderer.drawString(root + RENDER_HEADER, drawXPos, yPosition, 16777215);
 	}
 
-	private void swapItems(int index1, int index2)
-	{
+	private void swapItems(int index1, int index2) {
 		if (index1 >= entries.size() || index2 >= entries.size() || index1 < 0 || index2 < 0) {
 			return;
 		}
@@ -103,8 +98,7 @@ public class TableColumnSelector<T> extends GuiListExtended
 		two.setRenderText();
 	}
 
-	public ArrayList<TableColumn<T>> getAllColumns()
-	{
+	public ArrayList<TableColumn<T>> getAllColumns() {
 		ArrayList<TableColumn<T>> allColumns = new ArrayList<>();
 		for (ColumnEntry entry : entries) {
 			allColumns.add(entry.column);
@@ -112,8 +106,7 @@ public class TableColumnSelector<T> extends GuiListExtended
 		return allColumns;
 	}
 
-	public ArrayList<TableColumn<T>> getRenderColumns()
-	{
+	public ArrayList<TableColumn<T>> getRenderColumns() {
 		ArrayList<TableColumn<T>> renderColumns = new ArrayList<>();
 		for (ColumnEntry entry : entries) {
 			if (entry.render) {
@@ -124,31 +117,26 @@ public class TableColumnSelector<T> extends GuiListExtended
 	}
 
 	@Override
-	protected int getScrollBarX()
-	{
+	protected int getScrollBarX() {
 		return this.width - 8;
 	}
 
 	@Override
-	public int getListWidth()
-	{
+	public int getListWidth() {
 		return this.width;
 	}
 
 	@Override
-	public IGuiListEntry getListEntry(int i)
-	{
+	public IGuiListEntry getListEntry(int i) {
 		return entries.get(i);
 	}
 
 	@Override
-	protected int getSize()
-	{
+	protected int getSize() {
 		return entries.size();
 	}
 
-	private class ColumnEntry implements IGuiListEntry
-	{
+	private class ColumnEntry implements IGuiListEntry {
 		private TableColumn<T> column;
 		private boolean render;
 
@@ -156,8 +144,7 @@ public class TableColumnSelector<T> extends GuiListExtended
 		private GuiButton downButton;
 		private GuiButton upButton;
 
-		public ColumnEntry(TableColumn<T> column, boolean render)
-		{
+		public ColumnEntry(TableColumn<T> column, boolean render) {
 			this.column = column;
 			this.render = render;
 
@@ -168,14 +155,12 @@ public class TableColumnSelector<T> extends GuiListExtended
 		}
 
 		@Override
-		public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_)
-		{
+		public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_) {
 
 		}
 
 		@Override
-		public void drawEntry(int slotIndex, int xPosition, int yPosition, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
-		{
+		public void drawEntry(int slotIndex, int xPosition, int yPosition, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
 			int stringYPosition = yPosition + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
 			yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
 
@@ -209,25 +194,21 @@ public class TableColumnSelector<T> extends GuiListExtended
 		}
 
 		@Override
-		public boolean mousePressed(int index, int xPos, int yPos, int mouseEvent, int relX, int relY)
-		{
+		public boolean mousePressed(int index, int xPos, int yPos, int mouseEvent, int relX, int relY) {
 			//Dont let them right click the buttons
 			if (mouseEvent == 1) {
 				return false;
 			}
 
-			if (this.upButton.mousePressed(mc, xPos, yPos))
-			{
+			if (this.upButton.mousePressed(mc, xPos, yPos)) {
 				swapItems(index, index - 1); //The array is goes from bottom to top. so index 0 is at top of screen
 				return true;
 			}
-			if (this.downButton.mousePressed(mc, xPos, yPos))
-			{
+			if (this.downButton.mousePressed(mc, xPos, yPos)) {
 				swapItems(index, index + 1); //The array is goes from bottom to top. so index 0 is at top of screen
 				return true;
 			}
-			if (renderButton.mousePressed(mc, xPos, yPos))
-			{
+			if (renderButton.mousePressed(mc, xPos, yPos)) {
 				render = !render;
 				setRenderText();
 				return true;
@@ -235,14 +216,12 @@ public class TableColumnSelector<T> extends GuiListExtended
 			return false;
 		}
 
-		private void setRenderText()
-		{
+		private void setRenderText() {
 			renderButton.displayString = "Render: " + (render ? "On" : "Off");
 		}
 
 		@Override
-		public void mouseReleased(int index, int xPos, int yPos, int mouseEvent, int relX, int relY)
-		{
+		public void mouseReleased(int index, int xPos, int yPos, int mouseEvent, int relX, int relY) {
 			this.upButton.mouseReleased(xPos, yPos);
 			this.downButton.mouseReleased(xPos, yPos);
 			this.renderButton.mouseReleased(xPos, yPos);

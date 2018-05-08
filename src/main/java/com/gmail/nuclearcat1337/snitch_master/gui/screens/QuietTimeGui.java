@@ -12,8 +12,7 @@ import net.minecraft.client.gui.GuiScreen;
 /**
  * Created by Mr_Little_Kitty on 2/22/2017.
  */
-public class QuietTimeGui extends GuiScreen
-{
+public class QuietTimeGui extends GuiScreen {
 	private static final int BUTTON_WIDTH = GuiConstants.MEDIUM_BUTTON_WIDTH;
 
 	private final GuiScreen cancelToScreen;
@@ -21,15 +20,13 @@ public class QuietTimeGui extends GuiScreen
 
 	private TextBox messageBox;
 
-	public QuietTimeGui(GuiScreen cancelToScreen, Settings settings)
-	{
+	public QuietTimeGui(GuiScreen cancelToScreen, Settings settings) {
 		this.cancelToScreen = cancelToScreen;
 		this.settings = settings;
 	}
 
 	@Override
-	public void initGui()
-	{
+	public void initGui() {
 		final int startingYPos = (this.height / 2) - (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 		final int startingXPos = (this.width / 2) - GuiConstants.STANDARD_SEPARATION_DISTANCE / 2 - BUTTON_WIDTH;
 
@@ -61,8 +58,7 @@ public class QuietTimeGui extends GuiScreen
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
-	{
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 
 		messageBox.drawTextBox();
@@ -70,10 +66,8 @@ public class QuietTimeGui extends GuiScreen
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	public void actionPerformed(GuiButton button)
-	{
-		switch (button.id)
-		{
+	public void actionPerformed(GuiButton button) {
+		switch (button.id) {
 			case 1:
 				Minecraft.getMinecraft().displayGuiScreen(cancelToScreen);
 				break;
@@ -103,8 +97,7 @@ public class QuietTimeGui extends GuiScreen
 		}
 	}
 
-	private void setTextBoxContent()
-	{
+	private void setTextBoxContent() {
 		QuietTimeConfig config = (QuietTimeConfig) settings.getValue(QuietTimeHandler.QUIET_TIME_CONFIG_KEY);
 		int hash = config.hashCode();
 

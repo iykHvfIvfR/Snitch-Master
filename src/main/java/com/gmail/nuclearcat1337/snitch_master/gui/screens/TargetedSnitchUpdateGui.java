@@ -13,8 +13,7 @@ import java.io.IOException;
 /**
  * Created by Mr_Little_Kitty on 1/5/2017.
  */
-public class TargetedSnitchUpdateGui extends GuiScreen
-{
+public class TargetedSnitchUpdateGui extends GuiScreen {
 	private static final String START_BOX_TEXT = "Start Index";
 	private static final String STOP_BOX_TEXT = "Stop Index";
 
@@ -29,8 +28,7 @@ public class TargetedSnitchUpdateGui extends GuiScreen
 	private final int startTextWidth;
 	private final int stopTextWidth;
 
-	public TargetedSnitchUpdateGui(GuiScreen cancelToScreen, ChatSnitchParser chatParser)
-	{
+	public TargetedSnitchUpdateGui(GuiScreen cancelToScreen, ChatSnitchParser chatParser) {
 		this.cancelToScreen = cancelToScreen;
 		this.chatParser = chatParser;
 
@@ -38,8 +36,7 @@ public class TargetedSnitchUpdateGui extends GuiScreen
 		stopTextWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(STOP_BOX_TEXT);
 	}
 
-	public void initGui()
-	{
+	public void initGui() {
 		int yPos = (this.height / 2) - (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2);
 		int xPos = (this.width / 2) - GuiConstants.STANDARD_SEPARATION_DISTANCE / 2 - BOX_AND_BUTTON_WIDTH;
 
@@ -64,34 +61,26 @@ public class TargetedSnitchUpdateGui extends GuiScreen
 		super.initGui();
 	}
 
-	public void updateScreen()
-	{
+	public void updateScreen() {
 		startIndexBox.updateCursorCounter();
 		stopIndexBox.updateCursorCounter();
 		super.updateScreen();
 	}
 
-	public void keyTyped(char par1, int par2) throws IOException
-	{
-		if (startIndexBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+	public void keyTyped(char par1, int par2) throws IOException {
+		if (startIndexBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				stopIndexBox.setFocused(true);
 				startIndexBox.setFocused(false);
-			}
-			else {
+			} else {
 				startIndexBox.textboxKeyTyped(par1, par2);
 			}
 		}
-		else if (stopIndexBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+		else if (stopIndexBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				startIndexBox.setFocused(true);
 				stopIndexBox.setFocused(false);
-			}
-			else {
+			} else {
 				stopIndexBox.textboxKeyTyped(par1, par2);
 			}
 		}
@@ -99,8 +88,7 @@ public class TargetedSnitchUpdateGui extends GuiScreen
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
-	{
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 
 		int textYHeight = (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - (mc.fontRenderer.FONT_HEIGHT / 2) - GuiConstants.STANDARD_TEXTBOX_HEIGHT;
@@ -116,17 +104,14 @@ public class TargetedSnitchUpdateGui extends GuiScreen
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	public void mouseClicked(int one, int two, int three) throws IOException
-	{
+	public void mouseClicked(int one, int two, int three) throws IOException {
 		this.startIndexBox.mouseClicked(one, two, three);
 		this.stopIndexBox.mouseClicked(one, two, three);
 		super.mouseClicked(one, two, three);
 	}
 
-	public void actionPerformed(GuiButton button)
-	{
-		switch (button.id)
-		{
+	public void actionPerformed(GuiButton button) {
+		switch (button.id) {
 			case 1:
 				Minecraft.getMinecraft().displayGuiScreen(cancelToScreen);
 				break;
@@ -149,8 +134,7 @@ public class TargetedSnitchUpdateGui extends GuiScreen
 	}
 
 	@Override
-	public boolean doesGuiPauseGame()
-	{
+	public boolean doesGuiPauseGame() {
 		return false;
 	}
 }

@@ -5,19 +5,16 @@ import org.apache.commons.lang3.SerializationException;
 /**
  * Created by Mr_Little_Kitty on 7/3/2016.
  */
-public class Color
-{
+public class Color {
 	private int red, green, blue;
 
-	public Color(int red, int green, int blue)
-	{
+	public Color(int red, int green, int blue) {
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
 	}
 
-	public Color(String serializedString)
-	{
+	public Color(String serializedString) {
 		String[] args = serializedString.replace("{", "").replace("}", "").split(":");
 		if (args.length != 3) {
 			throw new SerializationException("Invalid color string: " + serializedString);
@@ -28,43 +25,35 @@ public class Color
 		blue = Integer.parseInt(args[2]);
 	}
 
-	public double getRed()
-	{
+	public double getRed() {
 		return red / 255D;
 	}
 
-	public double getGreen()
-	{
+	public double getGreen() {
 		return green / 255D;
 	}
 
-	public double getBlue()
-	{
+	public double getBlue() {
 		return blue / 255D;
 	}
 
-	public int getRedInt()
-	{
+	public int getRedInt() {
 		return red;
 	}
 
-	public int getGreenInt()
-	{
+	public int getGreenInt() {
 		return green;
 	}
 
-	public int getBlueInt()
-	{
+	public int getBlueInt() {
 		return blue;
 	}
 
-	public String serialize()
-	{
+	public String serialize() {
 		return "{" + red + ":" + green + ":" + blue + "}";
 	}
 
-	public static boolean AreEqual(Color one, Color two)
-	{
+	public static boolean AreEqual(Color one, Color two) {
 		return one.red == two.red && one.green == two.green && one.blue == two.blue;
 	}
 }

@@ -14,53 +14,46 @@ import java.util.List;
 /**
  * Created by Mr_Little_Kitty on 1/2/2017.
  */
-public class SnitchListNameColumn implements TableColumn<SnitchList>
-{
+public class SnitchListNameColumn implements TableColumn<SnitchList> {
 	private static Minecraft mc;
 
 	private final SnitchManager manager;
 
-	public SnitchListNameColumn(SnitchManager manager)
-	{
+	public SnitchListNameColumn(SnitchManager manager) {
 		mc = Minecraft.getMinecraft();
 		this.manager = manager;
 	}
 
 	@Override
-	public GuiButton[] prepareEntry(SnitchList item)
-	{
+	public GuiButton[] prepareEntry(SnitchList item) {
 		return null;
 	}
 
 	@Override
-	public String getColumnName()
-	{
+	public String getColumnName() {
 		return "Name";
 	}
 
 	@Override
-	public boolean doBoundsCheck()
-	{
+	public boolean doBoundsCheck() {
 		return true;
 	}
 
 	@Override
-	public void clicked(SnitchList list, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void clicked(SnitchList list, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 		//Only if its a right click
-		if (!leftClick)
+		if (!leftClick) {
 			mc.displayGuiScreen(new EditStringGui(parentScreen, list.getListName(), "Edit List Name", new EditNameAcceptor(list), 20));
+		}
 	}
 
 	@Override
-	public void released(SnitchList list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void released(SnitchList list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 
 	}
 
 	@Override
-	public void draw(SnitchList list, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY)
-	{
+	public void draw(SnitchList list, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
 		int stringYPosition = yPos + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
 		String text = list.getListName();
 		int stringWidth = mc.fontRenderer.getStringWidth(text);
@@ -69,46 +62,38 @@ public class SnitchListNameColumn implements TableColumn<SnitchList>
 	}
 
 	@Override
-	public int getDrawWidth(SnitchList list)
-	{
+	public int getDrawWidth(SnitchList list) {
 		return mc.fontRenderer.getStringWidth(list.getListName());
 	}
 
 	@Override
-	public List<String> hover(SnitchList item, int xPos, int yPos)
-	{
+	public List<String> hover(SnitchList item, int xPos, int yPos) {
 		return null;
 	}
 
 	@Override
-	public boolean canSort()
-	{
+	public boolean canSort() {
 		return true;
 	}
 
 	@Override
-	public int compare(SnitchList list, SnitchList other)
-	{
+	public int compare(SnitchList list, SnitchList other) {
 		return list.getListName().compareTo(other.getListName());
 	}
 
-	private class EditNameAcceptor implements Acceptor<String>
-	{
+	private class EditNameAcceptor implements Acceptor<String> {
 		private final SnitchList list;
 
-		private EditNameAcceptor(SnitchList list)
-		{
+		private EditNameAcceptor(SnitchList list) {
 			this.list = list;
 		}
 
 		@Override
-		public boolean accept(String item)
-		{
+		public boolean accept(String item) {
 			//Check to make sure there isn't already a list with the name they provided
 			//Note, if they don't change the name and just click OK then this will stop us from unnecessarily updating
 			boolean valid = !manager.doesListWithNameExist(item);
-			if (valid)
-			{
+			if (valid) {
 				list.setListName(item);
 				manager.saveSnitchLists();
 				return true;

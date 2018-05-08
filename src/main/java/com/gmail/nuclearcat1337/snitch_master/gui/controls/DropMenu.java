@@ -9,20 +9,16 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Created by Mr_Little_Kitty on 1/20/2017.
  */
-public class DropMenu extends GuiButton
-{
+public class DropMenu extends GuiButton {
 	public static final ResourceLocation MENU_BUTTON = new ResourceLocation(SnitchMaster.MODID, "snitchMasterMain.png");
 
-	public DropMenu(int buttonId, int x, int y)
-	{
+	public DropMenu(int buttonId, int x, int y) {
 		super(buttonId, x, y, 16, 16, "");
 	}
 
 	@Override
-	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
-	{
-		if (super.mousePressed(mc, mouseX, mouseY))
-		{
+	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+		if (super.mousePressed(mc, mouseX, mouseY)) {
 
 			return true;
 		}
@@ -30,10 +26,8 @@ public class DropMenu extends GuiButton
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
-	{
-		if (this.visible)
-		{
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+		if (this.visible) {
 			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			int i = this.getHoverState(this.hovered);
 

@@ -15,8 +15,7 @@ import java.io.IOException;
 /**
  * Created by Mr_Little_Kitty on 9/26/2016.
  */
-public class EditColorGui extends GuiScreen
-{
+public class EditColorGui extends GuiScreen {
 	private GuiScreen cancelToScreen;
 
 	private final String titleText;
@@ -31,8 +30,7 @@ public class EditColorGui extends GuiScreen
 
 	private int greenWidth;
 
-	public EditColorGui(GuiScreen cancelToScreen, Color baseColor, String titleText, Acceptor<Color> callback)
-	{
+	public EditColorGui(GuiScreen cancelToScreen, Color baseColor, String titleText, Acceptor<Color> callback) {
 		this.cancelToScreen = cancelToScreen;
 		this.baseColor = baseColor;
 		this.callback = callback;
@@ -43,8 +41,7 @@ public class EditColorGui extends GuiScreen
 
 	private static final int MAX_COLOR_TEXT_LENGTH = 3;
 
-	public void initGui()
-	{
+	public void initGui() {
 		greenWidth = mc.fontRenderer.getStringWidth("Green");
 
 		int width = mc.fontRenderer.getStringWidth(SnitchList.MAX_NAME_CHARACTERS + "WWW");
@@ -84,38 +81,28 @@ public class EditColorGui extends GuiScreen
 		super.initGui();
 	}
 
-	public void updateScreen()
-	{
+	public void updateScreen() {
 		redBox.updateCursorCounter();
 		greenBox.updateCursorCounter();
 		blueBox.updateCursorCounter();
 		super.updateScreen();
 	}
 
-	public void keyTyped(char par1, int par2) throws IOException
-	{
-		if (redBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+	public void keyTyped(char par1, int par2) throws IOException {
+		if (redBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				greenBox.setFocused(true);
 				redBox.setFocused(false);
 			}
 			redBox.textboxKeyTyped(par1, par2);
-		}
-		else if (greenBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+		} else if (greenBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				blueBox.setFocused(true);
 				greenBox.setFocused(false);
 			}
 			greenBox.textboxKeyTyped(par1, par2);
-		}
-		else if (blueBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+		} else if (blueBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				redBox.setFocused(true);
 				blueBox.setFocused(false);
 			}
@@ -125,8 +112,7 @@ public class EditColorGui extends GuiScreen
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
-	{
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.redBox.drawTextBox();
 		this.greenBox.drawTextBox();
@@ -147,19 +133,16 @@ public class EditColorGui extends GuiScreen
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	public void mouseClicked(int one, int two, int three) throws IOException
-	{
+	public void mouseClicked(int one, int two, int three) throws IOException {
 		this.redBox.mouseClicked(one, two, three);
 		this.greenBox.mouseClicked(one, two, three);
 		this.blueBox.mouseClicked(one, two, three);
 		super.mouseClicked(one, two, three);
 	}
 
-	public void actionPerformed(GuiButton button)
-	{
+	public void actionPerformed(GuiButton button) {
 		//If they press the "save" button, we check if we need to save changes
-		if (button.id == 2)
-		{
+		if (button.id == 2) {
 			//If there is not a correct red value don't go back to old screen
 			Integer red = redBox.clamp();
 			if (red == null) {
@@ -180,8 +163,7 @@ public class EditColorGui extends GuiScreen
 
 			Color newColor = new Color(red, green, blue);
 			//We only need to save changes if they actually changed the color
-			if (!Color.AreEqual(newColor, baseColor))
-			{
+			if (!Color.AreEqual(newColor, baseColor)) {
 				//Pass the color to the callback (the return value really isn't used I guess...)
 				callback.accept(newColor);
 			}
@@ -192,8 +174,7 @@ public class EditColorGui extends GuiScreen
 	}
 
 	@Override
-	public boolean doesGuiPauseGame()
-	{
+	public boolean doesGuiPauseGame() {
 		return false;
 	}
 }

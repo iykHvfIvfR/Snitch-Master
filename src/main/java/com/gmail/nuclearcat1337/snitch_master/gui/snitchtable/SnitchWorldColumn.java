@@ -11,48 +11,40 @@ import java.util.List;
 /**
  * Created by Mr_Little_Kitty on 1/3/2017.
  */
-public class SnitchWorldColumn implements TableColumn<Snitch>
-{
+public class SnitchWorldColumn implements TableColumn<Snitch> {
 	private static Minecraft mc;
 
-	public SnitchWorldColumn()
-	{
+	public SnitchWorldColumn() {
 		mc = Minecraft.getMinecraft();
 	}
 
 	@Override
-	public GuiButton[] prepareEntry(Snitch item)
-	{
+	public GuiButton[] prepareEntry(Snitch item) {
 		return null;
 	}
 
 	@Override
-	public String getColumnName()
-	{
+	public String getColumnName() {
 		return "World";
 	}
 
 	@Override
-	public boolean doBoundsCheck()
-	{
+	public boolean doBoundsCheck() {
 		return false;
 	}
 
 	@Override
-	public void clicked(Snitch item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void clicked(Snitch item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 
 	}
 
 	@Override
-	public void released(Snitch item, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void released(Snitch item, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 
 	}
 
 	@Override
-	public void draw(Snitch snitch, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY)
-	{
+	public void draw(Snitch snitch, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
 		String text = snitch.getLocation().getWorld();
 		int yFinal = yPos + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
 		int nameWidth = mc.fontRenderer.getStringWidth(text);
@@ -61,27 +53,23 @@ public class SnitchWorldColumn implements TableColumn<Snitch>
 	}
 
 	@Override
-	public int getDrawWidth(Snitch snitch)
-	{
+	public int getDrawWidth(Snitch snitch) {
 		String text = snitch.getWorld();
 		return mc.fontRenderer.getStringWidth(text);
 	}
 
 	@Override
-	public List<String> hover(Snitch snitch, int xPos, int yPos)
-	{
+	public List<String> hover(Snitch snitch, int xPos, int yPos) {
 		return null;
 	}
 
 	@Override
-	public boolean canSort()
-	{
+	public boolean canSort() {
 		return true;
 	}
 
 	@Override
-	public int compare(Snitch o1, Snitch o2)
-	{
+	public int compare(Snitch o1, Snitch o2) {
 		return o1.getWorld().compareTo(o2.getWorld());
 	}
 }

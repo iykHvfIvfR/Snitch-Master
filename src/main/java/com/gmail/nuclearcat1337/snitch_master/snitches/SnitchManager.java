@@ -18,8 +18,7 @@ import org.apache.commons.io.FileUtils;
 /**
  * Created by Mr_Little_Kitty on 3/10/2017.
  */
-public class SnitchManager
-{
+public class SnitchManager {
 	private static final Minecraft mc = Minecraft.getMinecraft();
 
 	private static final String serversFolder = SnitchMaster.modDataFolder + "/Servers";
@@ -32,8 +31,7 @@ public class SnitchManager
 	private static final SnitchListQualifier neutral = new SnitchListQualifier(String.format("origin == '%s'", SnitchTags.FROM_MANUAL));
 	private static final SnitchListQualifier gone = new SnitchListQualifier(String.format("origin == '%s'", SnitchTags.IS_GONE));
 
-	private static SnitchList[] getDefaultSnitchLists(SnitchManager manager)
-	{
+	private static SnitchList[] getDefaultSnitchLists(SnitchManager manager) {
 		return new SnitchList[]{new SnitchList(manager, SnitchManager.friendly, true, "Friendly", new Color(0, (int) (0.56D * 255D), 255)),
 				new SnitchList(manager, SnitchManager.neutral, true, "Neutral", new Color(238, 210, 2)), //"Safety Yellow"
 				new SnitchList(manager, SnitchManager.gone, true, "Gone", new Color(220, 20, 60)) //TODO---Finish implementing this feature
@@ -47,8 +45,7 @@ public class SnitchManager
 	private String currentServer;
 	private boolean globalRender;
 
-	public SnitchManager(SnitchMaster snitchMaster)
-	{
+	public SnitchManager(SnitchMaster snitchMaster) {
 		this.snitchMaster = snitchMaster;
 
 		snitches = new LocatableObjectList<>();
@@ -68,17 +65,14 @@ public class SnitchManager
 	}
 
 	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent event)
-	{
+	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		//Make sure the player isn't dead and isn't null (idk why?)
-		if (mc.player == null || (!mc.player.isDead && mc.player.getDisplayName().equals(event.getEntity().getDisplayName())))
-		{
+		if (mc.player == null || (!mc.player.isDead && mc.player.getDisplayName().equals(event.getEntity().getDisplayName()))) {
 			//The name of the server they just joined
 			String newServer = null;
 			if (mc.isSingleplayer()) {
 				newServer = "single-player"; //Obviously
-			} else
-			{
+			} else {
 				//Clean the name of their current server
 				if (mc.getCurrentServerData() != null) {
 					newServer = mc.getCurrentServerData().serverIP.replace(":", "").replace("/", "");
@@ -88,8 +82,7 @@ public class SnitchManager
 			}
 
 			//They joined a new server
-			if (!newServer.equalsIgnoreCase(currentServer))
-			{
+			if (!newServer.equalsIgnoreCase(currentServer)) {
 				saveSnitchLists();
 				saveSnitches();
 
@@ -101,12 +94,10 @@ public class SnitchManager
 				File serverDirectory = new File(serversFolder, "/" + currentServer);
 				if (!serverDirectory.exists() || !serverDirectory.isDirectory()) {
 					serverDirectory.mkdir();
-				} else //If we just created the directory for this server then obviously there is no data yet
-				{
+				} else { //If we just created the directory for this server then obviously there is no data yet
 					loadSnitchLists();
 
-					if (snitchLists.isEmpty()) //If we load the lists from the file and there are none, create the default ones
-					{
+					if (snitchLists.isEmpty()) { //If we load the lists from the file and there are none, create the default ones
 						for (SnitchList list : getDefaultSnitchLists(this)) {
 							snitchLists.add(list);
 						}
@@ -125,8 +116,7 @@ public class SnitchManager
 		}
 	}
 
-	public SnitchList getRenderListForSnitch(Snitch snitch)
-	{
+	public SnitchList getRenderListForSnitch(Snitch snitch) {
 		for (SnitchList list : snitch.attachedSnitchLists)
 			if (list.shouldRenderSnitches()) {
 				return list;
@@ -135,15 +125,12 @@ public class SnitchManager
 		return null;
 	}
 
-	public List<SnitchList> getSnitchListsForSnitch(Snitch snitch)
-	{
+	public List<SnitchList> getSnitchListsForSnitch(Snitch snitch) {
 		return snitch.attachedSnitchLists;
 	}
 
-	public boolean doesListWithNameExist(String name)
-	{
-		for (SnitchList list : snitchLists)
-		{
+	public boolean doesListWithNameExist(String name) {
+		for (SnitchList list : snitchLists) {
 			if (list.getListName().equalsIgnoreCase(name)) {
 				return true;
 			}
@@ -151,8 +138,7 @@ public class SnitchManager
 		return false;
 	}
 
-	public SnitchList createSnitchList(String name, SnitchListQualifier qualifier, boolean render, Color color)
-	{
+	public SnitchList createSnitchList(String name, SnitchListQualifier qualifier, boolean render, Color color) {
 		if (doesListWithNameExist(name)) {
 			return null;
 		}
@@ -172,16 +158,13 @@ public class SnitchManager
 		return list;
 	}
 
-	public boolean removeSnitchList(String name)
-	{
+	public boolean removeSnitchList(String name) {
 		if (!doesListWithNameExist(name)) {
 			return false;
 		}
 
-		for (int i = 0; i < snitchLists.size(); i++)
-		{
-			if (snitchLists.get(i).getListName().equalsIgnoreCase(name))
-			{
+		for (int i = 0; i < snitchLists.size(); i++) {
+			if (snitchLists.get(i).getListName().equalsIgnoreCase(name)) {
 				SnitchList list = snitchLists.remove(i);
 
 				//Now we need to update the render priority of all the remaining snitch lists
@@ -202,23 +185,19 @@ public class SnitchManager
 		return false;
 	}
 
-	public void toggleGlobalRender()
-	{
+	public void toggleGlobalRender() {
 		this.globalRender = !this.globalRender;
 		snitchMaster.getSettings().setValue(GLOBAL_RENDER_KEY, globalRender);
 		snitchMaster.getSettings().saveSettings();
 	}
 
-	public boolean getGlobalRender()
-	{
+	public boolean getGlobalRender() {
 		return globalRender;
 	}
 
-	public ArrayList<Snitch> getSnitchesInList(SnitchList list)
-	{
+	public ArrayList<Snitch> getSnitchesInList(SnitchList list) {
 		ArrayList<Snitch> attachedSnitches = new ArrayList<>();
-		for (Snitch snitch : snitches)
-		{
+		for (Snitch snitch : snitches) {
 			if (snitch.attachedSnitchLists.contains(list)) {
 				attachedSnitches.add(snitch);
 			}
@@ -226,36 +205,31 @@ public class SnitchManager
 		return attachedSnitches;
 	}
 
-	public void setSnitchName(Snitch snitch, String name)
-	{
+	public void setSnitchName(Snitch snitch, String name) {
 		snitch.setSnitchName(name);
 
 		requalifySnitch(snitch);
 	}
 
-	public void setSnitchGroup(Snitch snitch, String group)
-	{
+	public void setSnitchGroup(Snitch snitch, String group) {
 		snitch.setGroupName(group);
 
 		requalifySnitch(snitch);
 	}
 
-	public void setSnitchCullTime(Snitch snitch, double cullTime)
-	{
+	public void setSnitchCullTime(Snitch snitch, double cullTime) {
 		snitch.setCullTime(cullTime);
 
 		requalifySnitch(snitch);
 	}
 
-	public void addTag(Snitch snitch, String tag)
-	{
+	public void addTag(Snitch snitch, String tag) {
 		snitch.tags.add(tag);
 
 		requalifySnitch(snitch);
 	}
 
-	public boolean removeTag(Snitch snitch, String tag)
-	{
+	public boolean removeTag(Snitch snitch, String tag) {
 		if(!snitch.tags.remove(tag)) {
 			return false;
 		}
@@ -265,8 +239,7 @@ public class SnitchManager
 		return true;
 	}
 
-	private void requalifySnitch(Snitch snitch)
-	{
+	private void requalifySnitch(Snitch snitch) {
 		snitch.attachedSnitchLists.clear();
 		for(SnitchList list : snitchLists) {
 			if(list.getQualifier().isQualified(snitch)) {
@@ -281,14 +254,12 @@ public class SnitchManager
 	 * Submits a Snitch for processing and adding to the Snitch collection.
 	 * The Snitch is added to all SnitchLists, JourneyMap, (if applicable) and then saved to a file.
 	 */
-	public void submitSnitch(Snitch snitch)
-	{
+	public void submitSnitch(Snitch snitch) {
 		//Check to see if there is already a snitch at this location
 		Snitch contains = snitches.get(snitch.getLocation());
 
 		//Check if the snitch that was submitted already exists
-		if (contains != null)
-		{
+		if (contains != null) {
 			//If it does then change the cull time and group
 			contains.setCullTime(snitch.getCullTime());
 			contains.setGroupName(snitch.getGroupName());
@@ -305,8 +276,7 @@ public class SnitchManager
 			//Clear the attached snitch lists because we are going to requalify the snitch because some attributes changed
 			contains.attachedSnitchLists.clear();
 		}
-		else
-		{
+		else {
 			//Just some reference rearranging
 			contains = snitch;
 			//add the snitch to the collection
@@ -314,8 +284,7 @@ public class SnitchManager
 		}
 
 		//Go through all the snitch lists to see if this snitch should be in them
-		for (SnitchList list : snitchLists)
-		{
+		for (SnitchList list : snitchLists) {
 			//If it should then attach the snitch list to the snitch
 			if (list.getQualifier().isQualified(contains)) {
 				attachListToSnitch(list, contains);
@@ -326,10 +295,8 @@ public class SnitchManager
 		snitchMaster.individualJourneyMapUpdate(contains);
 	}
 
-	public void saveSnitchLists()
-	{
-		if (currentServer != null)
-		{
+	public void saveSnitchLists() {
+		if (currentServer != null) {
 			ArrayList<String> csvs = new ArrayList<>();
 			for (SnitchList list : snitchLists) {
 				csvs.add(SnitchList.ConvertSnitchListToCSV(list));
@@ -339,10 +306,8 @@ public class SnitchManager
 		}
 	}
 
-	public void saveSnitches()
-	{
-		if (currentServer != null)
-		{
+	public void saveSnitches() {
+		if (currentServer != null) {
 			ArrayList<String> csvs = new ArrayList<>();
 			for (Snitch snitch : snitches) {
 				csvs.add(Snitch.ConvertSnitchToCSV(snitch));
@@ -352,43 +317,36 @@ public class SnitchManager
 		}
 	}
 
-	public LocatableObjectList<Snitch> getSnitches()
-	{
+	public LocatableObjectList<Snitch> getSnitches() {
 		return snitches;
 	}
 
-	public Collection<SnitchList> getSnitchLists()
-	{
+	public Collection<SnitchList> getSnitchLists() {
 		return snitchLists;
 	}
 
-	void journeyMapRedisplay(SnitchList list)
-	{
+	void journeyMapRedisplay(SnitchList list) {
 		snitchMaster.snitchListJourneyMapUpdate(list);
 	}
 
-	void changeListRenderPriority(SnitchList list, boolean increase)
-	{
+	void changeListRenderPriority(SnitchList list, boolean increase) {
 		int index = snitchLists.indexOf(list);
 		int targetIndex = increase ? index - 1 : index + 1;
 
 		//If they were successfully swapped
-		if (swapIfPossible(snitchLists, index, targetIndex))
-		{
+		if (swapIfPossible(snitchLists, index, targetIndex)) {
 			//Update the list objects actual render priority
 			snitchLists.get(index).setRenderPriorityUnchecked(index + 1);
 			snitchLists.get(targetIndex).setRenderPriorityUnchecked(targetIndex + 1);
 
-			for (Snitch snitch : getSnitchesInList(list))
-			{
+			for (Snitch snitch : getSnitchesInList(list)) {
 				//TODO---What we need to do is just sort the attached snitch lists by their render priority
 				Collections.sort(snitch.attachedSnitchLists, listComparator);
 			}
 		}
 	}
 
-	void requalifyList(SnitchList list)
-	{
+	void requalifyList(SnitchList list) {
 		for (Snitch snitch : getSnitchesInList(list)) {
 			snitch.attachedSnitchLists.remove(list);
 		}
@@ -403,12 +361,10 @@ public class SnitchManager
 		snitchMaster.fullJourneyMapUpdate();
 	}
 
-	private void attachListToSnitch(SnitchList list, Snitch snitch)
-	{
+	private void attachListToSnitch(SnitchList list, Snitch snitch) {
 		List<SnitchList> attached = snitch.attachedSnitchLists;
 		int i = 0;
-		for (; i < attached.size(); i++)
-		{
+		for (; i < attached.size(); i++) {
 			if (list.getRenderPriority() < attached.get(i).getRenderPriority()) {
 				break;
 			}
@@ -418,15 +374,13 @@ public class SnitchManager
 
 	//True if they were swapped
 	//False otherwise
-	private static <T> boolean swapIfPossible(List<T> list, int index, int targetIndex)
-	{
+	private static <T> boolean swapIfPossible(List<T> list, int index, int targetIndex) {
 		if (list.size() < 2) { //Cant swap if there are less than 2 items
 			return false;
 		}
 
 		//Make sure both the indices are valid for the list
-		if (index >= 0 && index < list.size() && targetIndex >= 0 && targetIndex < list.size())
-		{
+		if (index >= 0 && index < list.size() && targetIndex >= 0 && targetIndex < list.size()) {
 			T temp = list.get(targetIndex);
 			list.set(targetIndex, list.get(index));
 			list.set(index, temp);
@@ -435,8 +389,7 @@ public class SnitchManager
 		return false;
 	}
 
-	private static void writeToCSV(File file, List<String> lines)
-	{
+	private static void writeToCSV(File file, List<String> lines) {
 		StringBuilder sb = new StringBuilder();
 		for (String line : lines) {
 			sb.append(line);
@@ -449,19 +402,13 @@ public class SnitchManager
 		} catch (IOException e) {}
 	}
 
-	private void loadSnitches()
-	{
-		if (currentServer != null)
-		{
+	private void loadSnitches() {
+		if (currentServer != null) {
 			File file = new File(serversFolder, "/" + currentServer + "/" + SNITCHES_FILE);
-			try
-			{
-				if (file.exists())
-				{
-					try (BufferedReader br = new BufferedReader(new FileReader(file)))
-					{
-						for (String line = null; (line = br.readLine()) != null; )
-						{
+			try {
+				if (file.exists()) {
+					try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+						for (String line = null; (line = br.readLine()) != null; ) {
 							Snitch snitch = Snitch.GetSnitchFromCSV(line);
 							if (snitch != null) {
 								submitSnitch(snitch);
@@ -470,26 +417,19 @@ public class SnitchManager
 					}
 				}
 			}
-			catch (IOException e)
-			{
+			catch (IOException e) {
 
 			}
 		}
 	}
 
-	private void loadSnitchLists()
-	{
-		if (currentServer != null)
-		{
+	private void loadSnitchLists() {
+		if (currentServer != null) {
 			File file = new File(serversFolder, "/" + currentServer + "/" + SNITCH_LISTS_FILE);
-			try
-			{
-				if (file.exists())
-				{
-					try (BufferedReader br = new BufferedReader(new FileReader(file)))
-					{
-						for (String line = null; (line = br.readLine()) != null; )
-						{
+			try {
+				if (file.exists()) {
+					try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+						for (String line = null; (line = br.readLine()) != null; ) {
 							SnitchList list = SnitchList.GetSnitchListFromCSV(line, this);
 							if (list != null) {
 								this.snitchLists.add(list);
@@ -498,8 +438,7 @@ public class SnitchManager
 					}
 				}
 			}
-			catch (IOException e)
-			{
+			catch (IOException e) {
 
 			}
 		}
@@ -508,11 +447,9 @@ public class SnitchManager
 	/**
 	 * A comparator that sorts SnitchLists according to their render priorities.
 	 */
-	private static class SnitchListComparator implements Comparator<SnitchList>
-	{
+	private static class SnitchListComparator implements Comparator<SnitchList> {
 		@Override
-		public int compare(SnitchList one, SnitchList two)
-		{
+		public int compare(SnitchList one, SnitchList two) {
 			return Integer.compare(one.getRenderPriority(), two.getRenderPriority());
 		}
 	}

@@ -12,19 +12,16 @@ import net.minecraft.client.gui.GuiScreen;
 /**
  * Created by Mr_Little_Kitty on 9/11/2016.
  */
-public class MainGui extends GuiScreen
-{
+public class MainGui extends GuiScreen {
 	private SnitchMaster snitchMaster;
 
-	public MainGui(SnitchMaster snitchMaster)
-	{
+	public MainGui(SnitchMaster snitchMaster) {
 		this.snitchMaster = snitchMaster;
 		SnitchListRemoveColumn.removedSnitchLists.clear();
 		SnitchRemoveColumn.removedSnitches.clear();
 	}
 
-	public void initGui()
-	{
+	public void initGui() {
 		this.buttonList.clear();
 
 		String updateButtonMessage = snitchMaster.getChatSnitchParser().isUpdatingSnitchList() ? "Cancel Snitch Update" : "Full Snitch Update";
@@ -57,12 +54,10 @@ public class MainGui extends GuiScreen
 		this.buttonList.add(new GuiButton(5, xPos, yPos, "Done"));
 	}
 
-	public void actionPerformed(GuiButton button)
-	{
+	public void actionPerformed(GuiButton button) {
 		SnitchListRemoveColumn.removedSnitchLists.clear();
 		SnitchRemoveColumn.removedSnitches.clear();
-		switch (button.id)
-		{
+		switch (button.id) {
 			case 0: //"Full Snitch Update" or "Cancel Snitch Update"
 				if (snitchMaster.getChatSnitchParser().isUpdatingSnitchList()) {
 					snitchMaster.getChatSnitchParser().resetUpdatingSnitchList(true);
@@ -73,8 +68,7 @@ public class MainGui extends GuiScreen
 				this.mc.setIngameFocus();
 				break;
 			case 1:
-				if (snitchMaster.getChatSnitchParser().isUpdatingSnitchList())
-				{
+				if (snitchMaster.getChatSnitchParser().isUpdatingSnitchList()) {
 					snitchMaster.getChatSnitchParser().resetUpdatingSnitchList(true);
 					this.mc.displayGuiScreen((GuiScreen) null);
 					this.mc.setIngameFocus();
@@ -101,8 +95,7 @@ public class MainGui extends GuiScreen
 	}
 
 	@Override
-	public boolean doesGuiPauseGame()
-	{
+	public boolean doesGuiPauseGame() {
 		return false;
 	}
 }

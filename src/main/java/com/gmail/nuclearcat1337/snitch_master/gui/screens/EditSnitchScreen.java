@@ -16,8 +16,7 @@ import static com.gmail.nuclearcat1337.snitch_master.gui.snitchtable.SnitchRemov
 /**
  * Created by Mr_Little_Kitty on 5/28/2017.
  */
-public class EditSnitchScreen extends GuiScreen
-{
+public class EditSnitchScreen extends GuiScreen {
 	private SnitchManager snitchManager;
 	private final GuiScreen previousScreen;
 	private final Snitch snitch;
@@ -40,8 +39,7 @@ public class EditSnitchScreen extends GuiScreen
 	private TextBox cullTimeBox;
 	private TextBox distanceBox;
 
-	public EditSnitchScreen(Snitch snitch, SnitchManager snitchManager, GuiScreen previousScreen)
-	{
+	public EditSnitchScreen(Snitch snitch, SnitchManager snitchManager, GuiScreen previousScreen) {
 		this.snitch = snitch;
 		this.snitchManager = snitchManager;
 		this.previousScreen = previousScreen;
@@ -49,8 +47,7 @@ public class EditSnitchScreen extends GuiScreen
 	}
 
 	@Override
-	public void initGui()
-	{
+	public void initGui() {
 		yStartHeight = this.height/2 - (GuiConstants.STANDARD_TEXTBOX_HEIGHT*3) - (fontRenderer.FONT_HEIGHT*3) - (GuiConstants.STANDARD_SEPARATION_DISTANCE/2) - (GuiConstants.STANDARD_SEPARATION_DISTANCE*2);
 		xTotalWidth = GuiConstants.MEDIUM_TEXBOX_LENGTH*2 + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 		xLeft = this.width/2 - xTotalWidth/2;
@@ -101,8 +98,7 @@ public class EditSnitchScreen extends GuiScreen
 		String text;
 		if (!SnitchMaster.instance.getCurrentWorld().equalsIgnoreCase(loc.getWorld())) {
 			text = "N/A";
-		} else
-		{
+		} else {
 			int distance = getDistanceFromPlayer(loc.getX(), loc.getY(), loc.getZ());
 			text = "" + distance+ " m";
 		}
@@ -124,8 +120,7 @@ public class EditSnitchScreen extends GuiScreen
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
-	{
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 
 		this.nameBox.drawTextBox();
@@ -157,19 +152,14 @@ public class EditSnitchScreen extends GuiScreen
 	}
 
 	@Override
-	public void actionPerformed(GuiButton button)
-	{
+	public void actionPerformed(GuiButton button) {
 		//"Done" button
 		if(button.id == 1) {
 			saveSnitch();
-		} else if(button.id == 2) //"Cancel" button
-		{
+		} else if(button.id == 2) { //"Cancel" button
 			mc.displayGuiScreen(previousScreen);
-		}
-		else if(button.id == 3) //"Delete" button
-		{
-			if(onConfirmationButton)
-			{
+		} else if(button.id == 3) { //"Delete" button
+			if(onConfirmationButton) {
 				snitchManager.getSnitches().remove(snitch);
 				removedSnitches.add(snitch.getLocation());
 
@@ -178,17 +168,14 @@ public class EditSnitchScreen extends GuiScreen
 				}
 
 				mc.displayGuiScreen(previousScreen);
-			}
-			else
-			{
+			} else {
 				onConfirmationButton = true;
 				button.x += button.width + GuiConstants.SMALL_SEPARATION_DISTANCE*2 + GuiConstants.SMALL_BUTTON_WIDTH*2 + GuiConstants.SMALL_SEPARATION_DISTANCE;
 			}
 		}
 	}
 
-	private void saveSnitch()
-	{
+	private void saveSnitch() {
 		snitchManager.setSnitchName(snitch,nameBox.getText());
 		snitchManager.setSnitchGroup(snitch,groupBox.getText());
 
@@ -198,34 +185,25 @@ public class EditSnitchScreen extends GuiScreen
 	}
 
 	@Override
-	public void keyTyped(char par1, int par2) throws IOException
-	{
-		if(par2 == Keyboard.KEY_RETURN)
-		{
+	public void keyTyped(char par1, int par2) throws IOException {
+		if(par2 == Keyboard.KEY_RETURN) {
 			saveSnitch();
 			return;
 		}
 
-		if(nameBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+		if(nameBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				groupBox.setFocused(true);
 				nameBox.setFocused(false);
 			}
 			nameBox.textboxKeyTyped(par1, par2);
-		}
-		else if(groupBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+		} else if(groupBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				nameBox.setFocused(true);
 				groupBox.setFocused(false);
 			}
 			groupBox.textboxKeyTyped(par1, par2);
-		}
-		else
-		{
+		} else {
 			if (par2 == Keyboard.KEY_TAB) {
 				nameBox.setFocused(true);
 			}
@@ -234,21 +212,18 @@ public class EditSnitchScreen extends GuiScreen
 	}
 
 	@Override
-	public void mouseClicked(int one, int two, int three) throws IOException
-	{
+	public void mouseClicked(int one, int two, int three) throws IOException {
 		nameBox.mouseClicked(one,two,three);
 		groupBox.mouseClicked(one,two,three);
 		super.mouseClicked(one, two, three);
 	}
 
 	@Override
-	public boolean doesGuiPauseGame()
-	{
+	public boolean doesGuiPauseGame() {
 		return false;
 	}
 
-	private int getDistanceFromPlayer(int x, int y, int z)
-	{
+	private int getDistanceFromPlayer(int x, int y, int z) {
 		int x1 = x - (int) mc.player.posX;
 		int y1 = y - (int) mc.player.posY;
 		int z1 = z - (int) mc.player.posZ;

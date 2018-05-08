@@ -10,8 +10,7 @@ import java.util.List;
 /**
  * Created by Mr_Little_Kitty on 1/2/2017.
  */
-public class TableButtonColumn<T> implements TableColumn<T>
-{
+public class TableButtonColumn<T> implements TableColumn<T> {
 	private static Minecraft mc;
 
 	private final String columnName;
@@ -19,8 +18,7 @@ public class TableButtonColumn<T> implements TableColumn<T>
 	private final int buttonWidth;
 	private final OnButtonClick<T> onClick;
 
-	public TableButtonColumn(String columnName, String buttonText, int buttonWidth, OnButtonClick<T> onClick)
-	{
+	public TableButtonColumn(String columnName, String buttonText, int buttonWidth, OnButtonClick<T> onClick) {
 		mc = Minecraft.getMinecraft();
 		this.columnName = columnName;
 		this.buttonText = buttonText;
@@ -29,28 +27,24 @@ public class TableButtonColumn<T> implements TableColumn<T>
 	}
 
 	@Override
-	public GuiButton[] prepareEntry(T item)
-	{
+	public GuiButton[] prepareEntry(T item) {
 		GuiButton[] buttons = new GuiButton[1];
 		buttons[0] = new GuiButton(0, 0, 0, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, buttonText);
 		return buttons;
 	}
 
 	@Override
-	public String getColumnName()
-	{
+	public String getColumnName() {
 		return columnName;
 	}
 
 	@Override
-	public boolean doBoundsCheck()
-	{
+	public boolean doBoundsCheck() {
 		return true;
 	}
 
 	@Override
-	public void clicked(T item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void clicked(T item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 		//Don't allow right clicks on the button
 		if (!leftClick) {
 			return;
@@ -62,14 +56,12 @@ public class TableButtonColumn<T> implements TableColumn<T>
 	}
 
 	@Override
-	public void released(T list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void released(T list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 		buttons[0].mouseReleased(xPos, yPos);
 	}
 
 	@Override
-	public void draw(T list, int xPosition, int yPosition, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY)
-	{
+	public void draw(T list, int xPosition, int yPosition, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
 		yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
 		int xPos = xPosition + (columnWidth / 2) - (buttonWidth / 2);
 
@@ -80,31 +72,26 @@ public class TableButtonColumn<T> implements TableColumn<T>
 	}
 
 	@Override
-	public int getDrawWidth(T list)
-	{
+	public int getDrawWidth(T list) {
 		return buttonWidth;
 	}
 
 	@Override
-	public List<String> hover(T item, int xPos, int yPos)
-	{
+	public List<String> hover(T item, int xPos, int yPos) {
 		return null;
 	}
 
 	@Override
-	public boolean canSort()
-	{
+	public boolean canSort() {
 		return false;
 	}
 
 	@Override
-	public int compare(T o1, T o2)
-	{
+	public int compare(T o1, T o2) {
 		return 0;
 	}
 
-	public interface OnButtonClick<T>
-	{
+	public interface OnButtonClick<T> {
 		void onClick(T item, GuiButton button, GuiScreen parent);
 	}
 }

@@ -25,8 +25,7 @@ import java.nio.charset.StandardCharsets;
  * Created by Mr_Little_Kitty on 9/11/2016.
  * Manages the current world the player is in. Handles servers with multiple worlds and single player.
  */
-public class WorldInfoListener
-{
+public class WorldInfoListener {
 	private final Minecraft mc = Minecraft.getMinecraft();
 	private final SnitchMaster snitchMaster;
 
@@ -37,8 +36,7 @@ public class WorldInfoListener
 	private static SimpleNetworkWrapper channel;
 	private static String worldID = "single_player";
 
-	public WorldInfoListener(SnitchMaster snitchMaster)
-	{
+	public WorldInfoListener(SnitchMaster snitchMaster) {
 		this.snitchMaster = snitchMaster;
 
 		channel = NetworkRegistry.INSTANCE.newSimpleChannel("world_name");
@@ -50,12 +48,9 @@ public class WorldInfoListener
 	}
 
 	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent event)
-	{
-		if (!mc.isSingleplayer() && mc.player != null && !mc.player.isDead)
-		{
-			if (mc.player.getDisplayName().equals(event.getEntity().getDisplayName()))
-			{
+	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+		if (!mc.isSingleplayer() && mc.player != null && !mc.player.isDead) {
+			if (mc.player.getDisplayName().equals(event.getEntity().getDisplayName())) {
 				worldID = null;
 				if (this.channel != null) {
 					requestWorldID();
@@ -65,11 +60,9 @@ public class WorldInfoListener
 		}
 	}
 
-	private void requestWorldID()
-	{
+	private void requestWorldID() {
 		long now = System.currentTimeMillis();
-		if (lastRequest + MIN_DELAY_MS < now)
-		{
+		if (lastRequest + MIN_DELAY_MS < now) {
 			channel.sendToServer(new WorldIDPacket());
 			lastRequest = System.currentTimeMillis();
 		}
@@ -79,10 +72,8 @@ public class WorldInfoListener
 	 * Gets the name of the current world the player is.
 	 * Returns "single player" is the player is playing single player.
 	 */
-	public String getWorldID()
-	{
-		if (lastResponse < lastRequest)
-		{
+	public String getWorldID() {
+		if (lastResponse < lastRequest) {
 			//No WorldInfo response so just use vanilla world names
 			WorldProvider provider = Minecraft.getMinecraft().world.provider;
 			if (provider instanceof WorldProviderEnd) {
@@ -101,32 +92,26 @@ public class WorldInfoListener
 	/**
 	 * The packet class to be sent to the server requesting the name of the world.
 	 */
-	public static class WorldIDPacket implements IMessage
-	{
+	public static class WorldIDPacket implements IMessage {
 		private String worldID;
 
-		public WorldIDPacket()
-		{
+		public WorldIDPacket() {
 
 		}
 
-		public WorldIDPacket(String worldID)
-		{
+		public WorldIDPacket(String worldID) {
 			this.worldID = worldID;
 		}
 
-		public String getWorldID()
-		{
+		public String getWorldID() {
 			return worldID;
 		}
 
-		public void fromBytes(ByteBuf buf)
-		{
+		public void fromBytes(ByteBuf buf) {
 			worldID = ByteBufUtils.readUTF8String(buf);
 		}
 
-		public void toBytes(ByteBuf buf)
-		{
+		public void toBytes(ByteBuf buf) {
 			byte[] bytes = "NAME".getBytes(StandardCharsets.UTF_8);
 			buf.clear();
 			buf.writeBytes(bytes);
@@ -136,12 +121,10 @@ public class WorldInfoListener
 	/**
 	 * Receives the response from the server with the name of the world the player is currently in.
 	 */
-	public static class WorldListener implements IMessageHandler<WorldIDPacket, IMessage>
-	{
+	public static class WorldListener implements IMessageHandler<WorldIDPacket, IMessage> {
 		@SideOnly(Side.CLIENT)
 		@Override
-		public IMessage onMessage(WorldIDPacket message, MessageContext ctx)
-		{
+		public IMessage onMessage(WorldIDPacket message, MessageContext ctx) {
 			lastResponse = System.currentTimeMillis();
 			worldID = message.getWorldID();
 			return null;

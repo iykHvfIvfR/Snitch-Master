@@ -5,15 +5,13 @@ import com.gmail.nuclearcat1337.snitch_master.locatableobjectlist.ILocation;
 /**
  * Created by Mr_Little_Kitty on 7/27/2016.
  */
-public class Location implements ILocation
-{
+public class Location implements ILocation {
 	private final int x;
 	private final int y;
 	private final int z;
 	private final String world;
 
-	public Location(int x, int y, int z, String world)
-	{
+	public Location(int x, int y, int z, String world) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -21,32 +19,27 @@ public class Location implements ILocation
 	}
 
 	@Override
-	public String getWorld()
-	{
+	public String getWorld() {
 		return world;
 	}
 
 	@Override
-	public int getX()
-	{
+	public int getX() {
 		return x;
 	}
 
 	@Override
-	public int getY()
-	{
+	public int getY() {
 		return y;
 	}
 
 	@Override
-	public int getZ()
-	{
+	public int getZ() {
 		return z;
 	}
 
 	@Override
-	public boolean equals(Object o)
-	{
+	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
 		}
@@ -70,8 +63,7 @@ public class Location implements ILocation
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		int result = x;
 		result = 31 * result + y;
 		result = 31 * result + z;
@@ -80,8 +72,7 @@ public class Location implements ILocation
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return String.format("[%s %d %d %d]", world, x, y, z);
 	}
 }

@@ -5,8 +5,7 @@ import net.minecraft.client.Minecraft;
 /**
  * Created by Mr_Little_Kitty on 9/23/2016.
  */
-public class GuiConstants
-{
+public class GuiConstants {
 	public static final int STANDARD_TEXTBOX_HEIGHT = 20;
 	public static final int STANDARD_BUTTON_HEIGHT = 20;
 

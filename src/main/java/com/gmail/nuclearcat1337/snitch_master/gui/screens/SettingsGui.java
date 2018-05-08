@@ -9,8 +9,7 @@ import net.minecraft.client.gui.GuiScreen;
 /**
  * Created by Mr_Little_Kitty on 12/29/2016.
  */
-public class SettingsGui extends GuiScreen
-{
+public class SettingsGui extends GuiScreen {
 	private final GuiScreen backToScreen;
 	private final Settings settings;
 
@@ -19,15 +18,13 @@ public class SettingsGui extends GuiScreen
 	private GuiButton renderTextButton;
 	private GuiButton manualModeButton;
 
-	public SettingsGui(GuiScreen backToScreen)
-	{
+	public SettingsGui(GuiScreen backToScreen) {
 		this.backToScreen = backToScreen;
 		//This is a hack so that this class can be used with the Forge "config" button
 		this.settings = SnitchMaster.instance.getSettings();
 	}
 
-	public void initGui()
-	{
+	public void initGui() {
 		this.buttonList.clear();
 
 		int xPos = (this.width / 2) - (GuiConstants.LONG_BUTTON_WIDTH / 2);
@@ -63,10 +60,8 @@ public class SettingsGui extends GuiScreen
 		this.buttonList.add(new GuiButton(0, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Done"));
 	}
 
-	public void actionPerformed(GuiButton button)
-	{
-		switch (button.id)
-		{
+	public void actionPerformed(GuiButton button) {
+		switch (button.id) {
 			case 0: //"Done"
 				this.mc.displayGuiScreen(backToScreen);
 				break;
@@ -91,36 +86,31 @@ public class SettingsGui extends GuiScreen
 		}
 	}
 
-	private void nextManualModeState()
-	{
+	private void nextManualModeState() {
 		Boolean state = (Boolean) settings.getValue(Settings.MANUAL_MODE_KEY);
 		state = state ? Boolean.FALSE : Boolean.TRUE; //Invert the state
 		settings.setValue(Settings.MANUAL_MODE_KEY, state);
 	}
 
-	private void updateManualModeButton()
-	{
+	private void updateManualModeButton() {
 		Boolean state = (Boolean) settings.getValue(Settings.MANUAL_MODE_KEY);
 		String text = state ? "Manual Mode On" : "Manual Mode Off";
 		manualModeButton.displayString = text;
 	}
 
-	private void nextRenderTextState()
-	{
+	private void nextRenderTextState() {
 		Boolean state = (Boolean) settings.getValue(Settings.RENDER_TEXT_KEY);
 		state = state ? Boolean.FALSE : Boolean.TRUE; //Invert the state
 		settings.setValue(Settings.RENDER_TEXT_KEY, state);
 	}
 
-	private void updateRenderTextButton()
-	{
+	private void updateRenderTextButton() {
 		Boolean state = (Boolean) settings.getValue(Settings.RENDER_TEXT_KEY);
 		String text = state ? "Render Text On" : "Render Text Off";
 		renderTextButton.displayString = text;
 	}
 
-	private void nextChatSpamState()
-	{
+	private void nextChatSpamState() {
 		Settings.ChatSpamState chatSpamState = (Settings.ChatSpamState) settings.getValue(Settings.CHAT_SPAM_KEY);
 		if (chatSpamState == Settings.ChatSpamState.ON) {
 			chatSpamState = Settings.ChatSpamState.OFF;
@@ -132,8 +122,7 @@ public class SettingsGui extends GuiScreen
 		settings.setValue(Settings.CHAT_SPAM_KEY, chatSpamState);
 	}
 
-	private void updateChatSpamButton()
-	{
+	private void updateChatSpamButton() {
 		String jaListSpamText = "Updating Snitches Spam: ";
 		Settings.ChatSpamState chatSpamState = (Settings.ChatSpamState) settings.getValue(Settings.CHAT_SPAM_KEY);
 		if (chatSpamState == Settings.ChatSpamState.ON) {
@@ -147,8 +136,7 @@ public class SettingsGui extends GuiScreen
 	}
 
 	@Override
-	public boolean doesGuiPauseGame()
-	{
+	public boolean doesGuiPauseGame() {
 		return false;
 	}
 }

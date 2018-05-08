@@ -13,55 +13,46 @@ import java.util.List;
 /**
  * Created by Mr_Little_Kitty on 1/1/2017.
  */
-public class SnitchDistanceColumn implements TableColumn<Snitch>
-{
+public class SnitchDistanceColumn implements TableColumn<Snitch> {
 	private static Minecraft mc;
 
-	public SnitchDistanceColumn()
-	{
+	public SnitchDistanceColumn() {
 		mc = Minecraft.getMinecraft();
 	}
 
 	@Override
-	public GuiButton[] prepareEntry(Snitch item)
-	{
+	public GuiButton[] prepareEntry(Snitch item) {
 		return null;
 	}
 
 	@Override
-	public String getColumnName()
-	{
+	public String getColumnName() {
 		return "Distance";
 	}
 
 	@Override
-	public boolean doBoundsCheck()
-	{
+	public boolean doBoundsCheck() {
 		return false;
 	}
 
 	@Override
-	public void clicked(Snitch item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void clicked(Snitch item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 
 	}
 
 	@Override
-	public void released(Snitch item, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void released(Snitch item, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 
 	}
 
 	@Override
-	public void draw(Snitch snitch, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY)
-	{
+	public void draw(Snitch snitch, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
 		ILocation loc = snitch.getLocation();
 
 		String text;
 		if (!SnitchMaster.instance.getCurrentWorld().equalsIgnoreCase(loc.getWorld())) {
 			text = "NA";
-		} else
-		{
+		} else {
 			int distance = getDistanceFromPlayer(loc.getX(), loc.getY(), loc.getZ());
 			text = "" + distance;
 		}
@@ -73,8 +64,7 @@ public class SnitchDistanceColumn implements TableColumn<Snitch>
 	}
 
 	@Override
-	public int getDrawWidth(Snitch snitch)
-	{
+	public int getDrawWidth(Snitch snitch) {
 		ILocation loc = snitch.getLocation();
 
 		if (!SnitchMaster.instance.getCurrentWorld().equalsIgnoreCase(loc.getWorld())) {
@@ -87,20 +77,17 @@ public class SnitchDistanceColumn implements TableColumn<Snitch>
 	}
 
 	@Override
-	public List<String> hover(Snitch snitch, int xPos, int yPos)
-	{
+	public List<String> hover(Snitch snitch, int xPos, int yPos) {
 		return null;
 	}
 
 	@Override
-	public boolean canSort()
-	{
+	public boolean canSort() {
 		return true;
 	}
 
 	@Override
-	public int compare(Snitch snitch, Snitch other)
-	{
+	public int compare(Snitch snitch, Snitch other) {
 		ILocation snitchLoc = snitch.getLocation();
 		ILocation otherLoc = other.getLocation();
 		String world = SnitchMaster.instance.getCurrentWorld();
@@ -120,8 +107,7 @@ public class SnitchDistanceColumn implements TableColumn<Snitch>
 		}
 	}
 
-	private int getDistanceFromPlayer(int x, int y, int z)
-	{
+	private int getDistanceFromPlayer(int x, int y, int z) {
 		int x1 = x - (int) mc.player.posX;
 		int y1 = y - (int) mc.player.posY;
 		int z1 = z - (int) mc.player.posZ;

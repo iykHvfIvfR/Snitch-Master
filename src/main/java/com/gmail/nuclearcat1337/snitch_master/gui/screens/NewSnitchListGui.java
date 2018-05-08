@@ -18,8 +18,7 @@ import java.io.IOException;
 /**
  * Created by Mr_Little_Kitty on 9/18/2016.
  */
-public class NewSnitchListGui extends GuiScreen
-{
+public class NewSnitchListGui extends GuiScreen {
 	private static final String CREATE_NEW_LIST_STRING = "Create New Snitch List";
 
 	private SnitchMaster snitchMaster;
@@ -38,8 +37,7 @@ public class NewSnitchListGui extends GuiScreen
 	private int createNewListStringWidth;
 	private int buttonWidth;
 
-	public NewSnitchListGui(GuiScreen cancelToScreen, SnitchMaster snitchMaster)
-	{
+	public NewSnitchListGui(GuiScreen cancelToScreen, SnitchMaster snitchMaster) {
 		this.cancelToScreen = cancelToScreen;
 		this.snitchMaster = snitchMaster;
 	}
@@ -47,8 +45,7 @@ public class NewSnitchListGui extends GuiScreen
 	private static final int MAX_NAME_TEXT_LENGTH = 20;
 	private static final int MAX_COLOR_TEXT_LENGTH = 3;
 
-	public void initGui()
-	{
+	public void initGui() {
 		qualifierBoxWidth = mc.fontRenderer.getStringWidth(SnitchList.MAX_NAME_CHARACTERS + "WWW"); //TODO---Idk this is kind of just an arbitrary width
 		nameBoxWidth = qualifierBoxWidth;
 		rgbBoxWidth = nameBoxWidth / 3;
@@ -95,8 +92,7 @@ public class NewSnitchListGui extends GuiScreen
 		super.initGui();
 	}
 
-	public void updateScreen()
-	{
+	public void updateScreen() {
 		nameBox.updateCursorCounter();
 		qualifierBox.updateCursorCounter();
 		redBox.updateCursorCounter();
@@ -105,48 +101,33 @@ public class NewSnitchListGui extends GuiScreen
 		super.updateScreen();
 	}
 
-	public void keyTyped(char par1, int par2) throws IOException
-	{
-		if (nameBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+	public void keyTyped(char par1, int par2) throws IOException {
+		if (nameBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				qualifierBox.setFocused(true);
 				nameBox.setFocused(false);
 			}
 			nameBox.textboxKeyTyped(par1, par2);
-		}
-		else if (qualifierBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+		} else if (qualifierBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				redBox.setFocused(true);
 				qualifierBox.setFocused(false);
 			}
 			qualifierBox.textboxKeyTyped(par1, par2);
-		}
-		else if (redBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+		} else if (redBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				greenBox.setFocused(true);
 				redBox.setFocused(false);
 			}
 			redBox.textboxKeyTyped(par1, par2);
-		}
-		else if (greenBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+		} else if (greenBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				blueBox.setFocused(true);
 				greenBox.setFocused(false);
 			}
 			greenBox.textboxKeyTyped(par1, par2);
-		}
-		else if (blueBox.isFocused())
-		{
-			if (par2 == Keyboard.KEY_TAB)
-			{
+		} else if (blueBox.isFocused()) {
+			if (par2 == Keyboard.KEY_TAB) {
 				nameBox.setFocused(true);
 				blueBox.setFocused(false);
 			}
@@ -156,8 +137,7 @@ public class NewSnitchListGui extends GuiScreen
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
-	{
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 
 		int constYValue = (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - mc.fontRenderer.FONT_HEIGHT / 2;
@@ -182,8 +162,7 @@ public class NewSnitchListGui extends GuiScreen
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	public void mouseClicked(int one, int two, int three) throws IOException
-	{
+	public void mouseClicked(int one, int two, int three) throws IOException {
 		this.nameBox.mouseClicked(one, two, three);
 		this.qualifierBox.mouseClicked(one, two, three);
 		this.redBox.mouseClicked(one, two, three);
@@ -192,10 +171,8 @@ public class NewSnitchListGui extends GuiScreen
 		super.mouseClicked(one, two, three);
 	}
 
-	public void actionPerformed(GuiButton button)
-	{
-		switch (button.id)
-		{
+	public void actionPerformed(GuiButton button) {
+		switch (button.id) {
 			case 1:
 				Minecraft.getMinecraft().displayGuiScreen(cancelToScreen);
 				break;
@@ -235,8 +212,7 @@ public class NewSnitchListGui extends GuiScreen
 	}
 
 	@Override
-	public boolean doesGuiPauseGame()
-	{
+	public boolean doesGuiPauseGame() {
 		return false;
 	}
 }

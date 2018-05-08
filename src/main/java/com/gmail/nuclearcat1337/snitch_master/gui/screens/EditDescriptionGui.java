@@ -5,7 +5,4 @@ import net.minecraft.client.gui.GuiScreen;
 /**
  * Created by Mr_Little_Kitty on 1/7/2017.
  */
-public class EditDescriptionGui extends GuiScreen
-{
-
-}
+public class EditDescriptionGui extends GuiScreen {}

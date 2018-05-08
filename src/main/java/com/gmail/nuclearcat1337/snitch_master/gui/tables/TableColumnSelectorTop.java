@@ -11,8 +11,7 @@ import java.util.List;
 /**
  * Created by Mr_Little_Kitty on 1/1/2017.
  */
-public class TableColumnSelectorTop<T> extends GuiScreen
-{
+public class TableColumnSelectorTop<T> extends GuiScreen {
 	private static final int DONE_BUTTON_WIDTH = GuiConstants.SMALL_BUTTON_WIDTH * 3;
 	private static final int SAVE_BUTTON_WIDTH = GuiConstants.SMALL_BUTTON_WIDTH * 3;
 
@@ -26,8 +25,7 @@ public class TableColumnSelectorTop<T> extends GuiScreen
 	private final String title;
 	private final int titleWidth;
 
-	public TableColumnSelectorTop(TableTopGui<T> tableTop, List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns, String title)
-	{
+	public TableColumnSelectorTop(TableTopGui<T> tableTop, List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns, String title) {
 		this.tableTop = tableTop;
 
 		this.allColumns = allColumns;
@@ -38,8 +36,7 @@ public class TableColumnSelectorTop<T> extends GuiScreen
 	}
 
 	@Override
-	public void initGui()
-	{
+	public void initGui() {
 		selectorGui = new TableColumnSelector<>(this, allColumns, renderColumns);
 
 		buttonList.clear();
@@ -57,13 +54,11 @@ public class TableColumnSelectorTop<T> extends GuiScreen
 	}
 
 	@Override
-	public void actionPerformed(GuiButton button)
-	{
+	public void actionPerformed(GuiButton button) {
 		if (!button.enabled) {
 			return;
 		}
-		switch (button.id)
-		{
+		switch (button.id) {
 			case 0: //Done
 				this.mc.displayGuiScreen(tableTop);
 				break;
@@ -78,8 +73,7 @@ public class TableColumnSelectorTop<T> extends GuiScreen
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
-	{
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		//Draw the background, the actual table, and anything from out parent
 		this.drawDefaultBackground();
 		this.selectorGui.drawScreen(mouseX, mouseY, partialTicks);
@@ -94,45 +88,37 @@ public class TableColumnSelectorTop<T> extends GuiScreen
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseEvent)
-	{
+	protected void mouseClicked(int mouseX, int mouseY, int mouseEvent) {
 		selectorGui.mouseClicked(mouseX, mouseY, mouseEvent);
-		try
-		{
+		try {
 			super.mouseClicked(mouseX, mouseY, mouseEvent);
 		}
-		catch (IOException e)
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void mouseReleased(int arg1, int arg2, int arg3)
-	{
+	public void mouseReleased(int arg1, int arg2, int arg3) {
 		//This method is ESSENTIAL to the functioning of the scroll bar
 		selectorGui.mouseReleased(arg1, arg2, arg3);
 		super.mouseReleased(arg1, arg2, arg3);
 	}
 
 	@Override
-	public void handleMouseInput()
-	{
+	public void handleMouseInput() {
 		//This method is ESSENTIAL to the functioning of the scroll bar
 		selectorGui.handleMouseInput();
-		try
-		{
+		try {
 			super.handleMouseInput();
 		}
-		catch (IOException e)
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public boolean doesGuiPauseGame()
-	{
+	public boolean doesGuiPauseGame() {
 		return false;
 	}
 }

@@ -11,48 +11,40 @@ import java.util.List;
 /**
  * Created by Mr_Little_Kitty on 1/1/2017.
  */
-public class SnitchGroupColumn implements TableColumn<Snitch>
-{
+public class SnitchGroupColumn implements TableColumn<Snitch> {
 	private static Minecraft mc;
 
-	public SnitchGroupColumn()
-	{
+	public SnitchGroupColumn() {
 		mc = Minecraft.getMinecraft();
 	}
 
 	@Override
-	public GuiButton[] prepareEntry(Snitch item)
-	{
+	public GuiButton[] prepareEntry(Snitch item) {
 		return null;
 	}
 
 	@Override
-	public String getColumnName()
-	{
+	public String getColumnName() {
 		return "Citadel Group";
 	}
 
 	@Override
-	public boolean doBoundsCheck()
-	{
+	public boolean doBoundsCheck() {
 		return false;
 	}
 
 	@Override
-	public void clicked(Snitch item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void clicked(Snitch item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 
 	}
 
 	@Override
-	public void released(Snitch item, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void released(Snitch item, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 
 	}
 
 	@Override
-	public void draw(Snitch snitch, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY)
-	{
+	public void draw(Snitch snitch, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
 		String text = snitch.getGroupName().isEmpty() ? "Undefined" : snitch.getGroupName();
 		int yFinal = yPos + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
 		int nameWidth = mc.fontRenderer.getStringWidth(text);
@@ -61,27 +53,23 @@ public class SnitchGroupColumn implements TableColumn<Snitch>
 	}
 
 	@Override
-	public int getDrawWidth(Snitch snitch)
-	{
+	public int getDrawWidth(Snitch snitch) {
 		String text = snitch.getGroupName().isEmpty() ? "Undefined" : snitch.getGroupName();
 		return mc.fontRenderer.getStringWidth(text);
 	}
 
 	@Override
-	public List<String> hover(Snitch snitch, int xPos, int yPos)
-	{
+	public List<String> hover(Snitch snitch, int xPos, int yPos) {
 		return null;
 	}
 
 	@Override
-	public boolean canSort()
-	{
+	public boolean canSort() {
 		return true;
 	}
 
 	@Override
-	public int compare(Snitch snitch, Snitch other)
-	{
+	public int compare(Snitch snitch, Snitch other) {
 		String one = snitch.getGroupName().isEmpty() ? "Undefined" : snitch.getGroupName();
 		String two = other.getGroupName().isEmpty() ? "Undefined" : other.getGroupName();
 

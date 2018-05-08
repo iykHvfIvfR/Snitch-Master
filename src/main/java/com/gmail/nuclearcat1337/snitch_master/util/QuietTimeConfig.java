@@ -7,8 +7,7 @@ import java.util.Arrays;
 /**
  * Created by Mr_Little_Kitty on 2/22/2017.
  */
-public class QuietTimeConfig
-{
+public class QuietTimeConfig {
 	//TL;DR: Don't even bother trying to read these and understand what they represent. Its not your destiny.
 	public static final QuietTimeConfig NORMAL = new QuietTimeConfig(new byte[]{1, 8, 2, 8, 3, 8, 4}, new String[]{});
 	public static final QuietTimeConfig HIDE_COORDS = new QuietTimeConfig(new byte[]{1, 8, 2, 8, 3, 8, 7, 6, 0, 4}, new String[]{"[world X X X]"});
@@ -18,27 +17,22 @@ public class QuietTimeConfig
 	public byte[] instructions;
 	public String[] literals;
 
-	public QuietTimeConfig(byte[] instructions, String[] literals)
-	{
+	public QuietTimeConfig(byte[] instructions, String[] literals) {
 		this.instructions = instructions;
 		this.literals = literals;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return Arrays.toString(instructions) + ":" + ToString(literals);
 	}
 
-	public static QuietTimeConfig GetDefaultQuietTimeConfig()
-	{
+	public static QuietTimeConfig GetDefaultQuietTimeConfig() {
 		return NORMAL;
 	}
 
-	public static QuietTimeConfig FromString(String value)
-	{
-		try
-		{
+	public static QuietTimeConfig FromString(String value) {
+		try {
 			String[] parts = value.split(":");
 			if (parts.length < 1) {
 				return GetDefaultQuietTimeConfig();
@@ -47,15 +41,13 @@ public class QuietTimeConfig
 			String[] literals = parts.length > 1 ? ParseStringArray(parts[1]) : new String[0];
 			return new QuietTimeConfig(bytes, literals);
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			SnitchMaster.instance.logger.info("");
 			return GetDefaultQuietTimeConfig();
 		}
 	}
 
-	private static String ToString(String[] literals)
-	{
+	private static String ToString(String[] literals) {
 		StringBuilder builder = new StringBuilder();
 		for (String str : literals) {
 			builder.append(str.replace(":", "").replace(";", "")).append(';');
@@ -63,13 +55,11 @@ public class QuietTimeConfig
 		return builder.toString();
 	}
 
-	private static String[] ParseStringArray(String str)
-	{
+	private static String[] ParseStringArray(String str) {
 		return str.split(";");
 	}
 
-	private static byte[] ParseByteArray(String str)
-	{
+	private static byte[] ParseByteArray(String str) {
 		str = str.replace("[", "").replace("]", "").replace(",", "");
 		String[] b = str.split(" ");
 		byte[] bytes = new byte[b.length];
@@ -80,8 +70,7 @@ public class QuietTimeConfig
 	}
 
 	@Override
-	public boolean equals(Object o)
-	{
+	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
 		}
@@ -99,8 +88,7 @@ public class QuietTimeConfig
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		int result = Arrays.hashCode(instructions);
 		result = 31 * result + Arrays.hashCode(literals);
 		return result;

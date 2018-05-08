@@ -14,8 +14,7 @@ import net.minecraft.util.text.event.HoverEvent;
 /**
  * Created by Mr_Little_Kitty on 12/30/2016.
  */
-public class QuietTimeHandler implements IAlertRecipient
-{
+public class QuietTimeHandler implements IAlertRecipient {
 	private static final byte B_PLAYER_NAME = 1;
 	private static final byte B_ACTIVITY_TEXT = 2;
 	private static final byte B_SNITCH_NAME = 3;
@@ -35,14 +34,12 @@ public class QuietTimeHandler implements IAlertRecipient
 	private byte[] instructions;
 	private String[] literals;
 
-	public QuietTimeHandler(Settings settings)
-	{
+	public QuietTimeHandler(Settings settings) {
 		this.settings = settings;
 	}
 
 	@Override
-	public void receiveSnitchAlert(SnitchAlert alert)
-	{
+	public void receiveSnitchAlert(SnitchAlert alert) {
 		index = 0;
 		QuietTimeConfig quietTimeConfig = (QuietTimeConfig) settings.getValue(QUIET_TIME_CONFIG_KEY);
 		instructions = quietTimeConfig.instructions;
@@ -51,62 +48,51 @@ public class QuietTimeHandler implements IAlertRecipient
 		ITextComponent currentComponent = null;
 		StringBuilder builder = new StringBuilder("* ");
 
-		for (index = 0; index < instructions.length; index++)
-		{
+		for (index = 0; index < instructions.length; index++) {
 			byte instruction = instructions[index];
 			//If its the hover instruction then make sure there at least another 2 instructions
-			if (instruction == B_HOVER_EVENT && index + 2 < instructions.length)
-			{
+			if (instruction == B_HOVER_EVENT && index + 2 < instructions.length) {
 				ITextComponent hoverComponent = parseHover(alert);
-				if (hoverComponent != null)
-				{
-					if (currentComponent == null)
-					{
+				if (hoverComponent != null) {
+					if (currentComponent == null) {
 						currentComponent = new TextComponentString(builder.toString()).setStyle(aqua.createShallowCopy());
 						builder = new StringBuilder();
 					}
-					else if (builder.length() > 0)
-					{
+					else if (builder.length() > 0) {
 						currentComponent.appendSibling(new TextComponentString(builder.toString()).setStyle(aqua.createShallowCopy()));
 						builder = new StringBuilder();
 					}
 					currentComponent.appendSibling(hoverComponent);
 				}
-				else
-				{
+				else {
 					SnitchMaster.SendMessageToPlayer("Your quiet time config has an invalid hover instruction. Please load a working config.");
 					return;
 				}
 			}
-			else if (instruction == B_STRING_SUBSTITUTION && index + 1 < instructions.length)
-			{
+			else if (instruction == B_STRING_SUBSTITUTION && index + 1 < instructions.length) {
 				index++;
 				String sub = getStringSubstitution(instructions[index]);
 				if (sub != null) {
 					builder.append(sub);
-				} else
-				{
+				} else {
 					SnitchMaster.SendMessageToPlayer("Your quiet time config has an invalid string sub. Please load a working config.");
 					return;
 				}
 			}
 			else if (instruction == B_INSERT_SPACE) {
 				builder.append(" ");
-			} else
-			{
+			} else {
 				String possibleText = getTextForCurrentInstruction(alert);
 				if (possibleText != null) {
 					builder.append(possibleText);
-				} else
-				{
+				} else {
 					SnitchMaster.SendMessageToPlayer("Your quiet time config has an invalid instruction. Please load a working config.");
 					return;
 				}
 			}
 		}
 
-		if (builder.length() > 0)
-		{
+		if (builder.length() > 0) {
 			ITextComponent comp = new TextComponentString(builder.toString()).setStyle(aqua.createShallowCopy());
 			if (currentComponent == null) {
 				currentComponent = comp;
@@ -115,8 +101,7 @@ public class QuietTimeHandler implements IAlertRecipient
 			}
 		}
 
-		if (currentComponent != null)
-		{
+		if (currentComponent != null) {
 			SnitchMaster.logger.info("Original Message: " + alert.getRawMessage().getUnformattedText());
 			alert.setRawMessage(currentComponent);
 		}
@@ -124,10 +109,8 @@ public class QuietTimeHandler implements IAlertRecipient
 
 	//PRECONDITION: Index is on the HOVER INSTRUCTION
 	//POSTCONDITION: Index is on the instruction AFTER the last hover part --WAIT MAYBE NOT
-	private ITextComponent parseHover(SnitchAlert alert)
-	{
-		try
-		{
+	private ITextComponent parseHover(SnitchAlert alert) {
+		try {
 			//If we are parsing a hover then the current index is for the hover instruction
 			//That means that we have 2 parts: 1-TEXT YOU SEE IN CHAT, 2-TEXT THAT YOU SEE WHEN YOU HOVER
 			//Either of those 2 could be a string substitution or a variable instruction
@@ -147,20 +130,17 @@ public class QuietTimeHandler implements IAlertRecipient
 			index--;//????
 			return hoverComponent;
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			return null;
 		}
 	}
 
-	private String getTextForCurrentInstruction(SnitchAlert alert)
-	{
+	private String getTextForCurrentInstruction(SnitchAlert alert) {
 		if (index >= instructions.length) {
 			return null;
 		}
 		byte inst1 = instructions[index];
-		if (inst1 == B_STRING_SUBSTITUTION)
-		{
+		if (inst1 == B_STRING_SUBSTITUTION) {
 			index++;
 			if (index >= instructions.length) {
 				return null;
@@ -172,16 +152,14 @@ public class QuietTimeHandler implements IAlertRecipient
 		}
 	}
 
-	private String getStringSubstitution(byte index)
-	{
+	private String getStringSubstitution(byte index) {
 		if (index < 0 || index >= literals.length) {
 			return null;
 		}
 		return literals[index];
 	}
 
-	private static String GetString(SnitchAlert alert, int instruction)
-	{
+	private static String GetString(SnitchAlert alert, int instruction) {
 		if (instruction == B_PLAYER_NAME) {
 			return alert.getPlayerName();
 		}

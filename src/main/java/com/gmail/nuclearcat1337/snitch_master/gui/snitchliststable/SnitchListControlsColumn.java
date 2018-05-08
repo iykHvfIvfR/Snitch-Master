@@ -13,8 +13,7 @@ import java.util.List;
 /**
  * Created by Mr_Little_Kitty on 1/2/2017.
  */
-public class SnitchListControlsColumn implements TableColumn<SnitchList>
-{
+public class SnitchListControlsColumn implements TableColumn<SnitchList> {
 	private static final int ARROW_BUTTON_WIDTH = 20;
 	private static final int ON_OFF_BUTTON_WIDTH = 30;
 	private static final int ENTRY_WIDTH = ARROW_BUTTON_WIDTH + GuiConstants.SMALL_SEPARATION_DISTANCE + ON_OFF_BUTTON_WIDTH + GuiConstants.SMALL_SEPARATION_DISTANCE + ARROW_BUTTON_WIDTH;
@@ -24,16 +23,14 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList>
 	private final SnitchListsTable table;
 	private final SnitchManager manager;
 
-	public SnitchListControlsColumn(SnitchListsTable table, SnitchManager manager)
-	{
+	public SnitchListControlsColumn(SnitchListsTable table, SnitchManager manager) {
 		mc = Minecraft.getMinecraft();
 		this.table = table;
 		this.manager = manager;
 	}
 
 	@Override
-	public GuiButton[] prepareEntry(SnitchList list)
-	{
+	public GuiButton[] prepareEntry(SnitchList list) {
 		GuiButton[] buttons = new GuiButton[3];
 		buttons[0] = new GuiButton(0, 0, 0, ARROW_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "/\\");
 		buttons[1] = new GuiButton(1, 0, 0, ON_OFF_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, list.shouldRenderSnitches() ? "On" : "Off");
@@ -42,38 +39,30 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList>
 	}
 
 	@Override
-	public String getColumnName()
-	{
+	public String getColumnName() {
 		return "Controls";
 	}
 
 	@Override
-	public boolean doBoundsCheck()
-	{
+	public boolean doBoundsCheck() {
 		return true;
 	}
 
 	@Override
-	public void clicked(SnitchList list, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void clicked(SnitchList list, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 		//Don't allow right clicks
 		if (!leftClick) {
 			return;
 		}
 
-		if (buttons[0].mousePressed(mc, xPos, yPos)) //Up arrow button
-		{
+		if (buttons[0].mousePressed(mc, xPos, yPos)) { //Up arrow button
 			table.swapTableItems(slotIndex, slotIndex - 1);
 			list.increaseRenderPriority();
 			manager.saveSnitchLists();
-		}
-		else if (buttons[1].mousePressed(mc, xPos, yPos)) //Render toggle button
-		{
+		} else if (buttons[1].mousePressed(mc, xPos, yPos)) { //Render toggle button
 			list.setShouldRenderSnitches(!list.shouldRenderSnitches());
 			manager.saveSnitchLists();
-		}
-		else if (buttons[2].mousePressed(mc, xPos, yPos)) //Down arrow button
-		{
+		} else if (buttons[2].mousePressed(mc, xPos, yPos)) { //Down arrow button
 			table.swapTableItems(slotIndex, slotIndex + 1);
 			list.decreaseRenderPriority();
 			manager.saveSnitchLists();
@@ -81,16 +70,14 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList>
 	}
 
 	@Override
-	public void released(SnitchList list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-	{
+	public void released(SnitchList list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
 		buttons[0].mouseReleased(xPos, yPos);
 		buttons[1].mouseReleased(xPos, yPos);
 		buttons[2].mouseReleased(xPos, yPos);
 	}
 
 	@Override
-	public void draw(SnitchList list, int xPosition, int yPosition, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY)
-	{
+	public void draw(SnitchList list, int xPosition, int yPosition, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
 		yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
 
 		//Set the y position of all 3 buttons
@@ -117,26 +104,22 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList>
 	}
 
 	@Override
-	public int getDrawWidth(SnitchList list)
-	{
+	public int getDrawWidth(SnitchList list) {
 		return ENTRY_WIDTH;
 	}
 
 	@Override
-	public List<String> hover(SnitchList item, int xPos, int yPos)
-	{
+	public List<String> hover(SnitchList item, int xPos, int yPos) {
 		return null;
 	}
 
 	@Override
-	public boolean canSort()
-	{
+	public boolean canSort() {
 		return false;
 	}
 
 	@Override
-	public int compare(SnitchList o1, SnitchList o2)
-	{
+	public int compare(SnitchList o1, SnitchList o2) {
 		return 0;
 	}
 }

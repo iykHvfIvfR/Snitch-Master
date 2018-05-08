@@ -32,8 +32,7 @@ import java.util.regex.Pattern;
  * Created by Mr_Little_Kitty on 6/30/2016.
  * Handles the parsing of Snitched from the /jalist command.
  */
-public class ChatSnitchParser
-{
+public class ChatSnitchParser {
 	private static final Pattern snitchAlertPattern = Pattern.compile("\\s*\\*\\s*([^\\s]*)\\s\\b(entered snitch at|logged out in snitch at|logged in to snitch at)\\b\\s*([^\\s]*)\\s\\[([^\\s]*)\\s([-\\d]*)\\s([-\\d]*)\\s([-\\d]*)\\]");
 
 	private static final String[] resetSequences = {"Unknown command", " is empty", "You do not own any snitches nearby!"};
@@ -54,8 +53,7 @@ public class ChatSnitchParser
 	private int tickTimeout = 20;
 	private long nextUpdate = System.currentTimeMillis();
 
-	public ChatSnitchParser(SnitchMaster api)
-	{
+	public ChatSnitchParser(SnitchMaster api) {
 		this.snitchMaster = api;
 		this.manager = snitchMaster.getManager();
 		alertRecipients = new ArrayList<>();
@@ -68,14 +66,12 @@ public class ChatSnitchParser
 	/**
 	 * Adds a recipient that would like to receive Snitch alerts.
 	 */
-	public void addAlertRecipient(IAlertRecipient recipient)
-	{
+	public void addAlertRecipient(IAlertRecipient recipient) {
 		this.alertRecipients.add(recipient);
 	}
 
 	@SubscribeEvent
-	public void chatParser(ClientChatReceivedEvent event)
-	{
+	public void chatParser(ClientChatReceivedEvent event) {
 		ITextComponent msg = event.getMessage();
 		if (msg == null) {
 			return;
@@ -87,17 +83,14 @@ public class ChatSnitchParser
 		}
 
 		//Check if its the tps message (this is quick)
-		if (msgText.contains(tpsMessage))
-		{
+		if (msgText.contains(tpsMessage)) {
 			parseTPS(msgText);
 			return;
 		}
 
 		//Start of the chat message for creating a snitch block from /ctf or /ctr
-		if (msgText.contains("You've created"))
-		{
-			if (tryParsePlaceMessage(msg))
-			{
+		if (msgText.contains("You've created")) {
+			if (tryParsePlaceMessage(msg)) {
 				//Save the snitches now that we loaded a new one from chat
 				manager.saveSnitches();
 
@@ -106,10 +99,8 @@ public class ChatSnitchParser
 			}
 		}
 		//Start of the chat message for creating a snitch block from /ctf or /ctr
-		if (msgText.contains("You've broken"))
-		{
-			if (tryParseBreakMessage(msg))
-			{
+		if (msgText.contains("You've broken")) {
+			if (tryParseBreakMessage(msg)) {
 				//Save the snitches now that we loaded a new one from chat
 				manager.saveSnitches();
 
@@ -117,34 +108,28 @@ public class ChatSnitchParser
 				return;
 			}
 		}
-		else if(msgText.contains("Changed snitch name to"))
-		{
-			if(tryParseNameChangeMessage(msg))
-			{
+		else if(msgText.contains("Changed snitch name to")) {
+			if(tryParseNameChangeMessage(msg)) {
 				manager.saveSnitches();
 				return;
 			}
 		} else if (msgText.contains(" * ")) {
-			if (tryParseSnitchNotificationMessage(msg))
-			{
+			if (tryParseSnitchNotificationMessage(msg)) {
 				manager.saveSnitches();
 				return;
 			}
 		}
 
 		//Only check for reset sequences or /jalist messages if we are updating
-		if (updatingSnitchList)
-		{
-			if (containsAny(msgText, resetSequences)) //Check if this is any of the reset messages (this is kind of quick)
-			{
+		if (updatingSnitchList) {
+			if (containsAny(msgText, resetSequences)) { //Check if this is any of the reset messages (this is kind of quick)
 				resetUpdatingSnitchList(true);
 				SnitchMaster.SendMessageToPlayer("Finished full snitch update");
 				return;
 			}
 
 			//Check if this matches a snitch entry from the /jalist command (this is less quick than above)
-			if (tryParseJalistMsg(msg))
-			{
+			if (tryParseJalistMsg(msg)) {
 				//If they have it set to not spam the chat then cancel the chat message
 				Settings.ChatSpamState state = (Settings.ChatSpamState) snitchMaster.getSettings().getValue(Settings.CHAT_SPAM_KEY);
 				if (state == Settings.ChatSpamState.OFF || state == Settings.ChatSpamState.PAGENUMBERS)
@@ -162,8 +147,7 @@ public class ChatSnitchParser
 		//Build the snitch alert and send it to all the recipients
 		SnitchAlert alert = buildSnitchAlert(matcher, msg);
 
-		for (IAlertRecipient recipient : alertRecipients)
-		{
+		for (IAlertRecipient recipient : alertRecipients) {
 			recipient.receiveSnitchAlert(alert);
 		}
 
@@ -171,8 +155,7 @@ public class ChatSnitchParser
 		event.setMessage(alert.getRawMessage());
 	}
 
-	private boolean tryParseNameChangeMessage(ITextComponent msg)
-	{
+	private boolean tryParseNameChangeMessage(ITextComponent msg) {
 		String text = hoverInMessageToString(msg);
 		if (text == null) {
 			return false;
@@ -195,14 +178,12 @@ public class ChatSnitchParser
 			Location loc = new Location(x, y, z, world);
 			Snitch snitch = manager.getSnitches().get(loc);
 
-			if(snitch != null)
-			{
+			if(snitch != null) {
 				manager.setSnitchName(snitch, newName);
 				return true;
 			}
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			return false;
 		}
 		return false;
@@ -227,8 +208,7 @@ public class ChatSnitchParser
 		return text;
 	}
 
-	private boolean tryParsePlaceMessage(ITextComponent msg)
-	{
+	private boolean tryParsePlaceMessage(ITextComponent msg) {
 		String text = hoverInMessageToString(msg);
 		if (text == null) {
 			return false;
@@ -276,8 +256,7 @@ public class ChatSnitchParser
 		}
 	}
 
-	private boolean tryParseSnitchNotificationMessage(ITextComponent msg)
-	{
+	private boolean tryParseSnitchNotificationMessage(ITextComponent msg) {
 		String text = hoverInMessageToString(msg);
 		if (text == null) {
 			return false;
@@ -291,8 +270,7 @@ public class ChatSnitchParser
 		return true;
 	}
 
-	private boolean tryParseBreakMessage(ITextComponent msg)
-	{
+	private boolean tryParseBreakMessage(ITextComponent msg) {
 		String text = hoverInMessageToString(msg);
 		if (text == null) {
 			return false;
@@ -304,10 +282,8 @@ public class ChatSnitchParser
 		return true;
 	}
 
-	private Location parseSnitchFromChatBreak(String text)
-	{
-		try
-		{
+	private Location parseSnitchFromChatBreak(String text) {
+		try {
 			Pattern placePattern = Pattern.compile(
 				"^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:Hours to cull:\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
 			Matcher matcher = placePattern.matcher(text);
@@ -324,8 +300,7 @@ public class ChatSnitchParser
 
 			return new Location(x, y, z, worldName);
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			return null;
 		}
 	}
@@ -539,17 +514,12 @@ public class ChatSnitchParser
 	}
 
 	@SubscribeEvent
-	public void tickEvent(TickEvent.ClientTickEvent event)
-	{
-		if (updatingSnitchList)
-		{
-			if (System.currentTimeMillis() > nextUpdate)
-			{
+	public void tickEvent(TickEvent.ClientTickEvent event) {
+		if (updatingSnitchList) {
+			if (System.currentTimeMillis() > nextUpdate) {
 				//If they disconnect while updating is running we dont want the game to crash
-				if (Minecraft.getMinecraft().player != null)
-				{
-					if (maxJaListIndex != -1 && jaListIndex - 1 >= maxJaListIndex)
-					{
+				if (Minecraft.getMinecraft().player != null) {
+					if (maxJaListIndex != -1 && jaListIndex - 1 >= maxJaListIndex) {
 						resetUpdatingSnitchList(true);
 						SnitchMaster.SendMessageToPlayer("Finished targeted snitch update");
 						return;
@@ -573,24 +543,21 @@ public class ChatSnitchParser
 	/**
 	 * Returns true if SnitchMaster is currently updating from the /jalist command.
 	 */
-	public boolean isUpdatingSnitchList()
-	{
+	public boolean isUpdatingSnitchList() {
 		return updatingSnitchList;
 	}
 
 	/**
 	 * Begins updating Snitches from the /jalist command.
 	 */
-	public void updateSnitchList()
-	{
+	public void updateSnitchList() {
 		resetUpdatingSnitchList(false);
 
 		snitchesCopy = new HashSet<>();
 		loadedSnitches = new HashSet<>();
 
 		//Go through all the snitches that we have saved
-		for(Snitch snitch : manager.getSnitches())
-		{
+		for(Snitch snitch : manager.getSnitches()) {
 			//If the snitch isn't already marked as gone and is marked as jalist
 			if(!snitch.isTagged(SnitchTags.IS_GONE) && snitch.isTagged(SnitchTags.FROM_JALIST)) {
 				snitchesCopy.add(snitch); //Then we add it to the copy list
@@ -602,8 +569,7 @@ public class ChatSnitchParser
 		updatingSnitchList = true;
 	}
 
-	public void updateSnitchList(int startIndex, int stopIndex)
-	{
+	public void updateSnitchList(int startIndex, int stopIndex) {
 		resetUpdatingSnitchList(false);
 
 		jaListIndex = startIndex;
@@ -614,12 +580,10 @@ public class ChatSnitchParser
 		updatingSnitchList = true;
 	}
 
-	private void parseTPS(String message)
-	{
+	private void parseTPS(String message) {
 		message = message.substring(message.indexOf(':') + 1);
 		String[] tokens = message.split(", +"); // " 11.13, 11.25, 11.32"
-		if (tokens.length > 2)
-		{
+		if (tokens.length > 2) {
 			double a = 20.0;
 			double b = 20.0;
 			double c = 20.0;
@@ -649,10 +613,8 @@ public class ChatSnitchParser
 	 * Resets the updating of Snitches from the /jalist command.
 	 * If an update is currently in progress, it is stopped.
 	 */
-	public void resetUpdatingSnitchList(boolean save)
-	{
-		if(updatingSnitchList && snitchesCopy != null)
-		{
+	public void resetUpdatingSnitchList(boolean save) {
+		if(updatingSnitchList && snitchesCopy != null) {
 			//Remove all the snitches that we loaded from jalist from the copy
 			snitchesCopy.removeAll(loadedSnitches);
 
@@ -678,8 +640,7 @@ public class ChatSnitchParser
 		}
 	}
 
-	private static SnitchAlert buildSnitchAlert(Matcher matcher, ITextComponent message)
-	{
+	private static SnitchAlert buildSnitchAlert(Matcher matcher, ITextComponent message) {
 		String playerName = matcher.group(1);
 		String activity = matcher.group(2);
 		String snitchName = matcher.group(3);
@@ -690,10 +651,8 @@ public class ChatSnitchParser
 		return new SnitchAlert(playerName, x, y, z, activity, snitchName, worldName, message);
 	}
 
-	private static boolean containsAny(String message, String[] tokens)
-	{
-		for (String token : tokens)
-		{
+	private static boolean containsAny(String message, String[] tokens) {
+		for (String token : tokens) {
 			if (message.contains(token)) {
 				return true;
 			}

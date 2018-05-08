@@ -11,8 +11,7 @@ import java.util.*;
  * Created by Mr_Little_Kitty on 6/25/2016.
  * Represents a Snitch block in Minecraft. (Jukebox or Noteblock as of Sept. 2016)
  */
-public class Snitch extends LocatableObject<Snitch>
-{
+public class Snitch extends LocatableObject<Snitch> {
 	/**
 	 * The maximum number of characters that are allowed to be in the name of a Snitch
 	 */
@@ -80,8 +79,7 @@ public class Snitch extends LocatableObject<Snitch>
 	 *
 	 * @param location The location of this Snitch block.
 	 */
-	public Snitch(ILocation location)
-	{
+	public Snitch(ILocation location) {
 		this.location = location;
 
 		this.tags = new HashSet<>();
@@ -94,8 +92,7 @@ public class Snitch extends LocatableObject<Snitch>
 		description = null;
 	}
 
-	public Snitch(ILocation location, String initialTag)
-	{
+	public Snitch(ILocation location, String initialTag) {
 		this(location);
 
 		if(initialTag != null) {
@@ -112,8 +109,7 @@ public class Snitch extends LocatableObject<Snitch>
 	 * @param ctGroup    The Citadel group name of the group this Snitch is reinforced under.
 	 * @param snitchName The name of this Snitch.
 	 */
-	public Snitch(ILocation location, String tag, double culltime, String ctGroup, String snitchName, String snitchType)
-	{
+	public Snitch(ILocation location, String tag, double culltime, String ctGroup, String snitchName, String snitchType) {
 		this(location, tag);
 		this.cullTime = culltime;
 		this.ctGroup = ctGroup == null ? DEFAULT_NAME : ctGroup;
@@ -125,23 +121,19 @@ public class Snitch extends LocatableObject<Snitch>
 		}
 	}
 
-	void setCullTime(double cullTime)
-	{
+	void setCullTime(double cullTime) {
 		this.cullTime = cullTime;
 	}
 
-	public double getCullTime()
-	{
+	public double getCullTime() {
 		return cullTime;
 	}
 
-	void setDescription(List<String> description)
-	{
+	void setDescription(List<String> description) {
 		this.description = description;
 	}
 
-	public List<String> getDescription()
-	{
+	public List<String> getDescription() {
 		return description;
 	}
 
@@ -149,92 +141,75 @@ public class Snitch extends LocatableObject<Snitch>
 	 * Returns true if the given point if within the area covered by this Snitch block.
 	 * Returns false otherwise.
 	 */
-	public boolean isPointInThisSnitch(int x, int y, int z)
-	{
+	public boolean isPointInThisSnitch(int x, int y, int z) {
 		return x >= getFieldMinX() && x <= getFieldMaxX() && z >= getFieldMinZ() && z <= getFieldMaxZ() && y >= getFieldMinY() && y <= getFieldMaxY();
 	}
 
 	@Override
-	public ILocation getLocation()
-	{
+	public ILocation getLocation() {
 		return location;
 	}
 
-	public int getFieldMinX()
-	{
+	public int getFieldMinX() {
 		return location.getX() - SNITCH_RADIUS;
 	}
 
-	public int getFieldMinY()
-	{
+	public int getFieldMinY() {
 		return location.getY() - SNITCH_RADIUS;
 	}
 
-	public int getFieldMinZ()
-	{
+	public int getFieldMinZ() {
 		return location.getZ() - SNITCH_RADIUS;
 	}
 
-	public int getFieldMaxX()
-	{
+	public int getFieldMaxX() {
 		return location.getX() + SNITCH_RADIUS;
 	}
 
-	public int getFieldMaxY()
-	{
+	public int getFieldMaxY() {
 		return location.getY() + SNITCH_RADIUS;
 	}
 
-	public int getFieldMaxZ()
-	{
+	public int getFieldMaxZ() {
 		return location.getZ() + SNITCH_RADIUS;
 	}
 
-	public String getSnitchName()
-	{
+	public String getSnitchName() {
 		return name;
 	}
 
-	public String getType()
-	{
+	public String getType() {
 		return type;
 	}
 
-	public String getGroupName()
-	{
+	public String getGroupName() {
 		return ctGroup;
 	}
 
-	public Set<String> getTags()
-	{
+	public Set<String> getTags() {
 		return tags;
 	}
 
-	public boolean isTagged(String tag)
-	{
+	public boolean isTagged(String tag) {
 		return tags.contains(tag);
 	}
 
-	void setSnitchName(String name)
-	{
+	void setSnitchName(String name) {
 		if (!name.isEmpty()) {
 			this.name = name;
 		}
 	}
 
-	void setGroupName(String groupName)
-	{
+	void setGroupName(String groupName) {
 		this.ctGroup = groupName;
 	}
 
-	void setType(String type)
-	{
+	void setType(String type) {
 		this.type = type;
 	}
 
 	@Override
-	public String getWorld()
-	{
+	public String getWorld() {
 		return location.getWorld();
 	}
 
@@ -242,8 +217,7 @@ public class Snitch extends LocatableObject<Snitch>
 	 * Returns an arbitrary number meant to sort ILocation objects according to their location.
 	 */
 	@Override
-	public int compareTo(ILocation other)
-	{
+	public int compareTo(ILocation other) {
 		int compare = location.getWorld().compareTo(other.getWorld());
 		if (compare != 0) {
 			return compare;
@@ -277,14 +251,12 @@ public class Snitch extends LocatableObject<Snitch>
 	 * Returns an arbitrary number which is the comparison of the two Snitch's locations.
 	 */
 	@Override
-	public int compareTo(Snitch other)
-	{
+	public int compareTo(Snitch other) {
 		return compareTo(other.getLocation());
 	}
 
 	@Override
-	public boolean equals(Object o)
-	{
+	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
 		}
@@ -298,8 +270,7 @@ public class Snitch extends LocatableObject<Snitch>
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return location.hashCode();
 	}
 
@@ -315,8 +286,7 @@ public class Snitch extends LocatableObject<Snitch>
 	 * Returns a string that represents the given Snitch object.
 	 * The returned string is in comma separated value form.
 	 */
-	static String ConvertSnitchToCSV(Snitch snitch)
-	{
+	static String ConvertSnitchToCSV(Snitch snitch) {
 		//x, y, z, world, oring, groupName, snitchName, cullTime, type
 		StringBuilder builder = new StringBuilder();
 		builder.append(snitch.location.getX()).append(CSV_SEPARATOR);
@@ -330,8 +300,7 @@ public class Snitch extends LocatableObject<Snitch>
 		builder.append(snitch.getType()).append(CSV_SEPARATOR);
 
 		List<String> description = snitch.getDescription();
-		if (description != null)
-		{
+		if (description != null) {
 			for (String line : description) {
 				builder.append(Scrub(line)).append(DESCRIPTION_SEPARATOR);
 			}
@@ -346,16 +315,13 @@ public class Snitch extends LocatableObject<Snitch>
 	 * The given Snitch has NO attached SnitchLists.
 	 * Throws a NumberFormatException if the given CSV string has the wrong number of parameters.
 	 */
-	static Snitch GetSnitchFromCSV(String csv)
-	{
+	static Snitch GetSnitchFromCSV(String csv) {
 
 		String[] args = csv.split(CSV_SEPARATOR);
 
 		//We allow one less than the correct for when we didn't have a description
-		if (args.length == NUMBER_OF_CSV_PARAMS || args.length == NUMBER_OF_CSV_PARAMS - 1)
-		{
-			try
-			{
+		if (args.length == NUMBER_OF_CSV_PARAMS || args.length == NUMBER_OF_CSV_PARAMS - 1) {
+			try {
 				int index = 0;
 
 				int x = Integer.parseInt(args[index++]);
@@ -381,11 +347,9 @@ public class Snitch extends LocatableObject<Snitch>
 				}
 
 				//If there is an argument for the description
-				if (args.length > index)
-				{
+				if (args.length > index) {
 					String descriptionCompressed = args[index++];
-					if (!descriptionCompressed.isEmpty())
-					{
+					if (!descriptionCompressed.isEmpty()) {
 						String[] lines = descriptionCompressed.split(DESCRIPTION_SEPARATOR);
 						ArrayList<String> description = new ArrayList<>(lines.length);
 						for (int i = 0; i < lines.length; i++) {
@@ -397,16 +361,14 @@ public class Snitch extends LocatableObject<Snitch>
 
 				return snitch;
 			}
-			catch (Exception e)
-			{
+			catch (Exception e) {
 				return null;
 			}
 		}
 		return null;
 	}
 
-	static String concatenate(Collection<String> list, String seperator)
-	{
+	static String concatenate(Collection<String> list, String seperator) {
 		StringBuilder builder = new StringBuilder();
 		for (String str : list) {
 			builder.append(str).append(seperator);
@@ -417,8 +379,7 @@ public class Snitch extends LocatableObject<Snitch>
 		return builder.toString();
 	}
 
-	static String Scrub(String string)
-	{
+	static String Scrub(String string) {
 		return string.replace(CSV_SEPARATOR, "").replace(DESCRIPTION_SEPARATOR, "").replace(TAG_SEPARATOR, "");
 	}
 }
