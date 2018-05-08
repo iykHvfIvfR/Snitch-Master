@@ -230,7 +230,7 @@ public class SnitchManager {
 	}
 
 	public boolean removeTag(Snitch snitch, String tag) {
-		if(!snitch.tags.remove(tag)) {
+		if (!snitch.tags.remove(tag)) {
 			return false;
 		}
 
@@ -241,8 +241,8 @@ public class SnitchManager {
 
 	private void requalifySnitch(Snitch snitch) {
 		snitch.attachedSnitchLists.clear();
-		for(SnitchList list : snitchLists) {
-			if(list.getQualifier().isQualified(snitch)) {
+		for (SnitchList list : snitchLists) {
+			if (list.getQualifier().isQualified(snitch)) {
 				attachListToSnitch(list,snitch);
 			}
 		}
@@ -265,11 +265,11 @@ public class SnitchManager {
 			contains.setGroupName(snitch.getGroupName());
 			contains.setSnitchName(snitch.getSnitchName());
 
-			if(snitch.isTagged(SnitchTags.FROM_JALIST)) {
+			if (snitch.isTagged(SnitchTags.FROM_JALIST)) {
 				contains.tags.remove(SnitchTags.IS_GONE); //Remove it the dirty way cause this is the manager
 			}
 
-			for(String str : snitch.getTags()) {
+			for (String str : snitch.getTags()) {
 				contains.tags.add(str);
 			}
 

@@ -95,7 +95,7 @@ public class Snitch extends LocatableObject<Snitch> {
 	public Snitch(ILocation location, String initialTag) {
 		this(location);
 
-		if(initialTag != null) {
+		if (initialTag != null) {
 			tags.add(initialTag);
 		}
 	}
@@ -342,7 +342,7 @@ public class Snitch extends LocatableObject<Snitch> {
 				}
 
 				Snitch snitch = new Snitch(new Location(x, y, z, world), null, cullTime, groupName, snitchName, type);
-				for(String str : origins) {
+				for (String str : origins) {
 					snitch.tags.add(str);
 				}
 
