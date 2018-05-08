@@ -68,13 +68,11 @@ public class LocatableObjectList<T extends LocatableObject<T>> extends IReadOnly
 	@Override
 	public boolean addAll(Collection<? extends T> c) {
 		boolean changed = false;
-
 		for (T value : c) {
 			if (add(value)) {
 				changed = true;
 			}
 		}
-
 		return changed;
 	}
 
@@ -88,15 +86,12 @@ public class LocatableObjectList<T extends LocatableObject<T>> extends IReadOnly
 		if (pair == null) {
 			return null;
 		}
-
 		int index = LocatableObjectList.binarySearch(wrappedList, pair.one, pair.two, location);
 		//If the item wasn't found then we return false
 		if (index < 0) {
 			return null;
 		}
-
 		T removedValue = remove(index);
-
 		//Return true because we removed the item
 		return removedValue;
 	}
@@ -155,13 +150,11 @@ public class LocatableObjectList<T extends LocatableObject<T>> extends IReadOnly
 	@Override
 	public boolean removeAll(Collection<?> c) {
 		boolean changed = false;
-
 		for (Object obj : c) {
 			if (remove(obj)) {
 				changed = true;
 			}
 		}
-
 		return changed;
 	}
 
@@ -255,7 +248,6 @@ public class LocatableObjectList<T extends LocatableObject<T>> extends IReadOnly
 		if (index < 0) {
 			return null;
 		}
-
 		return get(index);
 	}
 

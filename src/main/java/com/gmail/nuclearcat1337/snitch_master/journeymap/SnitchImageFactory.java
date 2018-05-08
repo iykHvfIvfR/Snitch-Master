@@ -67,10 +67,8 @@ public class SnitchImageFactory {
 					return true;
 				}
 			});
-
 			return overlay;
 		}
-
 		return null;
 	}
 

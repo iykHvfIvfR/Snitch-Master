@@ -45,7 +45,6 @@ public class TableButtonColumn<T> implements TableColumn<T> {
 		if (!leftClick) {
 			return;
 		}
-
 		if (buttons[0].mousePressed(mc, xPos, yPos)) {
 			onClick.onClick(item, buttons[0], parentScreen);
 		}

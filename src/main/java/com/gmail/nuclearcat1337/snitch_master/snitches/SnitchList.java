@@ -60,7 +60,6 @@ public class SnitchList {
 		if (listName.length() > 20) {
 			listName = listName.substring(0, 19);
 		}
-
 		manager.journeyMapRedisplay(this);
 	}
 
@@ -119,9 +118,7 @@ public class SnitchList {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-
 		SnitchList that = (SnitchList) o;
-
 		return listName.equals(that.listName);
 	}
 
@@ -135,13 +132,11 @@ public class SnitchList {
 
 	public static String ConvertSnitchListToCSV(SnitchList list) {
 		StringBuilder builder = new StringBuilder();
-
 		builder.append(Scrub(list.getListName())).append(CSV_SEPARATOR);
 		builder.append(list.getListColor().serialize()).append(CSV_SEPARATOR);
 		builder.append(list.getRenderPriority()).append(CSV_SEPARATOR);
 		builder.append(list.shouldRenderSnitches()).append(CSV_SEPARATOR);
 		builder.append(Scrub(list.getQualifier().toString()));
-
 		return builder.toString();
 	}
 

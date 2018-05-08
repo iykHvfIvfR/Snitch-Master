@@ -87,7 +87,6 @@ public class TableGui<T> extends GuiListExtended {
 			sortColumn = column;
 			sortAscending = true;
 		}
-
 		sortEntries(0, entries.size() - 1, sortColumn, sortAscending);
 	}
 
@@ -139,7 +138,6 @@ public class TableGui<T> extends GuiListExtended {
 		if (index >= entries.size() || nextIndex >= entries.size() || index < 0 || nextIndex < 0) {
 			return;
 		}
-
 		TableEntry entry = entries.get(index);
 		entries.set(index, entries.get(nextIndex));
 		entries.set(nextIndex, entry);

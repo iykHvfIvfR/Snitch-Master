@@ -175,9 +175,7 @@ public class EditSnitchScreen extends GuiScreen {
 	private void saveSnitch() {
 		snitchManager.setSnitchName(snitch,nameBox.getText());
 		snitchManager.setSnitchGroup(snitch,groupBox.getText());
-
 		snitchManager.saveSnitches();
-
 		mc.displayGuiScreen(previousScreen);
 	}
 
@@ -224,7 +222,6 @@ public class EditSnitchScreen extends GuiScreen {
 		int x1 = x - (int) mc.player.posX;
 		int y1 = y - (int) mc.player.posY;
 		int z1 = z - (int) mc.player.posZ;
-
 		return (int) Math.sqrt((x1 * x1) + (y1 * y1) + (z1 * z1));
 	}
 }

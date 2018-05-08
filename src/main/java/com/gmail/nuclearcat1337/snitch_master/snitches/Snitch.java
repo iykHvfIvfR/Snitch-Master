@@ -66,7 +66,6 @@ public class Snitch extends LocatableObject<Snitch> {
 
 	public Snitch(ILocation location, String initialTag) {
 		this(location);
-
 		if (initialTag != null) {
 			tags.add(initialTag);
 		}
@@ -190,7 +189,6 @@ public class Snitch extends LocatableObject<Snitch> {
 		if (compare != 0) {
 			return compare;
 		}
-
 		if (location.getX() < other.getX()) {
 			return -1;
 		}
@@ -211,7 +209,6 @@ public class Snitch extends LocatableObject<Snitch> {
 		if (location.getY() > other.getY()) {
 			return 1;
 		}
-
 		return 0;
 	}
 
@@ -231,9 +228,7 @@ public class Snitch extends LocatableObject<Snitch> {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-
 		Snitch snitch = (Snitch) o;
-
 		return location.equals(snitch.location);
 	}
 
@@ -274,7 +269,6 @@ public class Snitch extends LocatableObject<Snitch> {
 			}
 		}
 		builder.append(CSV_SEPARATOR);
-
 		return builder.toString();
 	}
 
@@ -326,7 +320,6 @@ public class Snitch extends LocatableObject<Snitch> {
 						snitch.setDescription(description);
 					}
 				}
-
 				return snitch;
 			} catch (Exception e) {
 				return null;

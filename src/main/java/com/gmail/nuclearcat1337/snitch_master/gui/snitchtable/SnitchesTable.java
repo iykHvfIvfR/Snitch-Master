@@ -106,6 +106,4 @@ public class SnitchesTable extends TableTopGui<Snitch> {
 	private static Pair<TableColumn<Snitch>, Boolean> packageValues(TableColumn<Snitch> col, Boolean render) {
 		return new Pair<>(col, render);
 	}
-
-
 }

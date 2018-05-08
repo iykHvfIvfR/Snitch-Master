@@ -108,7 +108,6 @@ public class SnitchDistanceColumn implements TableColumn<Snitch> {
 		int x1 = x - (int) mc.player.posX;
 		int y1 = y - (int) mc.player.posY;
 		int z1 = z - (int) mc.player.posZ;
-
 		return (int) Math.sqrt((x1 * x1) + (y1 * y1) + (z1 * z1));
 	}
 }

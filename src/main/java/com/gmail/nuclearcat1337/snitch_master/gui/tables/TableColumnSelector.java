@@ -196,7 +196,6 @@ public class TableColumnSelector<T> extends GuiListExtended {
 			if (mouseEvent == 1) {
 				return false;
 			}
-
 			if (this.upButton.mousePressed(mc, xPos, yPos)) {
 				swapItems(index, index - 1); //The array is goes from bottom to top. so index 0 is at top of screen
 				return true;

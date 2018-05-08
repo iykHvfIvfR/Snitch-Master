@@ -69,7 +69,6 @@ public class SnitchGroupColumn implements TableColumn<Snitch> {
 	public int compare(Snitch snitch, Snitch other) {
 		String one = snitch.getGroupName().isEmpty() ? "Undefined" : snitch.getGroupName();
 		String two = other.getGroupName().isEmpty() ? "Undefined" : other.getGroupName();
-
 		return one.compareTo(two);
 	}
 }

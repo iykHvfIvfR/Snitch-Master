@@ -16,7 +16,6 @@ public class DropMenu extends GuiButton {
 	@Override
 	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
 		if (super.mousePressed(mc, mouseX, mouseY)) {
-
 			return true;
 		}
 		return false;

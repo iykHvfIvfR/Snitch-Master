@@ -98,7 +98,6 @@ public class SnitchListsTable extends TableTopGui<SnitchList> {
 		for (SnitchList list : getItems()) {
 			list.setShouldRenderSnitches(on);
 		}
-
 		manager.saveSnitchLists();
 	}
 

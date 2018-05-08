@@ -69,7 +69,6 @@ public class SnitchNameColumn implements TableColumn<Snitch> {
 	public int compare(Snitch snitch, Snitch other) {
 		String one = snitch.getSnitchName().isEmpty() ? "Undefined" : snitch.getSnitchName();
 		String two = other.getSnitchName().isEmpty() ? "Undefined" : other.getSnitchName();
-
 		return one.compareTo(two);
 	}
 }

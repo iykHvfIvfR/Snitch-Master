@@ -39,12 +39,9 @@ public class SnitchListeners {
 					IBlockState state = event1.getWorld().getBlockState(pos);
 					if (state.getBlock().equals(Blocks.JUKEBOX) || state.getBlock().equals(Blocks.NOTEBLOCK)) {
 						Location loc = new Location(pos.getX(), pos.getY(), pos.getZ(), snitchMaster.getCurrentWorld());
-
 						if (!manager.getSnitches().contains(loc)) {
 							Snitch snitch = new Snitch(loc, SnitchTags.FROM_MANUAL);
-
 							manager.submitSnitch(snitch);
-
 							manager.saveSnitches();
 						}
 					}
@@ -57,15 +54,11 @@ public class SnitchListeners {
 	public void onSnitchBreak(BlockEvent.BreakEvent event) {
 		BlockPos pos = event.getPos();
 		Location loc = new Location(pos.getX(), pos.getY(), pos.getZ(), snitchMaster.getCurrentWorld());
-
 		Snitch snitch = manager.getSnitches().remove(loc);
 		if (snitch != null) {
 			snitchMaster.individualJourneyMapUpdate(snitch);
-
 			manager.saveSnitches();
-
 			SnitchMaster.SendMessageToPlayer("Removed snitch at " + loc.toString());
 		}
-
 	}
 }

@@ -118,7 +118,6 @@ public class SnitchManager {
 			if (list.shouldRenderSnitches()) {
 				return list;
 			}
-
 		return null;
 	}
 
@@ -141,17 +140,13 @@ public class SnitchManager {
 		}
 
 		SnitchList list = new SnitchList(this, qualifier, render, name, color);
-
 		for (Snitch snitch : getSnitches()) {
 			if (qualifier.isQualified(snitch)) {
 				attachListToSnitch(list, snitch);
 			}
 		}
-
 		snitchLists.add(list);
-
 		saveSnitchLists();
-
 		return list;
 	}
 
@@ -204,25 +199,21 @@ public class SnitchManager {
 
 	public void setSnitchName(Snitch snitch, String name) {
 		snitch.setSnitchName(name);
-
 		requalifySnitch(snitch);
 	}
 
 	public void setSnitchGroup(Snitch snitch, String group) {
 		snitch.setGroupName(group);
-
 		requalifySnitch(snitch);
 	}
 
 	public void setSnitchCullTime(Snitch snitch, double cullTime) {
 		snitch.setCullTime(cullTime);
-
 		requalifySnitch(snitch);
 	}
 
 	public void addTag(Snitch snitch, String tag) {
 		snitch.tags.add(tag);
-
 		requalifySnitch(snitch);
 	}
 
@@ -230,9 +221,7 @@ public class SnitchManager {
 		if (!snitch.tags.remove(tag)) {
 			return false;
 		}
-
 		requalifySnitch(snitch);
-
 		return true;
 	}
 
@@ -243,7 +232,6 @@ public class SnitchManager {
 				attachListToSnitch(list,snitch);
 			}
 		}
-
 		snitchMaster.individualJourneyMapUpdate(snitch);
 	}
 
@@ -297,7 +285,6 @@ public class SnitchManager {
 			for (SnitchList list : snitchLists) {
 				csvs.add(SnitchList.ConvertSnitchListToCSV(list));
 			}
-
 			writeToCSV(new File(serversFolder + "/" + currentServer + "/" + SNITCH_LISTS_FILE), csvs);
 		}
 	}
@@ -308,7 +295,6 @@ public class SnitchManager {
 			for (Snitch snitch : snitches) {
 				csvs.add(Snitch.ConvertSnitchToCSV(snitch));
 			}
-
 			writeToCSV(new File(serversFolder + "/" + currentServer + "/" + SNITCHES_FILE), csvs);
 		}
 	}
@@ -345,14 +331,12 @@ public class SnitchManager {
 		for (Snitch snitch : getSnitchesInList(list)) {
 			snitch.attachedSnitchLists.remove(list);
 		}
-
 		SnitchListQualifier qualifier = list.getQualifier();
 		for (Snitch snitch : getSnitches()) {
 			if (qualifier.isQualified(snitch)) {
 				attachListToSnitch(list, snitch);
 			}
 		}
-
 		snitchMaster.fullJourneyMapUpdate();
 	}
 

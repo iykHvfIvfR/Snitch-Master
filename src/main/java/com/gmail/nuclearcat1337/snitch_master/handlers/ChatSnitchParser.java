@@ -135,11 +135,9 @@ public class ChatSnitchParser {
 		}
 
 		SnitchAlert alert = buildSnitchAlert(matcher, msg);
-
 		for (IAlertRecipient recipient : alertRecipients) {
 			recipient.receiveSnitchAlert(alert);
 		}
-
 		event.setMessage(alert.getRawMessage());
 	}
 

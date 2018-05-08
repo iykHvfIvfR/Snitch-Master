@@ -18,7 +18,6 @@ public class SnitchCoordinateColumn implements TableColumn<Snitch> {
 
 	public SnitchCoordinateColumn(CoordinateType type) {
 		mc = Minecraft.getMinecraft();
-
 		this.type = type;
 	}
 

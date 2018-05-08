@@ -23,7 +23,6 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList> {
 
 	public SnitchListRemoveColumn(SnitchMaster snitchMaster) {
 		mc = Minecraft.getMinecraft();
-
 		buttonWidth = mc.fontRenderer.getStringWidth(BUTTON_TEXT + "---");
 		this.manager = snitchMaster.getManager();
 	}
@@ -64,7 +63,6 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList> {
 		if (removedSnitchLists.contains(list.getListName())) {
 			return;
 		}
-
 		buttons[0].mouseReleased(xPos, yPos);
 	}
 

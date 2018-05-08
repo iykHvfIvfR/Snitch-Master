@@ -114,7 +114,6 @@ public abstract class TableTopGui<T> extends GuiScreen {
 			if (col.doBoundsCheck()) {
 				columnsToBoundsCheck.add(col);
 			}
-
 		tableGui = new TableGui<T>(this, items, this.renderColumns);
 	}
 
