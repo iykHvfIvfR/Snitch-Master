@@ -201,24 +201,30 @@ public class NewSnitchListGui extends GuiScreen
 				break;
 			case 2:
 				String name = nameBox.getText();
-				if (name == null)
+				if (name == null) {
 					break;
+				}
 				Integer red = redBox.clamp();
-				if (red == null)
+				if (red == null) {
 					break;
+				}
 				Integer green = greenBox.clamp();
-				if (green == null)
+				if (green == null) {
 					break;
+				}
 				Integer blue = blueBox.clamp();
-				if (blue == null)
+				if (blue == null) {
 					break;
+				}
 				String qualifier = qualifierBox.getText();
-				if (qualifier == null || !SnitchListQualifier.isSyntaxValid(qualifier))
+				if (qualifier == null || !SnitchListQualifier.isSyntaxValid(qualifier)) {
 					break;
+				}
 
 				SnitchManager manager = snitchMaster.getManager();
-				if (manager.doesListWithNameExist(name))
+				if (manager.doesListWithNameExist(name)) {
 					break;
+				}
 
 				//Creating a new snitch list automatically triggers a save of all snitch lists
 				manager.createSnitchList(name, new SnitchListQualifier(qualifier), true, new Color(red, green, blue));

@@ -59,8 +59,9 @@ public class TableColumnSelectorTop<T> extends GuiScreen
 	@Override
 	public void actionPerformed(GuiButton button)
 	{
-		if (!button.enabled)
+		if (!button.enabled) {
 			return;
+		}
 		switch (button.id)
 		{
 			case 0: //Done

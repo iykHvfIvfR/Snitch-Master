@@ -122,12 +122,13 @@ public class SettingsGui extends GuiScreen
 	private void nextChatSpamState()
 	{
 		Settings.ChatSpamState chatSpamState = (Settings.ChatSpamState) settings.getValue(Settings.CHAT_SPAM_KEY);
-		if (chatSpamState == Settings.ChatSpamState.ON)
+		if (chatSpamState == Settings.ChatSpamState.ON) {
 			chatSpamState = Settings.ChatSpamState.OFF;
-		else if (chatSpamState == Settings.ChatSpamState.OFF)
+		} else if (chatSpamState == Settings.ChatSpamState.OFF) {
 			chatSpamState = Settings.ChatSpamState.PAGENUMBERS;
-		else if (chatSpamState == Settings.ChatSpamState.PAGENUMBERS)
+		} else if (chatSpamState == Settings.ChatSpamState.PAGENUMBERS) {
 			chatSpamState = Settings.ChatSpamState.ON;
+		}
 		settings.setValue(Settings.CHAT_SPAM_KEY, chatSpamState);
 	}
 
@@ -135,12 +136,13 @@ public class SettingsGui extends GuiScreen
 	{
 		String jaListSpamText = "Updating Snitches Spam: ";
 		Settings.ChatSpamState chatSpamState = (Settings.ChatSpamState) settings.getValue(Settings.CHAT_SPAM_KEY);
-		if (chatSpamState == Settings.ChatSpamState.ON)
+		if (chatSpamState == Settings.ChatSpamState.ON) {
 			jaListSpamText += "On";
-		else if (chatSpamState == Settings.ChatSpamState.OFF)
+		} else if (chatSpamState == Settings.ChatSpamState.OFF) {
 			jaListSpamText += "Off";
-		else if (chatSpamState == Settings.ChatSpamState.PAGENUMBERS)
+		} else if (chatSpamState == Settings.ChatSpamState.PAGENUMBERS) {
 			jaListSpamText += "Page Numbers";
+		}
 		chatSpamButton.displayString = jaListSpamText;
 	}
 

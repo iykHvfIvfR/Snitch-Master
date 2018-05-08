@@ -69,8 +69,9 @@ public abstract class TableTopGui<T> extends GuiScreen
 			{
 				renderColumns.add(pair.getOne());
 
-				if (pair.getOne().doBoundsCheck())
+				if (pair.getOne().doBoundsCheck()) {
 					columnsToBoundsCheck.add(pair.getOne());
+				}
 			}
 		}
 
@@ -126,8 +127,9 @@ public abstract class TableTopGui<T> extends GuiScreen
 
 		columnsToBoundsCheck.clear();
 		for (TableColumn<T> col : renderColumns)
-			if (col.doBoundsCheck())
+			if (col.doBoundsCheck()) {
 				columnsToBoundsCheck.add(col);
+			}
 
 		tableGui = new TableGui<T>(this, items, this.renderColumns);
 	}
@@ -135,8 +137,9 @@ public abstract class TableTopGui<T> extends GuiScreen
 	@Override
 	public void actionPerformed(GuiButton button)
 	{
-		if (!button.enabled)
+		if (!button.enabled) {
 			return;
+		}
 		switch (button.id)
 		{
 			case 0: //Done
@@ -174,8 +177,9 @@ public abstract class TableTopGui<T> extends GuiScreen
 					if (mouseX >= bounds.getOne() && mouseX <= bounds.getTwo())
 					{
 						List<String> text = col.hover(tableGui.getItemForSlotIndex(index), xPos, yPos);
-						if (text != null && !text.isEmpty())
+						if (text != null && !text.isEmpty()) {
 							drawHoveringText(text, mouseX, mouseY);
+						}
 						break;
 					}
 				}

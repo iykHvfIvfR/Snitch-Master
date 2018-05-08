@@ -40,8 +40,9 @@ public class QuietTimeConfig
 		try
 		{
 			String[] parts = value.split(":");
-			if (parts.length < 1)
+			if (parts.length < 1) {
 				return GetDefaultQuietTimeConfig();
+			}
 			byte[] bytes = ParseByteArray(parts[0]);
 			String[] literals = parts.length > 1 ? ParseStringArray(parts[1]) : new String[0];
 			return new QuietTimeConfig(bytes, literals);
@@ -56,8 +57,9 @@ public class QuietTimeConfig
 	private static String ToString(String[] literals)
 	{
 		StringBuilder builder = new StringBuilder();
-		for (String str : literals)
+		for (String str : literals) {
 			builder.append(str.replace(":", "").replace(";", "")).append(';');
+		}
 		return builder.toString();
 	}
 
@@ -71,23 +73,27 @@ public class QuietTimeConfig
 		str = str.replace("[", "").replace("]", "").replace(",", "");
 		String[] b = str.split(" ");
 		byte[] bytes = new byte[b.length];
-		for (int i = 0; i < b.length; i++)
+		for (int i = 0; i < b.length; i++) {
 			bytes[i] = Byte.parseByte(b[i]);
+		}
 		return bytes;
 	}
 
 	@Override
 	public boolean equals(Object o)
 	{
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 
 		QuietTimeConfig that = (QuietTimeConfig) o;
 
-		if (!Arrays.equals(instructions, that.instructions))
+		if (!Arrays.equals(instructions, that.instructions)) {
 			return false;
+		}
 		// Probably incorrect - comparing Object[] arrays with Arrays.equals
 		return Arrays.equals(literals, that.literals);
 	}

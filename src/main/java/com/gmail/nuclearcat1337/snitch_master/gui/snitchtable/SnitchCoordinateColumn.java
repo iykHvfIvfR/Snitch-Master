@@ -37,12 +37,13 @@ public class SnitchCoordinateColumn implements TableColumn<Snitch>
 	@Override
 	public String getColumnName()
 	{
-		if (type == CoordinateType.X)
+		if (type == CoordinateType.X) {
 			return "X";
-		else if (type == CoordinateType.Y)
+		} else if (type == CoordinateType.Y) {
 			return "Y";
-		else
+		} else {
 			return "Z";
+		}
 	}
 
 	@Override
@@ -104,11 +105,12 @@ public class SnitchCoordinateColumn implements TableColumn<Snitch>
 
 	private static int getCoordinate(Snitch snitch, CoordinateType type)
 	{
-		if (type == CoordinateType.X)
+		if (type == CoordinateType.X) {
 			return snitch.getLocation().getX();
-		else if (type == CoordinateType.Z)
+		} else if (type == CoordinateType.Z) {
 			return snitch.getLocation().getZ();
-		else
+		} else {
 			return snitch.getLocation().getY();
+		}
 	}
 }

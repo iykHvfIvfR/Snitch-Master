@@ -61,8 +61,9 @@ public class SnitchListsTable extends TableTopGui<SnitchList>
 		int xPos = (this.width / 2) + (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 		int yPos = this.height - GuiConstants.STANDARD_BUTTON_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		if (fullList)
+		if (fullList) {
 			this.buttonList.add(new GuiButton(firstId, xPos, yPos, NEW_BUTTON_WIDTH, 18, "New"));
+		}
 
 		xPos += GuiConstants.STANDARD_SEPARATION_DISTANCE + NEW_BUTTON_WIDTH;
 		this.buttonList.add(new GuiButton(firstId + 1, xPos, yPos, RENDER_ON_BUTTON_WIDTH, 18, "All On"));
@@ -88,23 +89,25 @@ public class SnitchListsTable extends TableTopGui<SnitchList>
 
 	public void actionPerformed(GuiButton button)
 	{
-		if (!button.enabled)
+		if (!button.enabled) {
 			return;
+		}
 
-		if (button.id == firstId) //New snitch list
+		if (button.id == firstId) { //New snitch list
 			Minecraft.getMinecraft().displayGuiScreen(new NewSnitchListGui(this, snitchMaster));
-		else if (button.id == firstId + 1) //Set all render on
+		} else if (button.id == firstId + 1) { //Set all render on
 			setAllRender(true);
-		else if (button.id == firstId + 2) //Set all render off
+		} else if (button.id == firstId + 2) { //Set all render off
 			setAllRender(false);
-
+		}
 		super.actionPerformed(button);
 	}
 
 	private void setAllRender(boolean on)
 	{
-		for (SnitchList list : getItems())
+		for (SnitchList list : getItems()) {
 			list.setShouldRenderSnitches(on);
+		}
 
 		manager.saveSnitchLists();
 	}
@@ -186,10 +189,11 @@ public class SnitchListsTable extends TableTopGui<SnitchList>
 		public void onClick(SnitchList list, GuiButton button, GuiScreen parentScreen)
 		{
 			ArrayList<Snitch> snitches = manager.getSnitchesInList(list);
-			if (snitches.isEmpty())
+			if (snitches.isEmpty()) {
 				button.displayString = "None";
-			else
+			} else {
 				mc.displayGuiScreen(new SnitchesTable(parentScreen, snitches, "Snitches for Snitch List: " + list.getListName(), snitchMaster));
+			}
 		}
 	};
 

@@ -77,12 +77,14 @@ public class ChatSnitchParser
 	public void chatParser(ClientChatReceivedEvent event)
 	{
 		ITextComponent msg = event.getMessage();
-		if (msg == null)
+		if (msg == null) {
 			return;
+		}
 
 		String msgText = msg.getUnformattedText();
-		if (msgText == null)
+		if (msgText == null) {
 			return;
+		}
 
 		//Check if its the tps message (this is quick)
 		if (msgText.contains(tpsMessage))
@@ -153,8 +155,9 @@ public class ChatSnitchParser
 
 		//Check if this matches the snitch alert message (slowest of all of these)
 		Matcher matcher = snitchAlertPattern.matcher(msgText);
-		if (!matcher.matches())
+		if (!matcher.matches()) {
 			return; // this was the last kind of message we check
+		}
 
 		//Build the snitch alert and send it to all the recipients
 		SnitchAlert alert = buildSnitchAlert(matcher, msg);
@@ -416,10 +419,11 @@ public class ChatSnitchParser
 		double cullTime;
 
 		String cullTimeString = matcher.group(7);
-		if (cullTimeString == null || cullTimeString.isEmpty())
+		if (cullTimeString == null || cullTimeString.isEmpty()) {
 			cullTime = Double.NaN;
-		else
+		} else {
 			cullTime = Double.parseDouble(cullTimeString);
+		}
 
 		String ctGroup = matcher.group(5);
 		String type = matcher.group(6).toLowerCase();
@@ -521,10 +525,11 @@ public class ChatSnitchParser
 
 		String cullTimeString = matcher.group(4);
 		double cullTime;
-		if (cullTimeString == null || cullTimeString.isEmpty())
+		if (cullTimeString == null || cullTimeString.isEmpty()) {
 			cullTime = Double.NaN;
-		else
+		} else {
 			cullTime = Double.parseDouble(cullTimeString);
+		}
 
 		String ctGroup = matcher.group(5);
 		String type = null;
@@ -554,11 +559,13 @@ public class ChatSnitchParser
 					jaListIndex++;
 					nextUpdate = System.currentTimeMillis() + (long) (waitTime * 1000);
 
-					if (((Settings.ChatSpamState) snitchMaster.getSettings().getValue(Settings.CHAT_SPAM_KEY)) == Settings.ChatSpamState.PAGENUMBERS)
+					if (((Settings.ChatSpamState) snitchMaster.getSettings().getValue(Settings.CHAT_SPAM_KEY)) == Settings.ChatSpamState.PAGENUMBERS) {
 						SnitchMaster.SendMessageToPlayer("Parsed snitches from /jalist " + (jaListIndex - 1));
+					}
 				}
-				else
+				else {
 					resetUpdatingSnitchList(true);
+				}
 			}
 		}
 	}
@@ -585,8 +592,9 @@ public class ChatSnitchParser
 		for(Snitch snitch : manager.getSnitches())
 		{
 			//If the snitch isn't already marked as gone and is marked as jalist
-			if(!snitch.isTagged(SnitchTags.IS_GONE) && snitch.isTagged(SnitchTags.FROM_JALIST))
+			if(!snitch.isTagged(SnitchTags.IS_GONE) && snitch.isTagged(SnitchTags.FROM_JALIST)) {
 				snitchesCopy.add(snitch); //Then we add it to the copy list
+			}
 		}
 
 		Minecraft.getMinecraft().player.sendChatMessage("/tps");
@@ -618,22 +626,25 @@ public class ChatSnitchParser
 			double b = 20.0;
 			double c = 20.0;
 
-			for (int i = 0; i < 3; i++) // fix for TPS 20 -- *20.0 is rendered, yikes.
+			for (int i = 0; i < 3; i++) { // fix for TPS 20 -- *20.0 is rendered, yikes.
 				tokens[i] = tokens[1].replace('*', ' ');
+			}
 
 			a = Double.parseDouble(tokens[0]);
 			b = Double.parseDouble(tokens[1]);
 			c = Double.parseDouble(tokens[2]);
 
-			if (a < b && a < c)
+			if (a < b && a < c) {
 				waitTime = tickTimeout / a;
-			else if (b < a && b < c)
+			} else if (b < a && b < c) {
 				waitTime = tickTimeout / b;
-			else
+			} else {
 				waitTime = tickTimeout / c;
+			}
 		}
-		else
+		else {
 			waitTime = 4.0;
+		}
 	}
 
 	/**
@@ -647,8 +658,9 @@ public class ChatSnitchParser
 			//Remove all the snitches that we loaded from jalist from the copy
 			snitchesCopy.removeAll(loadedSnitches);
 
-			for(Snitch snitch : snitchesCopy)
+			for(Snitch snitch : snitchesCopy) {
 				manager.addTag(snitch,SnitchTags.IS_GONE);
+			}
 
 			SnitchMaster.SendMessageToPlayer(snitchesCopy.size()+" snitches were missing since the last full update.");
 
@@ -663,8 +675,9 @@ public class ChatSnitchParser
 		maxJaListIndex = -1;
 		updatingSnitchList = false;
 
-		if (save)
+		if (save) {
 			manager.saveSnitches();
+		}
 	}
 
 	private static SnitchAlert buildSnitchAlert(Matcher matcher, ITextComponent message)
@@ -683,8 +696,9 @@ public class ChatSnitchParser
 	{
 		for (String token : tokens)
 		{
-			if (message.contains(token))
+			if (message.contains(token)) {
 				return true;
+			}
 		}
 		return false;
 	}

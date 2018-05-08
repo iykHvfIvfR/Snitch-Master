@@ -108,16 +108,17 @@ public class QuietTimeGui extends GuiScreen
 		QuietTimeConfig config = (QuietTimeConfig) settings.getValue(QuietTimeHandler.QUIET_TIME_CONFIG_KEY);
 		int hash = config.hashCode();
 
-		if (hash == QuietTimeConfig.NORMAL.hashCode() && config.equals(QuietTimeConfig.NORMAL))
+		if (hash == QuietTimeConfig.NORMAL.hashCode() && config.equals(QuietTimeConfig.NORMAL)) {
 			messageBox.setText("Normal");
-		else if (hash == QuietTimeConfig.GJUM_SPECIAL.hashCode() && config.equals(QuietTimeConfig.GJUM_SPECIAL))
+		} else if (hash == QuietTimeConfig.GJUM_SPECIAL.hashCode() && config.equals(QuietTimeConfig.GJUM_SPECIAL)) {
 			messageBox.setText("Gjum Special");
-		else if (hash == QuietTimeConfig.HIDE_COORDS.hashCode() && config.equals(QuietTimeConfig.HIDE_COORDS))
+		} else if (hash == QuietTimeConfig.HIDE_COORDS.hashCode() && config.equals(QuietTimeConfig.HIDE_COORDS)) {
 			messageBox.setText("Hide Coordinates");
-		else if (hash == QuietTimeConfig.HIDE_COORDS_AND_NAME.hashCode() && config.equals(QuietTimeConfig.HIDE_COORDS_AND_NAME))
+		} else if (hash == QuietTimeConfig.HIDE_COORDS_AND_NAME.hashCode() && config.equals(QuietTimeConfig.HIDE_COORDS_AND_NAME)) {
 			messageBox.setText("Hide Coords/Name");
-		else
+		} else {
 			messageBox.setText("Custom config? Idk.");
+		}
 		messageBox.setCursorPosition(0);
 	}
 }

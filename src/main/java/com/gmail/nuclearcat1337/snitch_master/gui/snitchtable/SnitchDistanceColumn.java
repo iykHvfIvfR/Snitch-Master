@@ -58,9 +58,9 @@ public class SnitchDistanceColumn implements TableColumn<Snitch>
 		ILocation loc = snitch.getLocation();
 
 		String text;
-		if (!SnitchMaster.instance.getCurrentWorld().equalsIgnoreCase(loc.getWorld()))
+		if (!SnitchMaster.instance.getCurrentWorld().equalsIgnoreCase(loc.getWorld())) {
 			text = "NA";
-		else
+		} else
 		{
 			int distance = getDistanceFromPlayer(loc.getX(), loc.getY(), loc.getZ());
 			text = "" + distance;
@@ -77,8 +77,9 @@ public class SnitchDistanceColumn implements TableColumn<Snitch>
 	{
 		ILocation loc = snitch.getLocation();
 
-		if (!SnitchMaster.instance.getCurrentWorld().equalsIgnoreCase(loc.getWorld()))
+		if (!SnitchMaster.instance.getCurrentWorld().equalsIgnoreCase(loc.getWorld())) {
 			return mc.fontRenderer.getStringWidth("NA");
+		}
 
 		int distance = getDistanceFromPlayer(loc.getX(), loc.getY(), loc.getZ());
 		String text = "" + distance;
@@ -107,15 +108,16 @@ public class SnitchDistanceColumn implements TableColumn<Snitch>
 		boolean b2 = otherLoc.getWorld().equalsIgnoreCase(world);
 
 		//The first snitch is in the correct world and the other snitch isn't
-		if (b1 && !b2)
+		if (b1 && !b2) {
 			return 1; //The first snitch is greater than the second
-		else if (!b1 && b2)
+		} else if (!b1 && b2) {
 			return -1; //Second snitch is greater if its in the correct world and the first one isnt
-		else if (!b1 && !b2) //If they both arent in the correct world then they are equal
+		} else if (!b1 && !b2) { //If they both arent in the correct world then they are equal
 			return 0;
-		else
+		} else {
 			//Both snitches are in the correct world so we compare their actual distances
 			return Integer.compare(getDistanceFromPlayer(snitchLoc.getX(), snitchLoc.getY(), snitchLoc.getZ()), getDistanceFromPlayer(otherLoc.getX(), otherLoc.getY(), otherLoc.getZ()));
+		}
 	}
 
 	private int getDistanceFromPlayer(int x, int y, int z)

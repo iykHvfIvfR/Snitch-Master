@@ -48,8 +48,9 @@ public class TableColumnSelector<T> extends GuiListExtended
 		}
 
 		int columnNameLength = mc.fontRenderer.getStringWidth("-Column Name-");
-		if (columnNameLength > maxNameLength)
+		if (columnNameLength > maxNameLength) {
 			maxNameLength = columnNameLength;
+		}
 
 		entryWidth = renderLength + GuiConstants.STANDARD_SEPARATION_DISTANCE + maxNameLength + GuiConstants.STANDARD_SEPARATION_DISTANCE + renderLength;
 
@@ -83,8 +84,9 @@ public class TableColumnSelector<T> extends GuiListExtended
 
 	private void swapItems(int index1, int index2)
 	{
-		if (index1 >= entries.size() || index2 >= entries.size() || index1 < 0 || index2 < 0)
+		if (index1 >= entries.size() || index2 >= entries.size() || index1 < 0 || index2 < 0) {
 			return;
+		}
 
 		ColumnEntry one = entries.get(index1);
 		ColumnEntry two = entries.get(index2);
@@ -105,17 +107,20 @@ public class TableColumnSelector<T> extends GuiListExtended
 	public ArrayList<TableColumn<T>> getAllColumns()
 	{
 		ArrayList<TableColumn<T>> allColumns = new ArrayList<>();
-		for (ColumnEntry entry : entries)
+		for (ColumnEntry entry : entries) {
 			allColumns.add(entry.column);
+		}
 		return allColumns;
 	}
 
 	public ArrayList<TableColumn<T>> getRenderColumns()
 	{
 		ArrayList<TableColumn<T>> renderColumns = new ArrayList<>();
-		for (ColumnEntry entry : entries)
-			if (entry.render)
+		for (ColumnEntry entry : entries) {
+			if (entry.render) {
 				renderColumns.add(entry.column);
+			}
+		}
 		return renderColumns;
 	}
 
@@ -208,8 +213,9 @@ public class TableColumnSelector<T> extends GuiListExtended
 		public boolean mousePressed(int index, int xPos, int yPos, int mouseEvent, int relX, int relY)
 		{
 			//Dont let them right click the buttons
-			if (mouseEvent == 1)
+			if (mouseEvent == 1) {
 				return false;
+			}
 
 			if (this.upButton.mousePressed(mc, xPos, yPos))
 			{

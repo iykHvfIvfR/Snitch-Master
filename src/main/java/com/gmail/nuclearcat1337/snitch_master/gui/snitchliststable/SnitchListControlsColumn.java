@@ -57,8 +57,9 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList>
 	public void clicked(SnitchList list, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
 	{
 		//Don't allow right clicks
-		if (!leftClick)
+		if (!leftClick) {
 			return;
+		}
 
 		if (buttons[0].mousePressed(mc, xPos, yPos)) //Up arrow button
 		{

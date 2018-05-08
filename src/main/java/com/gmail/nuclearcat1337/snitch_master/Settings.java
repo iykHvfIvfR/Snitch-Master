@@ -46,8 +46,9 @@ public class Settings
 
 	public void setValueIfNotSet(String key, Object value)
 	{
-		if (!values.containsKey(key))
+		if (!values.containsKey(key)) {
 			values.put(key, value);
+		}
 	}
 
 	public boolean hasValue(String key)
@@ -97,8 +98,9 @@ public class Settings
 		BufferedWriter writer = null;
 		try
 		{
-			if (!file.exists())
+			if (!file.exists()) {
 				file.createNewFile();
+			}
 
 			writer = new BufferedWriter(new FileWriter(file));
 			for (Map.Entry<String, Object> entry : values.entrySet())

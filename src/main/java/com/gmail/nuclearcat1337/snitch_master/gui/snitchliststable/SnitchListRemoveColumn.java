@@ -59,8 +59,9 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList>
 	public void clicked(SnitchList item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
 	{
 		//Don't allow right clicks on the button
-		if (!leftClick || removedSnitchLists.contains(item.getListName()))
+		if (!leftClick || removedSnitchLists.contains(item.getListName())) {
 			return;
+		}
 
 		if (buttons[0].mousePressed(mc, xPos, yPos))
 		{
@@ -74,8 +75,9 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList>
 	@Override
 	public void released(SnitchList list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
 	{
-		if (removedSnitchLists.contains(list.getListName()))
+		if (removedSnitchLists.contains(list.getListName())) {
 			return;
+		}
 
 		buttons[0].mouseReleased(xPos, yPos);
 	}
@@ -83,8 +85,9 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList>
 	@Override
 	public void draw(SnitchList list, int xPosition, int yPosition, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY)
 	{
-		if (removedSnitchLists.contains(list.getListName()))
+		if (removedSnitchLists.contains(list.getListName())) {
 			return;
+		}
 
 		yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
 		int xPos = xPosition + (columnWidth / 2) - (buttonWidth / 2);

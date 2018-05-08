@@ -52,11 +52,13 @@ public class TableButtonColumn<T> implements TableColumn<T>
 	public void clicked(T item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
 	{
 		//Don't allow right clicks on the button
-		if (!leftClick)
+		if (!leftClick) {
 			return;
+		}
 
-		if (buttons[0].mousePressed(mc, xPos, yPos))
+		if (buttons[0].mousePressed(mc, xPos, yPos)) {
 			onClick.onClick(item, buttons[0], parentScreen);
+		}
 	}
 
 	@Override

@@ -51,17 +51,18 @@ public class JourneyMapOverlayPlugin implements IClientPlugin, JourneyMapInterfa
 	private void toggleRender()
 	{
 		renderOverlay = !renderOverlay;
-		if (!renderOverlay)
+		if (!renderOverlay) {
 			clearDisplayed();
-		else
+		} else
 		{
 			IReadOnlyLocatableObjectList<Snitch> snitches = SnitchMaster.instance.getManager().getSnitches();
 			if (snitches != null)
 			{
 				String currentWorld = SnitchMaster.instance.getCurrentWorld();
 				Iterable<Snitch> worldSnitches = snitches.getItemsForWorld(currentWorld);
-				if (worldSnitches != null)
+				if (worldSnitches != null) {
 					refresh(worldSnitches);
+				}
 			}
 		}
 	}
@@ -106,8 +107,9 @@ public class JourneyMapOverlayPlugin implements IClientPlugin, JourneyMapInterfa
 			ImageOverlay overlay = SnitchImageFactory.createSnitchOverlay(snitch);
 			try
 			{
-				if (overlay != null)
+				if (overlay != null) {
 					api.show(overlay);
+				}
 			}
 			catch (Exception e)
 			{
@@ -119,16 +121,18 @@ public class JourneyMapOverlayPlugin implements IClientPlugin, JourneyMapInterfa
 	@Override
 	public void displaySnitch(Snitch snitch)
 	{
-		if (renderOverlay)
+		if (renderOverlay) {
 			sendImage(snitch);
+		}
 	}
 
 	@Override
 	public void refresh(Iterable<Snitch> snitches)
 	{
 		clearDisplayed();
-		for (Snitch snitch : snitches)
+		for (Snitch snitch : snitches) {
 			displaySnitch(snitch);
+		}
 	}
 
 	private void clearDisplayed()

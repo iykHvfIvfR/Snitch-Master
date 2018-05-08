@@ -57,8 +57,9 @@ public class SnitchMaster
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		File file = new File(modDataFolder);
-		if (!file.exists())
+		if (!file.exists()) {
 			file.mkdir();
+		}
 
 		initializeSettings();
 
@@ -100,14 +101,16 @@ public class SnitchMaster
 
 	public void fullJourneyMapUpdate()
 	{
-		if (jmInterface != null)
+		if (jmInterface != null) {
 			jmInterface.refresh(manager.getSnitches()); //TODO---Do better
+		}
 	}
 
 	public void individualJourneyMapUpdate(Snitch snitch)
 	{
-		if (jmInterface != null)
+		if (jmInterface != null) {
 			jmInterface.displaySnitch(snitch); //TODO--Do better
+		}
 	}
 
 	public void snitchListJourneyMapUpdate(SnitchList list)
@@ -143,8 +146,9 @@ public class SnitchMaster
 
 	public static void SendMessageToPlayer(String message)
 	{
-		if (mc.player != null)
+		if (mc.player != null) {
 			mc.player.sendMessage(new TextComponentString("[Snitch Master] " + message));
+		}
 	}
 
 	private static class ObjectParser implements Settings.ValueParser
@@ -152,20 +156,21 @@ public class SnitchMaster
 		@Override
 		public Object parse(String key, String value)
 		{
-			if (key.equalsIgnoreCase(Settings.RENDER_TEXT_KEY))
+			if (key.equalsIgnoreCase(Settings.RENDER_TEXT_KEY)) {
 				return Boolean.parseBoolean(value);
-			else if (key.equalsIgnoreCase(Settings.CHAT_SPAM_KEY))
+			} else if (key.equalsIgnoreCase(Settings.CHAT_SPAM_KEY)) {
 				return Settings.ChatSpamState.valueOf(value);
-			else if (key.equalsIgnoreCase(QuietTimeHandler.QUIET_TIME_CONFIG_KEY))
+			} else if (key.equalsIgnoreCase(QuietTimeHandler.QUIET_TIME_CONFIG_KEY)) {
 				return QuietTimeConfig.FromString(value);
-			else
+			} else
 			{
-				if (value.equalsIgnoreCase(Boolean.FALSE.toString()))
+				if (value.equalsIgnoreCase(Boolean.FALSE.toString())) {
 					return Boolean.FALSE;
-				else if (value.equalsIgnoreCase(Boolean.TRUE.toString()))
+				} else if (value.equalsIgnoreCase(Boolean.TRUE.toString())) {
 					return Boolean.TRUE;
-				else
+				} else {
 					return value;
+				}
 			}
 		}
 	}

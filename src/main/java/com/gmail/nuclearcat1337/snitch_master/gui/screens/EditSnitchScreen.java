@@ -99,9 +99,9 @@ public class EditSnitchScreen extends GuiScreen
 		ILocation loc = snitch.getLocation();
 
 		String text;
-		if (!SnitchMaster.instance.getCurrentWorld().equalsIgnoreCase(loc.getWorld()))
+		if (!SnitchMaster.instance.getCurrentWorld().equalsIgnoreCase(loc.getWorld())) {
 			text = "N/A";
-		else
+		} else
 		{
 			int distance = getDistanceFromPlayer(loc.getX(), loc.getY(), loc.getZ());
 			text = "" + distance+ " m";
@@ -160,9 +160,9 @@ public class EditSnitchScreen extends GuiScreen
 	public void actionPerformed(GuiButton button)
 	{
 		//"Done" button
-		if(button.id == 1)
+		if(button.id == 1) {
 			saveSnitch();
-		else if(button.id == 2) //"Cancel" button
+		} else if(button.id == 2) //"Cancel" button
 		{
 			mc.displayGuiScreen(previousScreen);
 		}
@@ -173,8 +173,9 @@ public class EditSnitchScreen extends GuiScreen
 				snitchManager.getSnitches().remove(snitch);
 				removedSnitches.add(snitch.getLocation());
 
-				if (SnitchMaster.jmInterface != null)
+				if (SnitchMaster.jmInterface != null) {
 					SnitchMaster.jmInterface.refresh(snitchManager.getSnitches());
+				}
 
 				mc.displayGuiScreen(previousScreen);
 			}
@@ -225,8 +226,9 @@ public class EditSnitchScreen extends GuiScreen
 		}
 		else
 		{
-			if (par2 == Keyboard.KEY_TAB)
+			if (par2 == Keyboard.KEY_TAB) {
 				nameBox.setFocused(true);
+			}
 		}
 		super.keyTyped(par1, par2);
 	}

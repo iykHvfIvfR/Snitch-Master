@@ -68,8 +68,9 @@ public class SnitchList
 	public void setListName(String name)
 	{
 		this.listName = name;
-		if (listName.length() > 20)
+		if (listName.length() > 20) {
 			listName = listName.substring(0, 19);
+		}
 
 		manager.journeyMapRedisplay(this);
 	}
@@ -135,10 +136,12 @@ public class SnitchList
 	@Override
 	public boolean equals(Object o)
 	{
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 
 		SnitchList that = (SnitchList) o;
 

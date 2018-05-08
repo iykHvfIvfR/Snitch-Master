@@ -51,10 +51,11 @@ public class TableGui<T> extends GuiListExtended
 			for (TableColumn<T> col : columns)
 			{
 				int width = col.getDrawWidth(item);
-				if (!columnWidths.containsKey(col))
+				if (!columnWidths.containsKey(col)) {
 					columnWidths.put(col, width);
-				else if (width > columnWidths.get(col))
+				} else if (width > columnWidths.get(col)) {
 					columnWidths.put(col, width);
+				}
 			}
 		}
 
@@ -62,8 +63,9 @@ public class TableGui<T> extends GuiListExtended
 		for (TableColumn<T> col : columns)
 		{
 			int headerWidth = mc.fontRenderer.getStringWidth(root + col.getColumnName() + (col.canSort() ? "vv" : ""));
-			if (!columnWidths.containsKey(col) || headerWidth > columnWidths.get(col))
+			if (!columnWidths.containsKey(col) || headerWidth > columnWidths.get(col)) {
 				columnWidths.put(col, headerWidth);
+			}
 		}
 
 		//Calculate all the column bounds
@@ -87,12 +89,13 @@ public class TableGui<T> extends GuiListExtended
 	public void sortByColumn(TableColumn<T> column)
 	{
 		//If we can't sort by this column then just don't do anything
-		if (!column.canSort())
+		if (!column.canSort()) {
 			return;
+		}
 
-		if (sortColumn != null && sortColumn.getColumnName().equalsIgnoreCase(column.getColumnName()))
+		if (sortColumn != null && sortColumn.getColumnName().equalsIgnoreCase(column.getColumnName())) {
 			sortAscending = !sortAscending;
-		else
+		} else
 		{
 			sortColumn = column;
 			sortAscending = true;
@@ -134,10 +137,12 @@ public class TableGui<T> extends GuiListExtended
 			}
 		}
 		// call quickSort() method recursively
-		if (lowerIndex < j)
+		if (lowerIndex < j) {
 			sortEntries(lowerIndex, j, comparator, ascending);
-		if (i < higherIndex)
+		}
+		if (i < higherIndex) {
 			sortEntries(i, higherIndex, comparator, ascending);
+		}
 	}
 
 	public Pair<Integer, Integer> getBoundsForColumn(TableColumn<T> column)
@@ -152,8 +157,9 @@ public class TableGui<T> extends GuiListExtended
 
 	public void swapItems(int index, int nextIndex)
 	{
-		if (index >= entries.size() || nextIndex >= entries.size() || index < 0 || nextIndex < 0)
+		if (index >= entries.size() || nextIndex >= entries.size() || index < 0 || nextIndex < 0) {
 			return;
+		}
 
 		TableEntry entry = entries.get(index);
 		entries.set(index, entries.get(nextIndex));
@@ -173,8 +179,9 @@ public class TableGui<T> extends GuiListExtended
 			int columnWidth = columnWidths.get(col);
 			String text = root + col.getColumnName();
 
-			if (sortColumn != null && sortColumn.getColumnName().equalsIgnoreCase(col.getColumnName()))
+			if (sortColumn != null && sortColumn.getColumnName().equalsIgnoreCase(col.getColumnName())) {
 				text += (sortAscending ? " /\\" : " \\/");
+			}
 
 			int textWidth = mc.fontRenderer.getStringWidth(text);
 			int drawXPos = xPos + (columnWidth / 2) - (textWidth / 2);
@@ -198,8 +205,9 @@ public class TableGui<T> extends GuiListExtended
 	@Override
 	protected void elementClicked(int slotIndex, boolean isRightClick, int mouseX, int mouseY)
 	{
-		if (slotIndex < 0 || slotIndex >= entries.size())
+		if (slotIndex < 0 || slotIndex >= entries.size()) {
 			return;
+		}
 		getListEntry(slotIndex).mousePressed(slotIndex, mouseX, mouseY, isRightClick ? 1 : 0, 0, 0);
 	}
 
@@ -227,8 +235,9 @@ public class TableGui<T> extends GuiListExtended
 			for (TableColumn<T> col : columns)
 			{
 				GuiButton[] buttons = col.prepareEntry(item);
-				if (buttons != null)
+				if (buttons != null) {
 					this.buttons.put(col.getColumnName(), buttons);
+				}
 			}
 		}
 

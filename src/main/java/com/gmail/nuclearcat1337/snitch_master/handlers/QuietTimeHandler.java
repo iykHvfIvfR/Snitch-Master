@@ -82,22 +82,22 @@ public class QuietTimeHandler implements IAlertRecipient
 			{
 				index++;
 				String sub = getStringSubstitution(instructions[index]);
-				if (sub != null)
+				if (sub != null) {
 					builder.append(sub);
-				else
+				} else
 				{
 					SnitchMaster.SendMessageToPlayer("Your quiet time config has an invalid string sub. Please load a working config.");
 					return;
 				}
 			}
-			else if (instruction == B_INSERT_SPACE)
+			else if (instruction == B_INSERT_SPACE) {
 				builder.append(" ");
-			else
+			} else
 			{
 				String possibleText = getTextForCurrentInstruction(alert);
-				if (possibleText != null)
+				if (possibleText != null) {
 					builder.append(possibleText);
-				else
+				} else
 				{
 					SnitchMaster.SendMessageToPlayer("Your quiet time config has an invalid instruction. Please load a working config.");
 					return;
@@ -108,10 +108,11 @@ public class QuietTimeHandler implements IAlertRecipient
 		if (builder.length() > 0)
 		{
 			ITextComponent comp = new TextComponentString(builder.toString()).setStyle(aqua.createShallowCopy());
-			if (currentComponent == null)
+			if (currentComponent == null) {
 				currentComponent = comp;
-			else
+			} else {
 				currentComponent.appendSibling(comp);
+			}
 		}
 
 		if (currentComponent != null)
@@ -154,39 +155,48 @@ public class QuietTimeHandler implements IAlertRecipient
 
 	private String getTextForCurrentInstruction(SnitchAlert alert)
 	{
-		if (index >= instructions.length)
+		if (index >= instructions.length) {
 			return null;
+		}
 		byte inst1 = instructions[index];
 		if (inst1 == B_STRING_SUBSTITUTION)
 		{
 			index++;
-			if (index >= instructions.length)
+			if (index >= instructions.length) {
 				return null;
+			}
 			return getStringSubstitution(instructions[index]);
 		}
-		else
+		else {
 			return GetString(alert, inst1);
+		}
 	}
 
 	private String getStringSubstitution(byte index)
 	{
-		if (index < 0 || index >= literals.length)
+		if (index < 0 || index >= literals.length) {
 			return null;
+		}
 		return literals[index];
 	}
 
 	private static String GetString(SnitchAlert alert, int instruction)
 	{
-		if (instruction == B_PLAYER_NAME)
+		if (instruction == B_PLAYER_NAME) {
 			return alert.getPlayerName();
-		if (instruction == B_ACTIVITY_TEXT)
+		}
+		if (instruction == B_ACTIVITY_TEXT) {
 			return alert.getActivity().getActivityText();
-		if (instruction == B_SNITCH_NAME)
+		}
+		if (instruction == B_SNITCH_NAME) {
 			return alert.getSnitchName();
-		if (instruction == B_LOCATION)
+		}
+		if (instruction == B_LOCATION) {
 			return alert.getLocation().toString();
-		if (instruction == B_SNITCH_NAME_AND_LOCATION)
+		}
+		if (instruction == B_SNITCH_NAME_AND_LOCATION) {
 			return alert.getSnitchName() + System.lineSeparator() + alert.getLocation().toString();
+		}
 		return null;
 	}
 }

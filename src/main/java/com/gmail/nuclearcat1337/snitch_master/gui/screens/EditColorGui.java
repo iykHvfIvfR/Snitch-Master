@@ -162,18 +162,21 @@ public class EditColorGui extends GuiScreen
 		{
 			//If there is not a correct red value don't go back to old screen
 			Integer red = redBox.clamp();
-			if (red == null)
+			if (red == null) {
 				return;
+			}
 
 			//If there is not a correct green value don't go back to old screen
 			Integer green = greenBox.clamp();
-			if (green == null)
+			if (green == null) {
 				return;
+			}
 
 			//If there is not a correct blue value don't go back to old screen
 			Integer blue = blueBox.clamp();
-			if (blue == null)
+			if (blue == null) {
 				return;
+			}
 
 			Color newColor = new Color(red, green, blue);
 			//We only need to save changes if they actually changed the color

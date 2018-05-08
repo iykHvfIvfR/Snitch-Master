@@ -21,11 +21,13 @@ public enum SnitchActivity
 
 	public static SnitchActivity FromText(String text)
 	{
-		if (text.startsWith("entered"))
+		if (text.startsWith("entered")) {
 			return ENTER;
+		}
 
-		if (text.startsWith("logged in"))
+		if (text.startsWith("logged in")) {
 			return LOGIN;
+		}
 
 		return LOGOUT;
 	}

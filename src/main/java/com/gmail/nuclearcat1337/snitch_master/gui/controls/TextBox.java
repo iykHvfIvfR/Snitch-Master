@@ -24,10 +24,11 @@ public class TextBox extends GuiTextField
 		String regex = null;
 		if (this.number)
 		{
-			if (this.allowNegative)
+			if (this.allowNegative) {
 				regex = "[^-?\\d]";
-			else
+			} else {
 				regex = "[^\\d]";
+			}
 		}
 
 		this.numericRegex = regex;

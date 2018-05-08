@@ -19,8 +19,9 @@ public class Color
 	public Color(String serializedString)
 	{
 		String[] args = serializedString.replace("{", "").replace("}", "").split(":");
-		if (args.length != 3)
+		if (args.length != 3) {
 			throw new SerializationException("Invalid color string: " + serializedString);
+		}
 
 		red = Integer.parseInt(args[0]);
 		green = Integer.parseInt(args[1]);

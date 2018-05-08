@@ -82,8 +82,9 @@ public class TargetedSnitchUpdateGui extends GuiScreen
 				stopIndexBox.setFocused(true);
 				startIndexBox.setFocused(false);
 			}
-			else
+			else {
 				startIndexBox.textboxKeyTyped(par1, par2);
+			}
 		}
 		else if (stopIndexBox.isFocused())
 		{
@@ -92,8 +93,9 @@ public class TargetedSnitchUpdateGui extends GuiScreen
 				startIndexBox.setFocused(true);
 				stopIndexBox.setFocused(false);
 			}
-			else
+			else {
 				stopIndexBox.textboxKeyTyped(par1, par2);
+			}
 		}
 		super.keyTyped(par1, par2);
 	}
@@ -132,12 +134,14 @@ public class TargetedSnitchUpdateGui extends GuiScreen
 				break;
 			case 2:
 				Integer minIndex = startIndexBox.clamp();
-				if (minIndex == null)
+				if (minIndex == null) {
 					return;
+				}
 
 				Integer maxIndex = stopIndexBox.clamp();
-				if (maxIndex == null)
+				if (maxIndex == null) {
 					maxIndex = -1;
+				}
 
 				chatParser.updateSnitchList(minIndex, maxIndex);
 

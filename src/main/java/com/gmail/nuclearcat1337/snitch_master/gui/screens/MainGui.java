@@ -64,10 +64,11 @@ public class MainGui extends GuiScreen
 		switch (button.id)
 		{
 			case 0: //"Full Snitch Update" or "Cancel Snitch Update"
-				if (snitchMaster.getChatSnitchParser().isUpdatingSnitchList())
+				if (snitchMaster.getChatSnitchParser().isUpdatingSnitchList()) {
 					snitchMaster.getChatSnitchParser().resetUpdatingSnitchList(true);
-				else
+				} else {
 					snitchMaster.getChatSnitchParser().updateSnitchList();
+				}
 				this.mc.displayGuiScreen((GuiScreen) null);
 				this.mc.setIngameFocus();
 				break;
@@ -78,8 +79,9 @@ public class MainGui extends GuiScreen
 					this.mc.displayGuiScreen((GuiScreen) null);
 					this.mc.setIngameFocus();
 				}
-				else
+				else {
 					this.mc.displayGuiScreen(new TargetedSnitchUpdateGui(this, snitchMaster.getChatSnitchParser()));
+				}
 				break;
 			case 2: //"View Settings"
 				this.mc.displayGuiScreen(new SettingsGui(this));

@@ -57,8 +57,9 @@ public class WorldInfoListener
 			if (mc.player.getDisplayName().equals(event.getEntity().getDisplayName()))
 			{
 				worldID = null;
-				if (this.channel != null)
+				if (this.channel != null) {
 					requestWorldID();
+				}
 
 			}
 		}
@@ -84,15 +85,17 @@ public class WorldInfoListener
 		{
 			//No WorldInfo response so just use vanilla world names
 			WorldProvider provider = Minecraft.getMinecraft().world.provider;
-			if (provider instanceof WorldProviderEnd)
+			if (provider instanceof WorldProviderEnd) {
 				return "world_the_end";
-			else if (provider instanceof WorldProviderHell)
+			} else if (provider instanceof WorldProviderHell) {
 				return "world_nether";
-			else
+			} else {
 				return "world";
+			}
 		}
-		else
+		else {
 			return worldID;
+		}
 	}
 
 	/**

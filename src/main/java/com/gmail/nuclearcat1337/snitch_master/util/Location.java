@@ -47,19 +47,24 @@ public class Location implements ILocation
 	@Override
 	public boolean equals(Object o)
 	{
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 
 		Location location = (Location) o;
 
-		if (x != location.x)
+		if (x != location.x) {
 			return false;
-		if (y != location.y)
+		}
+		if (y != location.y) {
 			return false;
-		if (z != location.z)
+		}
+		if (z != location.z) {
 			return false;
+		}
 		return world.equals(location.world);
 
 	}

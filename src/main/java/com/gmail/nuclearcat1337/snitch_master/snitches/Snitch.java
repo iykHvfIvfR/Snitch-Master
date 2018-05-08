@@ -98,8 +98,9 @@ public class Snitch extends LocatableObject<Snitch>
 	{
 		this(location);
 
-		if(initialTag != null)
+		if(initialTag != null) {
 			tags.add(initialTag);
+		}
 	}
 
 	/**
@@ -216,8 +217,9 @@ public class Snitch extends LocatableObject<Snitch>
 
 	void setSnitchName(String name)
 	{
-		if (!name.isEmpty())
+		if (!name.isEmpty()) {
 			this.name = name;
+		}
 	}
 
 	void setGroupName(String groupName)
@@ -243,23 +245,30 @@ public class Snitch extends LocatableObject<Snitch>
 	public int compareTo(ILocation other)
 	{
 		int compare = location.getWorld().compareTo(other.getWorld());
-		if (compare != 0)
+		if (compare != 0) {
 			return compare;
+		}
 
-		if (location.getX() < other.getX())
+		if (location.getX() < other.getX()) {
 			return -1;
-		if (location.getX() > other.getX())
+		}
+		if (location.getX() > other.getX()) {
 			return 1;
+		}
 
-		if (location.getZ() < other.getZ())
+		if (location.getZ() < other.getZ()) {
 			return -1;
-		if (location.getZ() > other.getZ())
+		}
+		if (location.getZ() > other.getZ()) {
 			return 1;
+		}
 
-		if (location.getY() < other.getY())
+		if (location.getY() < other.getY()) {
 			return -1;
-		if (location.getY() > other.getY())
+		}
+		if (location.getY() > other.getY()) {
 			return 1;
+		}
 
 		return 0;
 	}
@@ -276,10 +285,12 @@ public class Snitch extends LocatableObject<Snitch>
 	@Override
 	public boolean equals(Object o)
 	{
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 
 		Snitch snitch = (Snitch) o;
 
@@ -321,8 +332,9 @@ public class Snitch extends LocatableObject<Snitch>
 		List<String> description = snitch.getDescription();
 		if (description != null)
 		{
-			for (String line : description)
+			for (String line : description) {
 				builder.append(Scrub(line)).append(DESCRIPTION_SEPARATOR);
+			}
 		}
 		builder.append(CSV_SEPARATOR);
 
@@ -359,12 +371,14 @@ public class Snitch extends LocatableObject<Snitch>
 				double cullTime = Double.parseDouble(args[index++]);
 				String type = Scrub(args[index++]).toLowerCase();
 
-				if (snitchName.isEmpty())
+				if (snitchName.isEmpty()) {
 					snitchName = DEFAULT_NAME;
+				}
 
 				Snitch snitch = new Snitch(new Location(x, y, z, world), null, cullTime, groupName, snitchName, type);
-				for(String str : origins)
+				for(String str : origins) {
 					snitch.tags.add(str);
+				}
 
 				//If there is an argument for the description
 				if (args.length > index)
@@ -374,8 +388,9 @@ public class Snitch extends LocatableObject<Snitch>
 					{
 						String[] lines = descriptionCompressed.split(DESCRIPTION_SEPARATOR);
 						ArrayList<String> description = new ArrayList<>(lines.length);
-						for (int i = 0; i < lines.length; i++)
+						for (int i = 0; i < lines.length; i++) {
 							description.set(i, Scrub(lines[i]));
+						}
 						snitch.setDescription(description);
 					}
 				}
@@ -393,10 +408,12 @@ public class Snitch extends LocatableObject<Snitch>
 	static String concatenate(Collection<String> list, String seperator)
 	{
 		StringBuilder builder = new StringBuilder();
-		for (String str : list)
+		for (String str : list) {
 			builder.append(str).append(seperator);
-		if (list.size() > 0)
+		}
+		if (list.size() > 0) {
 			builder.setLength(builder.length() - 1);
+		}
 		return builder.toString();
 	}
 
