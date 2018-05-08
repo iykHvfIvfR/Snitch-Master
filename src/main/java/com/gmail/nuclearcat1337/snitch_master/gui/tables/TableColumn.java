@@ -11,27 +11,27 @@ import java.util.List;
  */
 public interface TableColumn<T> extends Comparator<T>
 {
-    GuiButton[] prepareEntry(T item);
+	GuiButton[] prepareEntry(T item);
 
-    //Must be less than or equal to column width (this is also the header)
-    String getColumnName();
+	//Must be less than or equal to column width (this is also the header)
+	String getColumnName();
 
-    //int getColumnWidth();
+	//int getColumnWidth();
 
-    //int getRightSeparationDistance();
+	//int getRightSeparationDistance();
 
-    boolean doBoundsCheck();
+	boolean doBoundsCheck();
 
-    void clicked(T item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex);
+	void clicked(T item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex);
 
-    void released(T item, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex);
+	void released(T item, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex);
 
-    void draw(T item, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY);
+	void draw(T item, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY);
 
-    int getDrawWidth(T item);
+	int getDrawWidth(T item);
 
-    //Returns a list of strings to draw as hover text
-    List<String> hover(T item, int xPos, int yPos);
+	//Returns a list of strings to draw as hover text
+	List<String> hover(T item, int xPos, int yPos);
 
-    boolean canSort();
+	boolean canSort();
 }

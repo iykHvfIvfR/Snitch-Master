@@ -17,31 +17,31 @@ import org.lwjgl.input.Keyboard;
  */
 public class KeyHandler
 {
-    public KeyBinding snitchMasterMainGUI = new KeyBinding("Snitch Master Settings", Keyboard.KEY_V, "Snitch Master");
-    public KeyBinding toggleAllRender = new KeyBinding("Toggle Render Snitch Lists", Keyboard.KEY_N, "Snitch Master");
+	public KeyBinding snitchMasterMainGUI = new KeyBinding("Snitch Master Settings", Keyboard.KEY_V, "Snitch Master");
+	public KeyBinding toggleAllRender = new KeyBinding("Toggle Render Snitch Lists", Keyboard.KEY_N, "Snitch Master");
 
-    private SnitchMaster snitchMaster;
+	private SnitchMaster snitchMaster;
 
-    public KeyHandler(SnitchMaster snitchMaster)
-    {
-        this.snitchMaster = snitchMaster;
-        ClientRegistry.registerKeyBinding(snitchMasterMainGUI);
-        ClientRegistry.registerKeyBinding(toggleAllRender);
+	public KeyHandler(SnitchMaster snitchMaster)
+	{
+		this.snitchMaster = snitchMaster;
+		ClientRegistry.registerKeyBinding(snitchMasterMainGUI);
+		ClientRegistry.registerKeyBinding(toggleAllRender);
 
-        FMLCommonHandler.instance().bus().register(this);
-    }
+		FMLCommonHandler.instance().bus().register(this);
+	}
 
-    @SubscribeEvent
-    public void onKeyPress(InputEvent.KeyInputEvent event)
-    {
-        if (snitchMasterMainGUI.isPressed())
-        {
-            Minecraft.getMinecraft().displayGuiScreen(new MainGui(snitchMaster));
-        }
-        if (toggleAllRender.isPressed())
-        {
-            snitchMaster.getManager().toggleGlobalRender();
-            SnitchMaster.SendMessageToPlayer("Global render " + (snitchMaster.getManager().getGlobalRender() ? "ON" : "OFF"));
-        }
-    }
+	@SubscribeEvent
+	public void onKeyPress(InputEvent.KeyInputEvent event)
+	{
+		if (snitchMasterMainGUI.isPressed())
+		{
+			Minecraft.getMinecraft().displayGuiScreen(new MainGui(snitchMaster));
+		}
+		if (toggleAllRender.isPressed())
+		{
+			snitchMaster.getManager().toggleGlobalRender();
+			SnitchMaster.SendMessageToPlayer("Global render " + (snitchMaster.getManager().getGlobalRender() ? "ON" : "OFF"));
+		}
+	}
 }

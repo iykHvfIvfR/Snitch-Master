@@ -18,109 +18,109 @@ import java.util.List;
  */
 public class SnitchRemoveColumn implements TableColumn<Snitch>
 {
-    private static Minecraft mc;
+	private static Minecraft mc;
 
-    private static final String BUTTON_TEXT = "x";
-    //private static final int BUTTON_WIDTH = 5;
+	private static final String BUTTON_TEXT = "x";
+	//private static final int BUTTON_WIDTH = 5;
 
-    private final int buttonWidth;
-    private final SnitchManager manager;
-    public static final HashSet<ILocation> removedSnitches = new HashSet<>();
+	private final int buttonWidth;
+	private final SnitchManager manager;
+	public static final HashSet<ILocation> removedSnitches = new HashSet<>();
 
-    public SnitchRemoveColumn(SnitchMaster snitchMaster)
-    {
-        mc = Minecraft.getMinecraft();
+	public SnitchRemoveColumn(SnitchMaster snitchMaster)
+	{
+		mc = Minecraft.getMinecraft();
 
-        buttonWidth = mc.fontRenderer.getStringWidth(BUTTON_TEXT + "---");
-        this.manager = snitchMaster.getManager();
-        //removedSnitches = new HashSet<>();
-    }
+		buttonWidth = mc.fontRenderer.getStringWidth(BUTTON_TEXT + "---");
+		this.manager = snitchMaster.getManager();
+		//removedSnitches = new HashSet<>();
+	}
 
-    @Override
-    public GuiButton[] prepareEntry(Snitch item)
-    {
-        GuiButton[] buttons = new GuiButton[1];
-        buttons[0] = new GuiButton(0, 0, 0, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, BUTTON_TEXT);
-        return buttons;
-    }
+	@Override
+	public GuiButton[] prepareEntry(Snitch item)
+	{
+		GuiButton[] buttons = new GuiButton[1];
+		buttons[0] = new GuiButton(0, 0, 0, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, BUTTON_TEXT);
+		return buttons;
+	}
 
-    @Override
-    public String getColumnName()
-    {
-        return "Remove";
-    }
+	@Override
+	public String getColumnName()
+	{
+		return "Remove";
+	}
 
-    @Override
-    public boolean doBoundsCheck()
-    {
-        return true;
-    }
+	@Override
+	public boolean doBoundsCheck()
+	{
+		return true;
+	}
 
-    @Override
-    public void clicked(Snitch item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-    {
-        //Don't allow right clicks on the button
-        if (!leftClick || removedSnitches.contains(item.getLocation()))
-            return;
+	@Override
+	public void clicked(Snitch item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
+	{
+		//Don't allow right clicks on the button
+		if (!leftClick || removedSnitches.contains(item.getLocation()))
+			return;
 
-        if (buttons[0].mousePressed(mc, xPos, yPos))
-        {
-            manager.getSnitches().remove(item);
+		if (buttons[0].mousePressed(mc, xPos, yPos))
+		{
+			manager.getSnitches().remove(item);
 
-            removedSnitches.add(item.getLocation());
+			removedSnitches.add(item.getLocation());
 
-            if (SnitchMaster.jmInterface != null)
-                SnitchMaster.jmInterface.refresh(manager.getSnitches());
+			if (SnitchMaster.jmInterface != null)
+				SnitchMaster.jmInterface.refresh(manager.getSnitches());
 
-            manager.saveSnitches();
-        }
-    }
+			manager.saveSnitches();
+		}
+	}
 
-    @Override
-    public void released(Snitch list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
-    {
-        if (removedSnitches.contains(list.getLocation()))
-            return;
+	@Override
+	public void released(Snitch list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex)
+	{
+		if (removedSnitches.contains(list.getLocation()))
+			return;
 
-        buttons[0].mouseReleased(xPos, yPos);
-    }
+		buttons[0].mouseReleased(xPos, yPos);
+	}
 
-    @Override
-    public void draw(Snitch list, int xPosition, int yPosition, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY)
-    {
-        if (removedSnitches.contains(list.getLocation()))
-            return;
+	@Override
+	public void draw(Snitch list, int xPosition, int yPosition, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY)
+	{
+		if (removedSnitches.contains(list.getLocation()))
+			return;
 
-        yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
-        int xPos = xPosition + (columnWidth / 2) - (buttonWidth / 2);
+		yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
+		int xPos = xPosition + (columnWidth / 2) - (buttonWidth / 2);
 
-        buttons[0].y = yPosition;
-        buttons[0].x = xPos;
+		buttons[0].y = yPosition;
+		buttons[0].x = xPos;
 
-        buttons[0].drawButton(mc, mouseX, mouseY, 0);
-    }
+		buttons[0].drawButton(mc, mouseX, mouseY, 0);
+	}
 
-    @Override
-    public int getDrawWidth(Snitch list)
-    {
-        return buttonWidth;
-    }
+	@Override
+	public int getDrawWidth(Snitch list)
+	{
+		return buttonWidth;
+	}
 
-    @Override
-    public List<String> hover(Snitch item, int xPos, int yPos)
-    {
-        return null;
-    }
+	@Override
+	public List<String> hover(Snitch item, int xPos, int yPos)
+	{
+		return null;
+	}
 
-    @Override
-    public boolean canSort()
-    {
-        return false;
-    }
+	@Override
+	public boolean canSort()
+	{
+		return false;
+	}
 
-    @Override
-    public int compare(Snitch o1, Snitch o2)
-    {
-        return 0;
-    }
+	@Override
+	public int compare(Snitch o1, Snitch o2)
+	{
+		return 0;
+	}
 }

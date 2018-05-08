@@ -6,8 +6,8 @@ package com.gmail.nuclearcat1337.snitch_master.api;
  */
 public interface IAlertRecipient
 {
-    /**
-     * Called when a Snitch alert is received by the player in chat.
-     */
-    void receiveSnitchAlert(SnitchAlert alert);
+	/**
+	 * Called when a Snitch alert is received by the player in chat.
+	 */
+	void receiveSnitchAlert(SnitchAlert alert);
 }
