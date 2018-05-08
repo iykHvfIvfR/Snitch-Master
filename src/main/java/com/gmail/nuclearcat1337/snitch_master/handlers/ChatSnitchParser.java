@@ -108,8 +108,8 @@ public class ChatSnitchParser {
 				return;
 			}
 		}
-		else if (msgText.contains("Changed snitch name to")) {
-			if (tryParseNameChangeMessage(msg)) {
+		else if(msgText.contains("Changed snitch name to")) {
+			if(tryParseNameChangeMessage(msg)) {
 				manager.saveSnitches();
 				return;
 			}
@@ -182,8 +182,7 @@ public class ChatSnitchParser {
 				manager.setSnitchName(snitch, newName);
 				return true;
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 		return false;
@@ -299,8 +298,7 @@ public class ChatSnitchParser {
 			String ctGroup = matcher.group(5);
 
 			return new Location(x, y, z, worldName);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -556,9 +554,9 @@ public class ChatSnitchParser {
 		loadedSnitches = new HashSet<>();
 
 		//Go through all the snitches that we have saved
-		for (Snitch snitch : manager.getSnitches()) {
+		for(Snitch snitch : manager.getSnitches()) {
 			//If the snitch isn't already marked as gone and is marked as jalist
-			if (!snitch.isTagged(SnitchTags.IS_GONE) && snitch.isTagged(SnitchTags.FROM_JALIST)) {
+			if(!snitch.isTagged(SnitchTags.IS_GONE) && snitch.isTagged(SnitchTags.FROM_JALIST)) {
 				snitchesCopy.add(snitch); //Then we add it to the copy list
 			}
 		}
@@ -612,11 +610,11 @@ public class ChatSnitchParser {
 	 * If an update is currently in progress, it is stopped.
 	 */
 	public void resetUpdatingSnitchList(boolean save) {
-		if (updatingSnitchList && snitchesCopy != null) {
+		if(updatingSnitchList && snitchesCopy != null) {
 			//Remove all the snitches that we loaded from jalist from the copy
 			snitchesCopy.removeAll(loadedSnitches);
 
-			for (Snitch snitch : snitchesCopy) {
+			for(Snitch snitch : snitchesCopy) {
 				manager.addTag(snitch,SnitchTags.IS_GONE);
 			}
 

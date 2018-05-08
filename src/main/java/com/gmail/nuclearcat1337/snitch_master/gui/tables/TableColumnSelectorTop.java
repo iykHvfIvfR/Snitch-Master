@@ -92,8 +92,7 @@ public class TableColumnSelectorTop<T> extends GuiScreen {
 		selectorGui.mouseClicked(mouseX, mouseY, mouseEvent);
 		try {
 			super.mouseClicked(mouseX, mouseY, mouseEvent);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -111,8 +110,7 @@ public class TableColumnSelectorTop<T> extends GuiScreen {
 		selectorGui.handleMouseInput();
 		try {
 			super.handleMouseInput();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

@@ -91,8 +91,7 @@ public class JourneyMapOverlayPlugin implements IClientPlugin, JourneyMapInterfa
 				if (overlay != null) {
 					api.show(overlay);
 				}
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

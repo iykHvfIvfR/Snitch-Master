@@ -154,12 +154,12 @@ public class EditSnitchScreen extends GuiScreen {
 	@Override
 	public void actionPerformed(GuiButton button) {
 		//"Done" button
-		if (button.id == 1) {
+		if(button.id == 1) {
 			saveSnitch();
-		} else if (button.id == 2) { //"Cancel" button
+		} else if(button.id == 2) { //"Cancel" button
 			mc.displayGuiScreen(previousScreen);
-		} else if (button.id == 3) { //"Delete" button
-			if (onConfirmationButton) {
+		} else if(button.id == 3) { //"Delete" button
+			if(onConfirmationButton) {
 				snitchManager.getSnitches().remove(snitch);
 				removedSnitches.add(snitch.getLocation());
 
@@ -186,18 +186,18 @@ public class EditSnitchScreen extends GuiScreen {
 
 	@Override
 	public void keyTyped(char par1, int par2) throws IOException {
-		if (par2 == Keyboard.KEY_RETURN) {
+		if(par2 == Keyboard.KEY_RETURN) {
 			saveSnitch();
 			return;
 		}
 
-		if (nameBox.isFocused()) {
+		if(nameBox.isFocused()) {
 			if (par2 == Keyboard.KEY_TAB) {
 				groupBox.setFocused(true);
 				nameBox.setFocused(false);
 			}
 			nameBox.textboxKeyTyped(par1, par2);
-		} else if (groupBox.isFocused()) {
+		} else if(groupBox.isFocused()) {
 			if (par2 == Keyboard.KEY_TAB) {
 				nameBox.setFocused(true);
 				groupBox.setFocused(false);

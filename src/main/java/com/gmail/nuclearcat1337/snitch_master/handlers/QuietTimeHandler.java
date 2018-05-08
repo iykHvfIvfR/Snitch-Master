@@ -126,8 +126,7 @@ public class QuietTimeHandler implements IAlertRecipient {
 
 			index--;//????
 			return hoverComponent;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}

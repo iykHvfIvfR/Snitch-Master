@@ -184,8 +184,7 @@ public abstract class TableTopGui<T> extends GuiScreen {
 
 		try {
 			super.mouseClicked(mouseX, mouseY, mouseEvent);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -203,8 +202,7 @@ public abstract class TableTopGui<T> extends GuiScreen {
 		tableGui.handleMouseInput();
 		try {
 			super.handleMouseInput();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

@@ -31,8 +31,7 @@ public class Settings {
 		if (file.exists()) {
 			try {
 				file.createNewFile();
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -67,11 +66,9 @@ public class Settings {
 					values.put(tokens[0], value);
 				}
 				reader.close();
-			}
-			catch (FileNotFoundException e) {
+			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -93,8 +90,7 @@ public class Settings {
 			}
 			writer.flush();
 			writer.close();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

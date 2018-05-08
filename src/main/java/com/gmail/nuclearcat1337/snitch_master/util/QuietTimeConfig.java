@@ -40,8 +40,7 @@ public class QuietTimeConfig {
 			byte[] bytes = ParseByteArray(parts[0]);
 			String[] literals = parts.length > 1 ? ParseStringArray(parts[1]) : new String[0];
 			return new QuietTimeConfig(bytes, literals);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			SnitchMaster.instance.logger.info("");
 			return GetDefaultQuietTimeConfig();
 		}
