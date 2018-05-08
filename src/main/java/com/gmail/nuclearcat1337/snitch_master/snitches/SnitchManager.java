@@ -13,6 +13,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.io.*;
 import java.util.*;
 
+import org.apache.commons.io.FileUtils;
+
 /**
  * Created by Mr_Little_Kitty on 3/10/2017.
  */
@@ -408,32 +410,16 @@ public class SnitchManager
 
     private static void writeToCSV(File file, List<String> lines)
     {
-        if (!file.exists())
-        {
-            try
-            {
-                file.createNewFile();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-                return;
-            }
+        StringBuilder sb = new StringBuilder();
+        for (String line : lines) {
+            sb.append(line);
+            sb.append("\n");
         }
+        String snitchList = sb.toString();
 
-        try (FileWriter writer = new FileWriter(file))
-        {
-            for (String line : lines)
-            {
-                writer.write(line);
-                writer.write(System.lineSeparator());
-            }
-            writer.flush();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        try {
+            FileUtils.writeStringToFile(file, snitchList, "UTF-8");
+        } catch (IOException e) {}
     }
 
     private void loadSnitches()
