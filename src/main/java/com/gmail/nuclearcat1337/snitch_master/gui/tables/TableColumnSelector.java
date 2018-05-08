@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class TableColumnSelector<T> extends GuiListExtended
 {
-	//private static final int ARROW_BUTTON_WIDTH = 20;
 	private static final String CONTROLS_HEADER = "Controls";
 	private static final String NAME_HEADER = "Column Name";
 	private static final String RENDER_HEADER = "Render Enabled";

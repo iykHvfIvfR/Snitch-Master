@@ -34,7 +34,6 @@ public class DropMenu extends GuiButton
 	{
 		if (this.visible)
 		{
-			//GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			int i = this.getHoverState(this.hovered);
 
@@ -47,15 +46,6 @@ public class DropMenu extends GuiButton
 			mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
 			this.drawTexturedModalRect(this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
 			this.drawTexturedModalRect(this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
-
-			//            if(i == 2) //They are hovering over the button
-			//            {
-			//                float f3 = (float)(16777120 >> 24 & 255) / 255.0F;
-			//                float f = (float)(16777120 >> 16 & 255) / 255.0F;
-			//                float f1 = (float)(16777120 >> 8 & 255) / 255.0F;
-			//                float f2 = (float)(16777120 & 255) / 255.0F;
-			//                GlStateManager.color(f, f1, f2, f3);
-			//            }
 
 			mc.getTextureManager().bindTexture(MENU_BUTTON);
 			this.drawTexturedModalRect(this.x + 4, this.y + 4, 0, 0, 8, 8);

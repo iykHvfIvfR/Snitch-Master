@@ -84,10 +84,6 @@ public class SnitchCoordinateColumn implements TableColumn<Snitch>
 	@Override
 	public List<String> hover(Snitch snitch, int xPos, int yPos)
 	{
-		//Removing the hover text so that we show the world ina separate column
-		//        List<String> temp = new ArrayList<>(1);
-		//        temp.add(snitch.getWorld());
-		//        return temp;
 		return null;
 	}
 

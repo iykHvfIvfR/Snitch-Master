@@ -88,11 +88,9 @@ public class MainGui extends GuiScreen
 				break;
 			case 3: //"View Snitch Lists"
 				this.mc.gameSettings.saveOptions(); //wtf? Why is this here? What does this do?
-				//this.mc.displayGuiScreen(new EditSnitchListsGui(this,snitchMaster,snitchMaster.getSnitchLists().asCollection(),true, "All Snitch Lists"));
 				this.mc.displayGuiScreen(new SnitchListsTable(this, snitchMaster.getManager().getSnitchLists(), "All Snitch Lists", true, snitchMaster));
 				break;
 			case 4: //"View Snitches"
-				//this.mc.displayGuiScreen(new EditSnitchesGui(this,snitchMaster.getSnitches(),"All Snitches"));
 				this.mc.displayGuiScreen(new SnitchesTable(this, snitchMaster.getManager().getSnitches(), "All Snitches", snitchMaster));
 				break;
 			case 5: //"Done"

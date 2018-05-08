@@ -21,7 +21,6 @@ public class SnitchRemoveColumn implements TableColumn<Snitch>
 	private static Minecraft mc;
 
 	private static final String BUTTON_TEXT = "x";
-	//private static final int BUTTON_WIDTH = 5;
 
 	private final int buttonWidth;
 	private final SnitchManager manager;
@@ -33,7 +32,6 @@ public class SnitchRemoveColumn implements TableColumn<Snitch>
 
 		buttonWidth = mc.fontRenderer.getStringWidth(BUTTON_TEXT + "---");
 		this.manager = snitchMaster.getManager();
-		//removedSnitches = new HashSet<>();
 	}
 
 	@Override

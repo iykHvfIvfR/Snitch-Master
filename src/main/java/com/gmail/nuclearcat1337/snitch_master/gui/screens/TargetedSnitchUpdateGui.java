@@ -20,7 +20,6 @@ public class TargetedSnitchUpdateGui extends GuiScreen
 
 	private static final int BOX_AND_BUTTON_WIDTH = GuiConstants.MEDIUM_BUTTON_WIDTH;
 
-	//private SnitchMaster snitchMaster;
 	private final GuiScreen cancelToScreen;
 	private final ChatSnitchParser chatParser;
 
@@ -33,7 +32,6 @@ public class TargetedSnitchUpdateGui extends GuiScreen
 	public TargetedSnitchUpdateGui(GuiScreen cancelToScreen, ChatSnitchParser chatParser)
 	{
 		this.cancelToScreen = cancelToScreen;
-		//this.snitchMaster = snitchMaster;
 		this.chatParser = chatParser;
 
 		startTextWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(START_BOX_TEXT);

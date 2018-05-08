@@ -76,9 +76,6 @@ public class JourneyMapOverlayPlugin implements IClientPlugin, JourneyMapInterfa
 		FMLCommonHandler.instance().bus().register(this);
 		ClientRegistry.registerKeyBinding(renderJourneyMapOverlay);
 
-		// Subscribe to desired ClientEvent types from JourneyMap
-		//this.api.subscribe(getModId(), EnumSet.of(MAPPING_STOPPED));
-
 		SnitchMaster.logger.info("[SnitchMaster] JourneyMap overlay initialized");
 	}
 
@@ -97,13 +94,10 @@ public class JourneyMapOverlayPlugin implements IClientPlugin, JourneyMapInterfa
 
 	}
 
-	//private ArrayList<Snitch> renderedSnitches = new ArrayList<>();
-
 	private void sendImage(Snitch snitch)
 	{
 		if (api.playerAccepts(getModId(), DisplayType.Image))
 		{
-			//renderedSnitches.add(snitch.getLocation());
 			ImageOverlay overlay = SnitchImageFactory.createSnitchOverlay(snitch);
 			try
 			{
@@ -139,15 +133,4 @@ public class JourneyMapOverlayPlugin implements IClientPlugin, JourneyMapInterfa
 	{
 		api.removeAll(this.getModId());
 	}
-
-	//    @Override
-	//    public void onEvent(ClientEvent clientEvent)
-	//    {
-	//        switch (clientEvent.type)
-	//        {
-	//            case MAPPING_STOPPED:
-	//                clearDisplayed();
-	//                break;
-	//        }
-	//    }
 }

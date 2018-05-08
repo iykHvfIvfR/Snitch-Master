@@ -70,12 +70,6 @@ public class SnitchNameColumn implements TableColumn<Snitch>
 	@Override
 	public List<String> hover(Snitch snitch, int xPos, int yPos)
 	{
-		//Were no longer going to show the attached snitch lists on hover. Instead we will have a button in a different column
-		//        List<String> temp = new ArrayList<>(snitch.getAttachedSnitchLists().size()+1);
-		//        temp.add("Snitch Lists:");
-		//        for(SnitchList list : snitch.getAttachedSnitchLists())
-		//            temp.add(list.getListName());
-		//        return temp;
 		return null;
 	}
 

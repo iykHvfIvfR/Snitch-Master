@@ -58,16 +58,6 @@ public class SnitchListQualifier
 	 * Returns true if the qualifier was updated.
 	 * Returns false otherwise.
 	 */
-	//    public boolean updateQualifier(String expression)
-	//    {
-	//        if(!isSyntaxValid(expression))
-	//            return false;
-	//
-	//        this.expression = expression;
-	//        this.tokens = expression.split(" ");
-	//
-	//        return true;
-	//    }
 	public boolean equalsString(String expression)
 	{
 		return expression.equalsIgnoreCase(this.expression);
@@ -107,14 +97,10 @@ public class SnitchListQualifier
 						if (token.equals(OR_OPERATOR))
 						{
 							finalResult = finalResult || result;
-//                            if (finalResult) //Short circuiting logic
-//                                return true;
 						}
 						else
 						{
 							finalResult = finalResult && result;
-//                            if (!finalResult) //Short circuiting logic
-//                                return false;
 						}
 					}
 				}
@@ -392,19 +378,6 @@ public class SnitchListQualifier
 	{
 		return token.startsWith(STRING_LITERAL_CHAR) && token.endsWith(STRING_LITERAL_CHAR);
 	}
-
-	//    private static boolean isVariable(String token)
-	//    {
-	//        return  token.equalsIgnoreCase(CULL_TIME_TOKEN) ||
-	//                token.equalsIgnoreCase(GROUP_TOKEN) ||
-	//                token.equalsIgnoreCase(NAME_TOKEN) ||
-	//                //token.equalsIgnoreCase("x") ||
-	//                //token.equalsIgnoreCase("y") ||
-	//                //token.equalsIgnoreCase("z") ||
-	//                token.equalsIgnoreCase(WORLD_TOKEN) ||
-	//                token.equalsIgnoreCase(DEPRECATED_ORIGIN_TOKEN);
-	//
-	//    }
 
 	private static boolean isListVariable(String token)
 	{

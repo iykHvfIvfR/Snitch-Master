@@ -77,7 +77,6 @@ public class TableGui<T> extends GuiListExtended
 			int leftBound = totalWidth;
 			totalWidth += columnWidths.get(col);
 
-			//if(col.doBoundsCheck())
 			columnBounds.put(col, new Pair<>(leftBound, totalWidth));
 
 			totalWidth += SEPARATION_DISTANCE;

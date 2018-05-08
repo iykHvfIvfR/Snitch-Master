@@ -16,10 +16,6 @@ public interface TableColumn<T> extends Comparator<T>
 	//Must be less than or equal to column width (this is also the header)
 	String getColumnName();
 
-	//int getColumnWidth();
-
-	//int getRightSeparationDistance();
-
 	boolean doBoundsCheck();
 
 	void clicked(T item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex);

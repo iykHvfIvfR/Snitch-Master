@@ -612,8 +612,6 @@ public class ChatSnitchParser
 		Minecraft.getMinecraft().player.sendChatMessage("/tps");
 		nextUpdate = System.currentTimeMillis() + 2000;
 		updatingSnitchList = true;
-
-		//SnitchMaster.SendMessageToPlayer("The current world is: "+snitchMaster.getCurrentWorld());
 	}
 
 	private void parseTPS(String message)

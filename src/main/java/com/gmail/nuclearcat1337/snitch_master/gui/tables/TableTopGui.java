@@ -92,8 +92,6 @@ public abstract class TableTopGui<T> extends GuiScreen
 		buttonList.add(doneButton);
 		buttonList.add(columnsButton);
 
-		//buttonList.add(new DropMenu(2,20,20));
-
 		initializeButtons(3);
 
 		super.initGui();
