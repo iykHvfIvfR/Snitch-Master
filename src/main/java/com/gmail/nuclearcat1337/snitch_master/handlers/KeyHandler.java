@@ -10,11 +10,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
-/**
- * Created by Mr_Little_Kitty on 6/30/2016.
- * Handles the keys that are bound for SnitchMaster.
- * Currently this handles the settings key and the toggle render key.
- */
 public class KeyHandler {
 	public KeyBinding snitchMasterMainGUI = new KeyBinding("Snitch Master Settings", Keyboard.KEY_V, "Snitch Master");
 	public KeyBinding toggleAllRender = new KeyBinding("Toggle Render Snitch Lists", Keyboard.KEY_N, "Snitch Master");

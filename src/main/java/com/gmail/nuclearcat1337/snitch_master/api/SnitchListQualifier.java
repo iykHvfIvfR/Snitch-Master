@@ -5,7 +5,6 @@ import com.gmail.nuclearcat1337.snitch_master.snitches.Snitch;
 import java.util.Collection;
 
 /**
- * Created by Mr_Little_Kitty on 7/20/2016.
  * A conditional expression for a SnitchList to accept a Snitch.
  */
 public class SnitchListQualifier {
@@ -152,7 +151,6 @@ public class SnitchListQualifier {
 
 	private static boolean checkTokens(String left, String right, String operator) {
 		if (isListVariable(left) || isListVariable(right)) {
-			//If the operator is not a valid operator for working with lists then throw an error
 			if (!isEqualityOperator(operator)) {
 				return false;
 			}
@@ -167,14 +165,11 @@ public class SnitchListQualifier {
 			}
 
 			return false;
-		//Check if the left side is either a string variable or a string literal
 		} else if (isStringLiteral(left) || isStringVariable(left)) {
-			//If the operator is a not a valid string operator then throw an error
 			if (!isEqualityOperator(operator)) {
 				return false;
 			}
 
-			//If the right hand argument is not a string operand then throw an error
 			if (!isStringLiteral(right) && !isStringVariable(right)) {
 				return false;
 			}
@@ -182,14 +177,12 @@ public class SnitchListQualifier {
 			return true;
 		//I guess right here is where im taking a stance that we wont allow things like: 100 == 100
 		} else if (isDoubleVariable(left) || isDoubleVariable(right)) {
-			//Is the operator is not valid for doubles then throw an error
 			if (!isComparisonToken(operator)) {
 				return false;
 			}
 
 			return (isDoubleVariable(left) || isDoubleLiteral(left)) && (isDoubleVariable(right) || isDoubleLiteral(right));
 		} else if (isIntegerVariable(left) || isIntegerVariable(right)) {
-			//Is the operator is not valid for doubles then throw an error
 			if (!isComparisonToken(operator)) {
 				return false;
 			}
@@ -202,7 +195,6 @@ public class SnitchListQualifier {
 
 	private static boolean evaluateTokens(String left, String right, String operator, Snitch snitch) throws Exception {
 		if (isListVariable(left) || isListVariable(right)) {
-			//If the operator is not a valid operator for working with lists then throw an error
 			if (!isEqualityOperator(operator)) {
 				throw new Exception("Syntax error at expression: " + left + " " + operator + " " + right);
 			}
@@ -218,19 +210,16 @@ public class SnitchListQualifier {
 
 			throw new Exception("Syntax error at expression: " + left + " " + operator + " " + right);
 		} else if (isStringLiteral(left) || isStringVariable(left)) {
-			//If the operator is a not a valid string operator then throw an error
 			if (!isEqualityOperator(operator)) {
 				throw new Exception("Syntax error at expression: " + left + " " + operator + " " + right);
 			}
 
-			//If the right hand argument is not a string operand then throw an error
 			if (!isStringLiteral(right) && !isStringVariable(right)) {
 				throw new Exception("Syntax error at expression: " + left + " " + operator + " " + right);
 			}
 
 			return evaluateStringExpression(getStringValue(left, snitch), getStringValue(right, snitch), operator);
 		} else if (isDoubleVariable(left) || isDoubleVariable(right)) {
-			//Is the operator is not valid for doubles then throw an error
 			if (!isComparisonToken(operator)) {
 				throw new Exception("Syntax error at expression: " + left + " " + operator + " " + right);
 			}
@@ -241,7 +230,6 @@ public class SnitchListQualifier {
 
 			throw new Exception("Syntax error at expression: " + left + " " + operator + " " + right);
 		} else if (isIntegerVariable(left) || isIntegerVariable(right)) {
-			//Is the operator is not valid for doubles then throw an error
 			if (!isComparisonToken(operator)) {
 				throw new Exception("Syntax error at expression: " + left + " " + operator + " " + right);
 			}
@@ -297,8 +285,6 @@ public class SnitchListQualifier {
 			return snitch.getSnitchName();
 		} else if (token.equalsIgnoreCase(WORLD_TOKEN)) {
 			return snitch.getLocation().getWorld();
-			//        else if (token.equalsIgnoreCase(DEPRECATED_ORIGIN_TOKEN))
-			//            return snitch.getOrigin();
 		} else {
 			throw new Exception("Syntax error: Token " + token + " is not a valid String value");
 		}

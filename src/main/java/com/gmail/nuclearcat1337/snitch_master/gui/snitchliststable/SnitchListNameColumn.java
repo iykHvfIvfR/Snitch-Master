@@ -11,9 +11,6 @@ import net.minecraft.client.gui.GuiScreen;
 
 import java.util.List;
 
-/**
- * Created by Mr_Little_Kitty on 1/2/2017.
- */
 public class SnitchListNameColumn implements TableColumn<SnitchList> {
 	private static Minecraft mc;
 
@@ -41,7 +38,6 @@ public class SnitchListNameColumn implements TableColumn<SnitchList> {
 
 	@Override
 	public void clicked(SnitchList list, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
-		//Only if its a right click
 		if (!leftClick) {
 			mc.displayGuiScreen(new EditStringGui(parentScreen, list.getListName(), "Edit List Name", new EditNameAcceptor(list), 20));
 		}

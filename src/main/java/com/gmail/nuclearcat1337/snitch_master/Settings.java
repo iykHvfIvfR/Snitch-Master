@@ -4,9 +4,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Mr_Little_Kitty on 7/9/2016.
- */
 public class Settings {
 	private static final String modSettingsFile = SnitchMaster.modDataFolder + "/Settings.txt";
 

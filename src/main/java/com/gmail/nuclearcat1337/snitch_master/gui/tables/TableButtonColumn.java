@@ -7,9 +7,6 @@ import net.minecraft.client.gui.GuiScreen;
 
 import java.util.List;
 
-/**
- * Created by Mr_Little_Kitty on 1/2/2017.
- */
 public class TableButtonColumn<T> implements TableColumn<T> {
 	private static Minecraft mc;
 
@@ -45,7 +42,6 @@ public class TableButtonColumn<T> implements TableColumn<T> {
 
 	@Override
 	public void clicked(T item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
-		//Don't allow right clicks on the button
 		if (!leftClick) {
 			return;
 		}

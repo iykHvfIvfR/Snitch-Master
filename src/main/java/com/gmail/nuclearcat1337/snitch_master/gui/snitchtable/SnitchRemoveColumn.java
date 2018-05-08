@@ -13,9 +13,6 @@ import net.minecraft.client.gui.GuiScreen;
 import java.util.HashSet;
 import java.util.List;
 
-/**
- * Created by Mr_Little_Kitty on 1/3/2017.
- */
 public class SnitchRemoveColumn implements TableColumn<Snitch> {
 	private static Minecraft mc;
 
@@ -51,7 +48,6 @@ public class SnitchRemoveColumn implements TableColumn<Snitch> {
 
 	@Override
 	public void clicked(Snitch item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
-		//Don't allow right clicks on the button
 		if (!leftClick || removedSnitches.contains(item.getLocation())) {
 			return;
 		}

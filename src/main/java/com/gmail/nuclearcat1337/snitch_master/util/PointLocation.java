@@ -2,9 +2,6 @@ package com.gmail.nuclearcat1337.snitch_master.util;
 
 import com.gmail.nuclearcat1337.snitch_master.locatableobjectlist.ILocation;
 
-/**
- * Created by Mr_Little_Kitty on 8/22/2016.
- */
 public class PointLocation implements ILocation {
 	public int x, y, z;
 	public String world;

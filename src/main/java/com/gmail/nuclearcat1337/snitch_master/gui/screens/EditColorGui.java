@@ -12,9 +12,6 @@ import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
 
-/**
- * Created by Mr_Little_Kitty on 9/26/2016.
- */
 public class EditColorGui extends GuiScreen {
 	private GuiScreen cancelToScreen;
 

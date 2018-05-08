@@ -17,10 +17,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.util.List;
 
-/**
- * Created by Mr_Little_Kitty on 6/25/2016.
- * The main class for the SnitchMaster mod.
- */
 @Mod(modid = SnitchMaster.MODID, name = SnitchMaster.MODNAME, version = SnitchMaster.MODVERSION, guiFactory = "com.gmail.nuclearcat1337.snitch_master.gui.ConfigGuiFactory")
 public class SnitchMaster {
 	public static final String MODID = "snitchmaster";
@@ -29,15 +25,9 @@ public class SnitchMaster {
 	public static final String modDataFolder = "mods/Snitch-Master";
 
 	private static final Minecraft mc = Minecraft.getMinecraft();
-	/**
-	 * The Logger instance to use to print to the console
-	 */
 	public static final Logger logger = LogManager.getLogger(MODID);
 	public static final boolean CULL_TIME_ENABLED = true;
 
-	/**
-	 * The JourneyMap interface for communicating with the JourneyMap plugin
-	 */
 	public static JourneyMapInterface jmInterface = null;
 
 	/**

@@ -5,7 +5,6 @@ import com.gmail.nuclearcat1337.snitch_master.util.Location;
 import net.minecraft.util.text.ITextComponent;
 
 /**
- * Created by Mr_Little_Kitty on 7/9/2016.
  * Represents a Snitch alert received in chat.
  */
 public class SnitchAlert {
@@ -25,51 +24,30 @@ public class SnitchAlert {
 		this.rawMessage = rawMessage;
 	}
 
-	/**
-	 * Returns the name of the player that triggered the Snitch alert.
-	 */
 	public String getPlayerName() {
 		return playerName;
 	}
 
-	/**
-	 * Returns the location of the Snitch that was triggered.
-	 */
 	public ILocation getLocation() {
 		return point;
 	}
 
-	/**
-	 * Returns the player activity that triggered the Snitch.
-	 */
 	public SnitchActivity getActivity() {
 		return activity;
 	}
 
-	/**
-	 * Returns the name of the Snitch that was triggered.
-	 */
 	public String getSnitchName() {
 		return snitchName;
 	}
 
-	/**
-	 * Returns the name of the world that the triggered Snitch is in.
-	 */
 	public String getWorld() {
 		return world;
 	}
 
-	/**
-	 * Returns the raw Snitch alert message.
-	 */
 	public ITextComponent getRawMessage() {
 		return rawMessage;
 	}
 
-	/**
-	 * Sets the raw message to be displayed to the player.
-	 */
 	public void setRawMessage(ITextComponent rawMessage) {
 		this.rawMessage = rawMessage;
 	}

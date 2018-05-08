@@ -18,7 +18,6 @@ import org.lwjgl.input.Keyboard;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * Created by Mr_Little_Kitty on 9/20/2016.
  * The class that handles the displaying of Snitches on JourneyMap.
  */
 @ParametersAreNonnullByDefault
@@ -41,9 +40,6 @@ public class JourneyMapOverlayPlugin implements IClientPlugin, JourneyMapInterfa
 		}
 	}
 
-	/**
-	 * Toggles the rendering of all Snitches on JourneyMap (both on minimap and on the fullscreen map)
-	 */
 	private void toggleRender() {
 		renderOverlay = !renderOverlay;
 		if (!renderOverlay) {

@@ -4,13 +4,9 @@ import com.gmail.nuclearcat1337.snitch_master.api.SnitchListQualifier;
 import com.gmail.nuclearcat1337.snitch_master.util.Color;
 
 /**
- * Created by Mr_Little_Kitty on 6/25/2016.
  * A structure that handles the grouping of Snitches by common traits or specified functions.
  */
 public class SnitchList {
-	/**
-	 * The maximum number of characters allowed for a SnitchList name.
-	 */
 	public static final String MAX_NAME_CHARACTERS = "WWWWWWWWWWWWWWWWWWWW";
 
 	private static Color defaultColor = new Color(240, 255, 240); //"HoneyDew"
@@ -137,10 +133,6 @@ public class SnitchList {
 	static final int NUMBER_OF_CSV_PARAMS = 5;
 	static final String CSV_SEPARATOR = ",";
 
-	/**
-	 * Returns a String representing the given SnitchList.
-	 * The returned String is in comma separated value form.
-	 */
 	public static String ConvertSnitchListToCSV(SnitchList list) {
 		StringBuilder builder = new StringBuilder();
 
@@ -153,9 +145,6 @@ public class SnitchList {
 		return builder.toString();
 	}
 
-	/**
-	 * Returns a SnitchList built from the given comma separated value String.
-	 */
 	static SnitchList GetSnitchListFromCSV(String csv, SnitchManager manager) {
 		String[] args = csv.split(CSV_SEPARATOR);
 		if (args.length != NUMBER_OF_CSV_PARAMS) {

@@ -9,9 +9,6 @@ import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
 
-/**
- * Created by Mr_Little_Kitty on 9/23/2016.
- */
 public class EditStringGui extends GuiScreen {
 	private GuiScreen cancelToScreen;
 

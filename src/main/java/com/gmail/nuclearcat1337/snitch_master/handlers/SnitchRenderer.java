@@ -23,10 +23,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.apache.commons.lang3.text.WordUtils;
 
-/**
- * Created by Mr_Little_Kitty on 6/26/2016.
- * Handles the rendering of Snitches in the Minecraft world that the player is currently in.
- */
 public class SnitchRenderer {
 	private static final int BLOCK_RENDER_DISTANCE = 60;
 	private static final int BOX_RENDER_DISTANCE = 36;
@@ -43,9 +39,6 @@ public class SnitchRenderer {
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	/**
-	 * Renders all the Snitches in that current world that are in a certain distance of the player
-	 */
 	@SubscribeEvent
 	public void renderSnitches(RenderWorldLastEvent event) {
 		if (manager.getGlobalRender()) {

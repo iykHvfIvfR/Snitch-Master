@@ -15,9 +15,6 @@ import java.util.*;
 
 import org.apache.commons.io.FileUtils;
 
-/**
- * Created by Mr_Little_Kitty on 3/10/2017.
- */
 public class SnitchManager {
 	private static final Minecraft mc = Minecraft.getMinecraft();
 
@@ -332,7 +329,6 @@ public class SnitchManager {
 		int index = snitchLists.indexOf(list);
 		int targetIndex = increase ? index - 1 : index + 1;
 
-		//If they were successfully swapped
 		if (swapIfPossible(snitchLists, index, targetIndex)) {
 			//Update the list objects actual render priority
 			snitchLists.get(index).setRenderPriorityUnchecked(index + 1);
@@ -371,10 +367,8 @@ public class SnitchManager {
 		attached.add(i, list);
 	}
 
-	//True if they were swapped
-	//False otherwise
 	private static <T> boolean swapIfPossible(List<T> list, int index, int targetIndex) {
-		if (list.size() < 2) { //Cant swap if there are less than 2 items
+		if (list.size() < 2) {
 			return false;
 		}
 

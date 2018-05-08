@@ -10,9 +10,6 @@ import net.minecraft.client.gui.GuiScreen;
 
 import java.util.List;
 
-/**
- * Created by Mr_Little_Kitty on 1/2/2017.
- */
 public class SnitchListControlsColumn implements TableColumn<SnitchList> {
 	private static final int ARROW_BUTTON_WIDTH = 20;
 	private static final int ON_OFF_BUTTON_WIDTH = 30;
@@ -50,7 +47,6 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList> {
 
 	@Override
 	public void clicked(SnitchList list, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
-		//Don't allow right clicks
 		if (!leftClick) {
 			return;
 		}
@@ -80,7 +76,6 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList> {
 	public void draw(SnitchList list, int xPosition, int yPosition, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
 		yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
 
-		//Set the y position of all 3 buttons
 		buttons[0].y = yPosition;
 		buttons[1].y = yPosition;
 		buttons[2].y = yPosition;

@@ -7,29 +7,13 @@ import com.gmail.nuclearcat1337.snitch_master.util.Location;
 
 import java.util.*;
 
-/**
- * Created by Mr_Little_Kitty on 6/25/2016.
- * Represents a Snitch block in Minecraft. (Jukebox or Noteblock as of Sept. 2016)
- */
 public class Snitch extends LocatableObject<Snitch> {
-	/**
-	 * The maximum number of characters that are allowed to be in the name of a Snitch
-	 */
 	public static final String MAX_NAME_CHARACTERS = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
 
-	/**
-	 * The maximum number of characters that are allowed to be in the name of a Citadel Group
-	 */
 	public static final String MAX_CT_GROUP_NAME_CHARACTERS = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
 
-	/**
-	 * The radius out from the Snitch block in all directions.
-	 */
 	public static final int SNITCH_RADIUS = 11;
 
-	/**
-	 * The default name used for populating Snitch names and Citadel group names when not specified.
-	 */
 	public static final String DEFAULT_NAME = "[Undefined]";
 
 	/**
@@ -37,14 +21,8 @@ public class Snitch extends LocatableObject<Snitch> {
 	 */
 	public static final Double MAX_CULL_TIME = 672D;
 
-	/**
-	 * The location of this Snitch block.
-	 */
 	private final ILocation location;
 
-	/**
-	 * The tags attached to this snitch object
-	 */
 	HashSet<String> tags;
 
 	/**
@@ -57,9 +35,6 @@ public class Snitch extends LocatableObject<Snitch> {
 	 */
 	private String ctGroup;
 
-	/**
-	 * The name of this Snitch block.
-	 */
 	private String name;
 
 	/**
@@ -67,9 +42,6 @@ public class Snitch extends LocatableObject<Snitch> {
 	 */
 	private String type;
 
-	/**
-	 * Array of SnitchLists that this Snitch is a part of.
-	 */
 	final List<SnitchList> attachedSnitchLists;
 
 	private List<String> description;
@@ -137,10 +109,6 @@ public class Snitch extends LocatableObject<Snitch> {
 		return description;
 	}
 
-	/**
-	 * Returns true if the given point if within the area covered by this Snitch block.
-	 * Returns false otherwise.
-	 */
 	public boolean isPointInThisSnitch(int x, int y, int z) {
 		return x >= getFieldMinX() && x <= getFieldMaxX() && z >= getFieldMinZ() && z <= getFieldMaxZ() && y >= getFieldMinY() && y <= getFieldMaxY();
 	}

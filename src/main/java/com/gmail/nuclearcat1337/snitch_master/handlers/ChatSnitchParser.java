@@ -29,7 +29,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Mr_Little_Kitty on 6/30/2016.
  * Handles the parsing of Snitched from the /jalist command.
  */
 public class ChatSnitchParser {
@@ -63,9 +62,6 @@ public class ChatSnitchParser {
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	/**
-	 * Adds a recipient that would like to receive Snitch alerts.
-	 */
 	public void addAlertRecipient(IAlertRecipient recipient) {
 		this.alertRecipients.add(recipient);
 	}
@@ -82,7 +78,6 @@ public class ChatSnitchParser {
 			return;
 		}
 
-		//Check if its the tps message (this is quick)
 		if (msgText.contains(tpsMessage)) {
 			parseTPS(msgText);
 			return;
@@ -91,7 +86,6 @@ public class ChatSnitchParser {
 		//Start of the chat message for creating a snitch block from /ctf or /ctr
 		if (msgText.contains("You've created")) {
 			if (tryParsePlaceMessage(msg)) {
-				//Save the snitches now that we loaded a new one from chat
 				manager.saveSnitches();
 
 				SnitchMaster.SendMessageToPlayer("Saved snitch from chat message");
@@ -120,17 +114,14 @@ public class ChatSnitchParser {
 			}
 		}
 
-		//Only check for reset sequences or /jalist messages if we are updating
 		if (updatingSnitchList) {
-			if (containsAny(msgText, resetSequences)) { //Check if this is any of the reset messages (this is kind of quick)
+			if (containsAny(msgText, resetSequences)) {
 				resetUpdatingSnitchList(true);
 				SnitchMaster.SendMessageToPlayer("Finished full snitch update");
 				return;
 			}
 
-			//Check if this matches a snitch entry from the /jalist command (this is less quick than above)
 			if (tryParseJalistMsg(msg)) {
-				//If they have it set to not spam the chat then cancel the chat message
 				Settings.ChatSpamState state = (Settings.ChatSpamState) snitchMaster.getSettings().getValue(Settings.CHAT_SPAM_KEY);
 				if (state == Settings.ChatSpamState.OFF || state == Settings.ChatSpamState.PAGENUMBERS)
 					event.setCanceled(true);
@@ -138,20 +129,17 @@ public class ChatSnitchParser {
 			}
 		}
 
-		//Check if this matches the snitch alert message (slowest of all of these)
 		Matcher matcher = snitchAlertPattern.matcher(msgText);
 		if (!matcher.matches()) {
-			return; // this was the last kind of message we check
+			return;
 		}
 
-		//Build the snitch alert and send it to all the recipients
 		SnitchAlert alert = buildSnitchAlert(matcher, msg);
 
 		for (IAlertRecipient recipient : alertRecipients) {
 			recipient.receiveSnitchAlert(alert);
 		}
 
-		//Set the alert's message to whatever the final message is from the alert "event"
 		event.setMessage(alert.getRawMessage());
 	}
 
@@ -553,9 +541,7 @@ public class ChatSnitchParser {
 		snitchesCopy = new HashSet<>();
 		loadedSnitches = new HashSet<>();
 
-		//Go through all the snitches that we have saved
 		for(Snitch snitch : manager.getSnitches()) {
-			//If the snitch isn't already marked as gone and is marked as jalist
 			if(!snitch.isTagged(SnitchTags.IS_GONE) && snitch.isTagged(SnitchTags.FROM_JALIST)) {
 				snitchesCopy.add(snitch); //Then we add it to the copy list
 			}
@@ -611,7 +597,6 @@ public class ChatSnitchParser {
 	 */
 	public void resetUpdatingSnitchList(boolean save) {
 		if(updatingSnitchList && snitchesCopy != null) {
-			//Remove all the snitches that we loaded from jalist from the copy
 			snitchesCopy.removeAll(loadedSnitches);
 
 			for(Snitch snitch : snitchesCopy) {

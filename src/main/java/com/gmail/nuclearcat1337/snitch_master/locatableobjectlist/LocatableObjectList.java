@@ -2,9 +2,6 @@ package com.gmail.nuclearcat1337.snitch_master.locatableobjectlist;
 
 import java.util.*;
 
-/**
- * Created by Mr_Little_Kitty on 7/26/2016.
- */
 public class LocatableObjectList<T extends LocatableObject<T>> extends IReadOnlyLocatableObjectList<T> implements Collection<T>, RandomAccess {
 	private int modCount = 0;
 	private final ArrayList<T> wrappedList;
@@ -172,7 +169,6 @@ public class LocatableObjectList<T extends LocatableObject<T>> extends IReadOnly
 	public boolean retainAll(Collection<?> c) {
 		boolean changed = false;
 		for (int i = wrappedList.size() - 1; i >= 0; i--) {
-			//If the item at the current index isnt in the passed collection and we removed it, set changed
 			if (!c.contains(get(i)) && remove(i) != null) {
 				changed = true;
 			}
@@ -367,7 +363,6 @@ public class LocatableObjectList<T extends LocatableObject<T>> extends IReadOnly
 		@Override
 		public T next() {
 			checkForConcurrentModification();
-			//Increment the index after getting the value at the current index
 			if (hasNext()) {
 				return get(index++);
 			}
