@@ -296,8 +296,8 @@ public class LocatableObjectList<T extends LocatableObject<T>> extends IReadOnly
 	public LocatableObjectList<T> deepCopy() {
 		LocatableObjectList<T> copy = new LocatableObjectList<T>();
 		copy.wrappedList.addAll(this.wrappedList);
-		for (Map.Entry<String,IntPair> pair:  this.worldIndices.entrySet()) {
-			copy.worldIndices.put(pair.getKey(),pair.getValue().deepCopy());
+		for (Map.Entry<String, IntPair> pair:  this.worldIndices.entrySet()) {
+			copy.worldIndices.put(pair.getKey(), pair.getValue().deepCopy());
 		}
 		copy.modCount = this.modCount;
 		return copy;
@@ -388,7 +388,7 @@ public class LocatableObjectList<T extends LocatableObject<T>> extends IReadOnly
 		}
 
 		public IntPair deepCopy() {
-			return new IntPair(one,two);
+			return new IntPair(one, two);
 		}
 	}
 }

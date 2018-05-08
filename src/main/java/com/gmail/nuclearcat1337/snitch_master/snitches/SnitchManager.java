@@ -229,7 +229,7 @@ public class SnitchManager {
 		snitch.attachedSnitchLists.clear();
 		for (SnitchList list : snitchLists) {
 			if (list.getQualifier().isQualified(snitch)) {
-				attachListToSnitch(list,snitch);
+				attachListToSnitch(list, snitch);
 			}
 		}
 		snitchMaster.individualJourneyMapUpdate(snitch);

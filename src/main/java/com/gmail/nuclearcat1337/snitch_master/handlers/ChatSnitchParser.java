@@ -598,7 +598,7 @@ public class ChatSnitchParser {
 			snitchesCopy.removeAll(loadedSnitches);
 
 			for (Snitch snitch : snitchesCopy) {
-				manager.addTag(snitch,SnitchTags.IS_GONE);
+				manager.addTag(snitch, SnitchTags.IS_GONE);
 			}
 
 			SnitchMaster.SendMessageToPlayer(snitchesCopy.size()+" snitches were missing since the last full update.");
