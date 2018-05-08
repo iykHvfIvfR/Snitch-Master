@@ -634,8 +634,6 @@ public class ChatSnitchParser
         }
         else
             waitTime = 4.0;
-
-        SnitchMaster.SendMessageToPlayer("Timeout between commands is " + waitTime + " seconds.");
     }
 
     /**
