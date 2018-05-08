@@ -532,8 +532,7 @@ public class ChatSnitchParser {
 					if (((Settings.ChatSpamState) snitchMaster.getSettings().getValue(Settings.CHAT_SPAM_KEY)) == Settings.ChatSpamState.PAGENUMBERS) {
 						SnitchMaster.SendMessageToPlayer("Parsed snitches from /jalist " + (jaListIndex - 1));
 					}
-				}
-				else {
+				} else {
 					resetUpdatingSnitchList(true);
 				}
 			}
@@ -603,8 +602,7 @@ public class ChatSnitchParser {
 			} else {
 				waitTime = tickTimeout / c;
 			}
-		}
-		else {
+		} else {
 			waitTime = 4.0;
 		}
 	}

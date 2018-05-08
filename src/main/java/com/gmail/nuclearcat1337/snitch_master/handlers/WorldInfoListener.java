@@ -83,8 +83,7 @@ public class WorldInfoListener {
 			} else {
 				return "world";
 			}
-		}
-		else {
+		} else {
 			return worldID;
 		}
 	}

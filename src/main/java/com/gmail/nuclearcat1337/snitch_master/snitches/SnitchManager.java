@@ -275,8 +275,7 @@ public class SnitchManager {
 
 			//Clear the attached snitch lists because we are going to requalify the snitch because some attributes changed
 			contains.attachedSnitchLists.clear();
-		}
-		else {
+		} else {
 			//Just some reference rearranging
 			contains = snitch;
 			//add the snitch to the collection

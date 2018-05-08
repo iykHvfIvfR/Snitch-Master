@@ -72,8 +72,7 @@ public class MainGui extends GuiScreen {
 					snitchMaster.getChatSnitchParser().resetUpdatingSnitchList(true);
 					this.mc.displayGuiScreen((GuiScreen) null);
 					this.mc.setIngameFocus();
-				}
-				else {
+				} else {
 					this.mc.displayGuiScreen(new TargetedSnitchUpdateGui(this, snitchMaster.getChatSnitchParser()));
 				}
 				break;

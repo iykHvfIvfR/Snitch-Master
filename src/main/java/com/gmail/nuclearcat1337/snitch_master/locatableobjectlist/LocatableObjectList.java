@@ -22,8 +22,7 @@ public class LocatableObjectList<T extends LocatableObject<T>> extends IReadOnly
 		if (index < 0) {
 			//According to the documentation of the binarySearch method this solves for the insertion point of the item
 			index = (index + 1) * -1;
-		}
-		else {
+		} else {
 			//If the item is already contained in the list then we do nothing
 			return false;
 		}

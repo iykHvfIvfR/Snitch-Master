@@ -63,13 +63,11 @@ public class QuietTimeHandler implements IAlertRecipient {
 						builder = new StringBuilder();
 					}
 					currentComponent.appendSibling(hoverComponent);
-				}
-				else {
+				} else {
 					SnitchMaster.SendMessageToPlayer("Your quiet time config has an invalid hover instruction. Please load a working config.");
 					return;
 				}
-			}
-			else if (instruction == B_STRING_SUBSTITUTION && index + 1 < instructions.length) {
+			} else if (instruction == B_STRING_SUBSTITUTION && index + 1 < instructions.length) {
 				index++;
 				String sub = getStringSubstitution(instructions[index]);
 				if (sub != null) {
@@ -78,8 +76,7 @@ public class QuietTimeHandler implements IAlertRecipient {
 					SnitchMaster.SendMessageToPlayer("Your quiet time config has an invalid string sub. Please load a working config.");
 					return;
 				}
-			}
-			else if (instruction == B_INSERT_SPACE) {
+			} else if (instruction == B_INSERT_SPACE) {
 				builder.append(" ");
 			} else {
 				String possibleText = getTextForCurrentInstruction(alert);
@@ -146,8 +143,7 @@ public class QuietTimeHandler implements IAlertRecipient {
 				return null;
 			}
 			return getStringSubstitution(instructions[index]);
-		}
-		else {
+		} else {
 			return GetString(alert, inst1);
 		}
 	}
