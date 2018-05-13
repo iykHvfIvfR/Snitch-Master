@@ -116,7 +116,7 @@ public class ChatSnitchParser {
 
 		if (updatingSnitchList) {
 			if (containsAny(msgText, resetSequences)) {
-				resetUpdatingSnitchList(true);
+				resetUpdatingSnitchList(true, false);
 				SnitchMaster.SendMessageToPlayer("Finished full snitch update");
 				return;
 			}
@@ -504,7 +504,7 @@ public class ChatSnitchParser {
 				//If they disconnect while updating is running we dont want the game to crash
 				if (Minecraft.getMinecraft().player != null) {
 					if (maxJaListIndex != -1 && jaListIndex - 1 >= maxJaListIndex) {
-						resetUpdatingSnitchList(true);
+						resetUpdatingSnitchList(true, false);
 						SnitchMaster.SendMessageToPlayer("Finished targeted snitch update");
 						return;
 					}
@@ -517,7 +517,7 @@ public class ChatSnitchParser {
 						SnitchMaster.SendMessageToPlayer("Parsed snitches from /jalist " + (jaListIndex - 1));
 					}
 				} else {
-					resetUpdatingSnitchList(true);
+					resetUpdatingSnitchList(true, true);
 				}
 			}
 		}
@@ -534,7 +534,7 @@ public class ChatSnitchParser {
 	 * Begins updating Snitches from the /jalist command.
 	 */
 	public void updateSnitchList() {
-		resetUpdatingSnitchList(false);
+		resetUpdatingSnitchList(false, false);
 
 		snitchesCopy = new HashSet<>();
 		loadedSnitches = new HashSet<>();
@@ -551,7 +551,7 @@ public class ChatSnitchParser {
 	}
 
 	public void updateSnitchList(int startIndex, int stopIndex) {
-		resetUpdatingSnitchList(false);
+		resetUpdatingSnitchList(false, false);
 
 		jaListIndex = startIndex;
 		maxJaListIndex = stopIndex;
@@ -593,19 +593,18 @@ public class ChatSnitchParser {
 	 * Resets the updating of Snitches from the /jalist command.
 	 * If an update is currently in progress, it is stopped.
 	 */
-	public void resetUpdatingSnitchList(boolean save) {
+	public void resetUpdatingSnitchList(boolean save, boolean cancelled) {
 		if (updatingSnitchList && snitchesCopy != null) {
-			snitchesCopy.removeAll(loadedSnitches);
-
-			for (Snitch snitch : snitchesCopy) {
-				manager.addTag(snitch, SnitchTags.IS_GONE);
+			if (!cancelled) {
+				snitchesCopy.removeAll(loadedSnitches);
+				for (Snitch snitch : snitchesCopy) {
+					manager.addTag(snitch, SnitchTags.IS_GONE);
+				}
+				SnitchMaster.SendMessageToPlayer(
+					snitchesCopy.size() + " snitches were missing since the last full update.");
 			}
-
-			SnitchMaster.SendMessageToPlayer(snitchesCopy.size()+" snitches were missing since the last full update.");
-
 			snitchesCopy.clear();
 			loadedSnitches.clear();
-
 			snitchesCopy = null;
 			loadedSnitches = null;
 		}
