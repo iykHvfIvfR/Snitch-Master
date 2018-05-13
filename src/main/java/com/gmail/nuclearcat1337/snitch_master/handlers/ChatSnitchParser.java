@@ -1,6 +1,7 @@
 package com.gmail.nuclearcat1337.snitch_master.handlers;
 
 import com.gmail.nuclearcat1337.snitch_master.Settings;
+import com.gmail.nuclearcat1337.snitch_master.Settings.ChatSpamState;
 import com.gmail.nuclearcat1337.snitch_master.SnitchMaster;
 import com.gmail.nuclearcat1337.snitch_master.api.IAlertRecipient;
 import com.gmail.nuclearcat1337.snitch_master.api.SnitchAlert;
@@ -499,28 +500,30 @@ public class ChatSnitchParser {
 
 	@SubscribeEvent
 	public void tickEvent(TickEvent.ClientTickEvent event) {
-		if (updatingSnitchList) {
-			if (System.currentTimeMillis() > nextUpdate) {
-				//If they disconnect while updating is running we dont want the game to crash
-				if (Minecraft.getMinecraft().player != null) {
-					if (maxJaListIndex != -1 && jaListIndex - 1 >= maxJaListIndex) {
-						resetUpdatingSnitchList(true, false);
-						SnitchMaster.SendMessageToPlayer("Finished targeted snitch update");
-						return;
-					}
-
-					Minecraft.getMinecraft().player.sendChatMessage("/jalistlong " + jaListIndex);
-					jaListIndex++;
-					nextUpdate = System.currentTimeMillis() + (long) (waitTime * 1000);
-
-					if (((Settings.ChatSpamState) snitchMaster.getSettings().getValue(Settings.CHAT_SPAM_KEY)) == Settings.ChatSpamState.PAGENUMBERS) {
-						SnitchMaster.SendMessageToPlayer("Parsed snitches from /jalist " + (jaListIndex - 1));
-					}
-				} else {
-					resetUpdatingSnitchList(true, true);
-				}
-			}
+		if (!updatingSnitchList) {
+			return;
 		}
+		if (System.currentTimeMillis() <= nextUpdate) {
+			return;
+		}
+		// Player disconnected while the update was running.
+		if (Minecraft.getMinecraft().player == null) {
+			resetUpdatingSnitchList(true, true);
+			return;
+		}
+		if (maxJaListIndex != -1 && jaListIndex - 1 >= maxJaListIndex) {
+			resetUpdatingSnitchList(true, false);
+			SnitchMaster.SendMessageToPlayer("Finished targeted snitch update");
+			return;
+		}
+
+		Minecraft.getMinecraft().player.sendChatMessage("/jalistlong " + jaListIndex);
+		ChatSpamState chatSpamSetting = (ChatSpamState) snitchMaster.getSettings().getValue(Settings.CHAT_SPAM_KEY);
+		if (chatSpamSetting == Settings.ChatSpamState.PAGENUMBERS) {
+			SnitchMaster.SendMessageToPlayer("Parsed snitches from /jalist " + jaListIndex);
+		}
+		jaListIndex++;
+		nextUpdate = System.currentTimeMillis() + (long) (waitTime * 1000);
 	}
 
 	/**
