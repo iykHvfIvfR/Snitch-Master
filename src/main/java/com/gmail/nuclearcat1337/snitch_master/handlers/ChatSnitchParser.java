@@ -573,7 +573,7 @@ public class ChatSnitchParser {
 			double c = 20.0;
 
 			for (int i = 0; i < 3; i++) { // fix for TPS 20 -- *20.0 is rendered, yikes.
-				tokens[i] = tokens[1].replace('*', ' ');
+				tokens[i] = tokens[i].replace('*', ' ');
 			}
 
 			a = Double.parseDouble(tokens[0]);
