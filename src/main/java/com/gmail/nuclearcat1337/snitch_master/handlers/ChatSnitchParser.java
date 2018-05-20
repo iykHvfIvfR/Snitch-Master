@@ -49,9 +49,13 @@ public class ChatSnitchParser {
 	private HashSet<Snitch> snitchesCopy;
 	private HashSet<Snitch> loadedSnitches;
 
-	private double waitTime = 4;
-	private int tickTimeout = 20;
-	private long nextUpdate = System.currentTimeMillis();
+	private Double avgTps1MinPrev = null;
+	private Double avgTps1Min = null;
+	private Double avgTps5Min = null;
+	private Double avgTps15Min = null;
+	private int tickTimeoutSec = 20;
+	private Long nextTpsRunTime = null;
+	private Long nextCommandRunTime = System.currentTimeMillis();
 
 	public ChatSnitchParser(SnitchMaster api) {
 		this.snitchMaster = api;
@@ -503,27 +507,108 @@ public class ChatSnitchParser {
 		if (!updatingSnitchList) {
 			return;
 		}
-		if (System.currentTimeMillis() <= nextUpdate) {
-			return;
-		}
 		// Player disconnected while the update was running.
 		if (Minecraft.getMinecraft().player == null) {
 			resetUpdatingSnitchList(true, true);
 			return;
 		}
-		if (maxJaListIndex != -1 && jaListIndex - 1 >= maxJaListIndex) {
-			resetUpdatingSnitchList(true, false);
-			SnitchMaster.SendMessageToPlayer("Finished targeted snitch update");
+
+		long timeNow = System.currentTimeMillis();
+		if (timeNow <= nextCommandRunTime) {
 			return;
 		}
 
-		Minecraft.getMinecraft().player.sendChatMessage("/jalistlong " + jaListIndex);
-		ChatSpamState chatSpamSetting = (ChatSpamState) snitchMaster.getSettings().getValue(Settings.CHAT_SPAM_KEY);
-		if (chatSpamSetting == Settings.ChatSpamState.PAGENUMBERS) {
-			SnitchMaster.SendMessageToPlayer("Parsed snitches from /jalist " + jaListIndex);
+		// '/tps' has priority over all other commands.
+		if (nextTpsRunTime != null && timeNow > nextTpsRunTime) {
+			Minecraft.getMinecraft().player.sendChatMessage("/tps");
+			updateNextCommandRunTime();
+			updateNextTpsRunTime();
+			return;
 		}
-		jaListIndex++;
-		nextUpdate = System.currentTimeMillis() + (long) (waitTime * 1000);
+
+		if (maxJaListIndex != -1 && jaListIndex - 1 >= maxJaListIndex) {
+			resetUpdatingSnitchList(true, false);
+			SnitchMaster.SendMessageToPlayer("Finished targeted snitch update");
+		} else {
+			Minecraft.getMinecraft().player.sendChatMessage("/jalistlong " + jaListIndex);
+			ChatSpamState chatSpamSetting = (ChatSpamState) snitchMaster.getSettings().getValue(Settings.CHAT_SPAM_KEY);
+			if (chatSpamSetting == Settings.ChatSpamState.PAGENUMBERS) {
+				SnitchMaster.SendMessageToPlayer("Parsed snitches from /jalist " + jaListIndex);
+			}
+			jaListIndex++;
+			updateNextCommandRunTime();
+		}
+	}
+
+	private void updateNextCommandRunTime() {
+		if (avgTps1Min == null) {
+			avgTps1Min = 19.0;
+		}
+		double delta = 1.0;
+		if (avgTps1MinPrev != null) {
+			delta = avgTps1MinPrev - avgTps1Min;
+		}
+		if (delta < 0) {
+			delta = 1.0;
+		}
+		if (tpsIsDecreasing()) {
+			nextCommandRunTime = timeInXSeconds(tickTimeoutSec / (avgTps1Min - 2 - delta));
+		}
+		// Give the player some leeway to send their own chat messages.
+		nextCommandRunTime = timeInXSeconds(tickTimeoutSec / (avgTps1Min - 1 - delta));
+	}
+
+	private void updateNextTpsRunTime() {
+		if (!updatingSnitchList) {
+			nextTpsRunTime = null;
+			avgTps1MinPrev = null;
+			avgTps1Min = null;
+			avgTps5Min = null;
+			avgTps15Min = null;
+			return;
+		}
+
+		// Run /tps again to be able to see if TPS is decreasing.
+		if (avgTps1Min == null || avgTps1MinPrev == null) {
+			nextTpsRunTime = timeInXSeconds(2);
+			return;
+		}
+
+		if (tpsIsDecreasing()) {
+			nextTpsRunTime = timeInXSeconds(2);
+			return;
+		}
+
+		// TPS below 19 typically means the server isn't in ideal shape.
+		if (Double.compare(avgTps1Min, 19.0) < 0) {
+			nextTpsRunTime = timeInXSeconds(30);
+			return;
+		}
+
+		// TPS above 19, the server is probably stable.
+		nextTpsRunTime = timeInXSeconds(60);
+	}
+
+	private static long timeInXSeconds(double waitTimeSec) {
+		return System.currentTimeMillis() + (long) (waitTimeSec * 1000);
+	}
+
+	private boolean tpsIsDecreasing() {
+		if (avgTps1Min == null) {
+			return true;
+		}
+
+		if (avgTps1MinPrev == null) {
+			return true;
+		}
+		if (Double.compare(avgTps1Min, avgTps1MinPrev) < 0) {
+			return true;
+		}
+
+		if (avgTps5Min == null) {
+			return true;
+		}
+		return Double.compare(avgTps1Min + 0.5, avgTps5Min) < 0;
 	}
 
 	/**
@@ -548,9 +633,9 @@ public class ChatSnitchParser {
 			}
 		}
 
-		Minecraft.getMinecraft().player.sendChatMessage("/tps");
-		nextUpdate = System.currentTimeMillis() + 2000;
 		updatingSnitchList = true;
+		Minecraft.getMinecraft().player.sendChatMessage("/tps");
+		updateNextCommandRunTime();
 	}
 
 	public void updateSnitchList(int startIndex, int stopIndex) {
@@ -559,37 +644,34 @@ public class ChatSnitchParser {
 		jaListIndex = startIndex;
 		maxJaListIndex = stopIndex;
 
-		Minecraft.getMinecraft().player.sendChatMessage("/tps");
-		nextUpdate = System.currentTimeMillis() + 2000;
 		updatingSnitchList = true;
+		Minecraft.getMinecraft().player.sendChatMessage("/tps");
+		updateNextCommandRunTime();
 	}
 
 	private void parseTPS(String message) {
 		message = message.substring(message.indexOf(':') + 1);
-		String[] tokens = message.split(", +"); // " 11.13, 11.25, 11.32"
-		if (tokens.length > 2) {
-			double a = 20.0;
-			double b = 20.0;
-			double c = 20.0;
-
-			for (int i = 0; i < 3; i++) { // fix for TPS 20 -- *20.0 is rendered, yikes.
-				tokens[i] = tokens[i].replace('*', ' ');
-			}
-
-			a = Double.parseDouble(tokens[0]);
-			b = Double.parseDouble(tokens[1]);
-			c = Double.parseDouble(tokens[2]);
-
-			if (a < b && a < c) {
-				waitTime = tickTimeout / a;
-			} else if (b < a && b < c) {
-				waitTime = tickTimeout / b;
-			} else {
-				waitTime = tickTimeout / c;
-			}
-		} else {
-			waitTime = 4.0;
+		// "11.13, 11.25, 11.32"
+		String[] tokens = message.split(", +");
+		if (tokens.length <= 2) {
+			avgTps1MinPrev = avgTps1Min;
+			avgTps1Min = null;
+			avgTps5Min = null;
+			avgTps15Min = null;
+			updateNextTpsRunTime();
+			return;
 		}
+
+		// Fix for TPS 20 - "*20.0" is rendered.
+		for (int i = 0; i < 3; i++) {
+			tokens[i] = tokens[i].replace("*", "");
+		}
+
+		avgTps1MinPrev = avgTps1Min;
+		avgTps1Min = Double.parseDouble(tokens[0]);
+		avgTps5Min = Double.parseDouble(tokens[1]);
+		avgTps15Min = Double.parseDouble(tokens[2]);
+		updateNextTpsRunTime();
 	}
 
 	/**
@@ -615,6 +697,7 @@ public class ChatSnitchParser {
 		jaListIndex = 1;
 		maxJaListIndex = -1;
 		updatingSnitchList = false;
+		updateNextTpsRunTime();
 
 		if (save) {
 			manager.saveSnitches();
