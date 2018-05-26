@@ -596,18 +596,12 @@ public class ChatSnitchParser {
 	}
 
 	private boolean tpsIsDecreasing() {
-		if (avgTps1Min == null) {
-			return true;
-		}
-
-		if (avgTps1MinPrev == null) {
-			return true;
-		}
-		if (Double.compare(avgTps1Min, avgTps1MinPrev) < 0) {
-			return true;
-		}
-
-		if (avgTps5Min == null) {
+		if (
+			avgTps1Min == null
+			|| avgTps1MinPrev == null
+			|| Double.compare(avgTps1Min, avgTps1MinPrev) < 0
+			|| avgTps5Min == null
+		) {
 			return true;
 		}
 		return Double.compare(avgTps1Min + 0.5, avgTps5Min) < 0;
