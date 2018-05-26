@@ -551,12 +551,13 @@ public class ChatSnitchParser {
 		if (delta < 0) {
 			delta = 1.0;
 		}
+		// Give the player some leeway to send their own chat messages.
+		double assumedTps = avgTps1Min - delta - 1;
 		if (tpsIsDecreasing()) {
-			nextCommandRunTime = timeInXSeconds(tickTimeoutSec / (avgTps1Min - 2 - delta));
+			nextCommandRunTime = timeInXSeconds(tickTimeoutSec / (assumedTps - 1));
 			return;
 		}
-		// Give the player some leeway to send their own chat messages.
-		nextCommandRunTime = timeInXSeconds(tickTimeoutSec / (avgTps1Min - 1 - delta));
+		nextCommandRunTime = timeInXSeconds(tickTimeoutSec / assumedTps);
 	}
 
 	private void updateNextTpsRunTime() {
