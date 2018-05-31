@@ -582,7 +582,7 @@ public class ChatSnitchParser {
 		}
 
 		// TPS below 19 typically means the server isn't in ideal shape.
-		if (Double.compare(avgTps1Min, 19.0) < 0) {
+		if (avgTps1Min < 19.0) {
 			nextTpsRunTime = timeInXSeconds(30);
 			return;
 		}
@@ -599,12 +599,12 @@ public class ChatSnitchParser {
 		if (
 			avgTps1Min == null
 			|| avgTps1MinPrev == null
-			|| Double.compare(avgTps1Min, avgTps1MinPrev) < 0
+			|| avgTps1Min < avgTps1MinPrev
 			|| avgTps5Min == null
 		) {
 			return true;
 		}
-		return Double.compare(avgTps1Min + 0.5, avgTps5Min) < 0;
+		return avgTps1Min + 0.5 < avgTps5Min;
 	}
 
 	/**
