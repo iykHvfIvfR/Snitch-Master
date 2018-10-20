@@ -318,6 +318,8 @@ public class ChatSnitchParser {
 		}
 		Snitch existingSnitch = manager.getSnitches().get(snitch.getLocation());
 		if (existingSnitch == null) {
+			manager.submitSnitch(snitch);
+			manager.saveSnitches();
 			return true;
 		}
 		manager.setSnitchName(existingSnitch, snitch.getName());
