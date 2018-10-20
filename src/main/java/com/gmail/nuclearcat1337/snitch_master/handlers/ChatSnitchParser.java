@@ -29,9 +29,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Handles the parsing of Snitched from the /jalist command.
- */
 public class ChatSnitchParser {
 	private static final Pattern snitchAlertPattern = Pattern.compile("\\s*\\*\\s*([^\\s]*)\\s\\b(entered snitch at|logged out in snitch at|logged in to snitch at)\\b\\s*([^\\s]*)\\s\\[([^\\s]*)\\s([-\\d]*)\\s([-\\d]*)\\s([-\\d]*)\\]");
 	private static final Pattern snitchCreateMessageStartRegex = Pattern.compile("(?i)^\\s*You've created .*");
@@ -347,13 +344,6 @@ public class ChatSnitchParser {
 		return false;
 	}
 
-	/**
-	 * Attempt parsing a chat message as a /jalist message, fails quickly returning false,
-	 * or submits all contained snitches for processing.
-	 *
-	 * @param msg
-	 * @return true if it was parsed as /jalist message, false if it is a different message
-	 */
 	private boolean tryParseJalistMsgLegacy(ITextComponent msg) {
 		List<ITextComponent> snitchRows;
 		try {
@@ -400,11 +390,6 @@ public class ChatSnitchParser {
 		return true;
 	}
 
-	/**
-	 * Parses a {@link Snitch} from the hover text of a /jalist output row.
-	 *
-	 * @param matcher the {@link Matcher} object, on which `.matches()` or similar has to be called already
-	 */
 	private Snitch parseSnitchFromJaListLegacy(Matcher matcher) {
 		String worldName = matcher.group(1);
 		int x = Integer.parseInt(matcher.group(2));
@@ -651,16 +636,10 @@ public class ChatSnitchParser {
 		return avgTps1Min + 0.5 < avgTps5Min;
 	}
 
-	/**
-	 * Returns true if SnitchMaster is currently updating from the /jalist command.
-	 */
 	public boolean isUpdatingSnitchList() {
 		return updatingSnitchList;
 	}
 
-	/**
-	 * Begins updating Snitches from the /jalist command.
-	 */
 	public void updateSnitchList() {
 		resetUpdatingSnitchList(false, false);
 
@@ -669,7 +648,7 @@ public class ChatSnitchParser {
 
 		for (Snitch snitch : manager.getSnitches()) {
 			if (!snitch.isTagged(SnitchTags.IS_GONE) && snitch.isTagged(SnitchTags.FROM_JALIST)) {
-				snitchesCopy.add(snitch); //Then we add it to the copy list
+				snitchesCopy.add(snitch);
 			}
 		}
 
