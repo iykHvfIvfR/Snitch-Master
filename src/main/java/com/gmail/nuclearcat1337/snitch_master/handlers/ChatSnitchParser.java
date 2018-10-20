@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 public class ChatSnitchParser {
 	private static final Pattern snitchAlertPattern = Pattern.compile("\\s*\\*\\s*([^\\s]*)\\s\\b(entered snitch at|logged out in snitch at|logged in to snitch at)\\b\\s*([^\\s]*)\\s\\[([^\\s]*)\\s([-\\d]*)\\s([-\\d]*)\\s([-\\d]*)\\]");
 	private static final Pattern snitchCreateMessageStartRegex = Pattern.compile("(?i)^\\s*You've created .*");
+	private static final Pattern snitchInfoMessageStartRegex = Pattern.compile("(?i)^\\s*(?: \\* )?(?:(?:Unnamed )?Entry snitch|Page [0-9]* is empty for|Log for(?:unnamed)? snitch) .*");
 	private static final Pattern snitchBreakMessageStartRegex = Pattern.compile("(?i)^\\s*You've broken .*");
 	private static final Pattern snitchNameChangeMessageStartRegex = Pattern.compile("(?i)^\\s*Changed snitch name to .*");
 	private static final Pattern snitchNotificationMessageStartRegex = Pattern.compile("(?i)^\\s* \\* .+? snitch at .*");
@@ -93,6 +94,9 @@ public class ChatSnitchParser {
 			return;
 		}
 		if (tryParseSnitchNotificationMessage(message, messageText)) {
+			return;
+		}
+		if (tryParseSnitchInfoMessage(message, messageText)) {
 			return;
 		}
 		if (tryParseSnitchCreateMessage(message, messageText)) {
@@ -255,6 +259,20 @@ public class ChatSnitchParser {
 			name,
 			previousName,
 			type);
+	}
+
+	private boolean tryParseSnitchInfoMessage(ITextComponent message, String messageText) {
+		Matcher matcher = snitchInfoMessageStartRegex.matcher(messageText);
+		if (!matcher.matches()) {
+			return false;
+		}
+		Snitch snitch = snitchFromMessage(message, messageText, "a snitch info");
+		if (snitch == null) {
+			return true;
+		}
+		manager.submitSnitch(snitch);
+		manager.saveSnitches();
+		return true;
 	}
 
 	private boolean tryParseSnitchCreateMessage(ITextComponent message, String messageText) {
