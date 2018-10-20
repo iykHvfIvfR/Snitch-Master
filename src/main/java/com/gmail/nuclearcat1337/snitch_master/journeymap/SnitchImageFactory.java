@@ -38,7 +38,7 @@ public class SnitchImageFactory {
 
 			ImageOverlay overlay = new ImageOverlay(SnitchMaster.MODID, displayID, nw, se, image);
 
-			overlay.setTitle(SNITCH_FORMAT_STRING.replace("{0}", snitch.getGroupName()).replace("{1}", snitch.getSnitchName()).replace("{2}", renderList.getListName()));
+			overlay.setTitle(SNITCH_FORMAT_STRING.replace("{0}", snitch.getGroupName()).replace("{1}", snitch.getName()).replace("{2}", renderList.getListName()));
 			overlay.setOverlayListener(new IOverlayListener() {
 				@Override
 				public void onActivate(UIState uiState) {

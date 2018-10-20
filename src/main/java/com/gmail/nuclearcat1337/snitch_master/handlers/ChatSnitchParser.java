@@ -34,9 +34,15 @@ import java.util.regex.Pattern;
  */
 public class ChatSnitchParser {
 	private static final Pattern snitchAlertPattern = Pattern.compile("\\s*\\*\\s*([^\\s]*)\\s\\b(entered snitch at|logged out in snitch at|logged in to snitch at)\\b\\s*([^\\s]*)\\s\\[([^\\s]*)\\s([-\\d]*)\\s([-\\d]*)\\s([-\\d]*)\\]");
+	private static final Pattern snitchCreateMessageStartRegex = Pattern.compile("(?i)^\\s*You've created .*");
+	private static final Pattern snitchBreakMessageStartRegex = Pattern.compile("(?i)^\\s*You've broken .*");
+	private static final Pattern snitchNameChangeMessageStartRegex = Pattern.compile("(?i)^\\s*Changed snitch name to .*");
+	private static final Pattern snitchNotificationMessageStartRegex = Pattern.compile("(?i)^\\s* \\* .+? snitch at .*");
+	private static final Pattern tpsMessageStartRegex = Pattern.compile("(?i)^\\s*TPS from last 1m, 5m, 15m: .*");
+	private static final Pattern snitchMessageHoverTextRegex = Pattern.compile(
+		"^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:(?:Hours to cull|Cull):\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
 
 	private static final String[] resetSequences = {"Unknown command", " is empty", "You do not own any snitches nearby!"};
-	private static final String tpsMessage = "TPS from last 1m, 5m, 15m:";
 
 	private final SnitchMaster snitchMaster;
 	private final SnitchManager manager;
@@ -72,56 +78,41 @@ public class ChatSnitchParser {
 	}
 
 	@SubscribeEvent
-	public void chatParser(ClientChatReceivedEvent event) {
-		ITextComponent msg = event.getMessage();
-		if (msg == null) {
+	public void parseChat(ClientChatReceivedEvent event) {
+		ITextComponent message = event.getMessage();
+		if (message == null) {
 			return;
 		}
-		String msgText = msg.getUnformattedText();
-		if (msgText == null) {
+		String messageText = message.getUnformattedText();
+		if (messageText == null) {
 			return;
 		}
-		if (msgText.contains(tpsMessage)) {
-			parseTPS(msgText);
-			return;
-		}
+		messageText = stripMinecraftFormattingCodes(messageText);
 
-		// Start of the chat message for creating a snitch block from /ctf or /ctr.
-		if (msgText.contains("You've created")) {
-			if (tryParsePlaceMessage(msg)) {
-				manager.saveSnitches();
-				return;
-			}
+		if (tryParseTpsMessage(message, messageText)) {
+			return;
 		}
-		// Start of the chat message for creating a snitch block from /ctf or /ctr.
-		if (msgText.contains("You've broken")) {
-			if (tryParseBreakMessage(msg)) {
-				// Save the snitches now that we loaded a new one from chat.
-				manager.saveSnitches();
-				return;
-			}
+		if (tryParseSnitchNotificationMessage(message, messageText)) {
+			return;
 		}
-		if (msgText.contains("Changed snitch name to")) {
-			if (tryParseNameChangeMessage(msg)) {
-				manager.saveSnitches();
-				return;
-			}
+		if (tryParseSnitchCreateMessage(message, messageText)) {
+			return;
 		}
-		if (msgText.contains(" * ")) {
-			if (tryParseSnitchNotificationMessage(msg)) {
-				manager.saveSnitches();
-				return;
-			}
+		if (tryParseSnitchBreakMessage(message, messageText)) {
+			return;
+		}
+		if (tryParseSnitchNameChangeMessage(message, messageText)) {
+			return;
 		}
 
 		if (updatingSnitchList) {
-			if (containsAny(msgText, resetSequences)) {
+			if (containsAny(messageText, resetSequences)) {
 				resetUpdatingSnitchList(true, false);
 				SnitchMaster.SendMessageToPlayer("Finished full snitch update");
 				return;
 			}
 
-			if (tryParseJalistMsg(msg)) {
+			if (tryParseJalistMsg(message)) {
 				Settings.ChatSpamState state = (Settings.ChatSpamState) snitchMaster.getSettings().getValue(Settings.CHAT_SPAM_KEY);
 				if (state == Settings.ChatSpamState.OFF || state == Settings.ChatSpamState.PAGENUMBERS)
 					event.setCanceled(true);
@@ -129,57 +120,90 @@ public class ChatSnitchParser {
 			}
 		}
 
-		Matcher matcher = snitchAlertPattern.matcher(msgText);
+		Matcher matcher = snitchAlertPattern.matcher(messageText);
 		if (!matcher.matches()) {
 			return;
 		}
-
-		SnitchAlert alert = buildSnitchAlert(matcher, msg);
+		SnitchAlert alert = buildSnitchAlert(matcher, message);
 		for (IAlertRecipient recipient : alertRecipients) {
 			recipient.receiveSnitchAlert(alert);
 		}
 		event.setMessage(alert.getRawMessage());
 	}
 
-	private boolean tryParseNameChangeMessage(ITextComponent msg) {
-		String text = hoverInMessageToString(msg);
-		if (text == null) {
+	private boolean tryParseTpsMessage(ITextComponent message, String messageText) {
+		Matcher matcher = tpsMessageStartRegex.matcher(messageText);
+		if (!matcher.matches()) {
 			return false;
 		}
 
-		try {
-			Pattern placePattern = Pattern.compile(
-				"^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:Hours to cull:\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
-			Matcher matcher = placePattern.matcher(text);
-			if (!matcher.matches()) {
-				return false;
-			}
-
-			String world = matcher.group(1);
-			int x = Integer.parseInt(matcher.group(2));
-			int y = Integer.parseInt(matcher.group(3));
-			int z = Integer.parseInt(matcher.group(4));
-
-			String newName = matcher.group(9);
-
-			Location loc = new Location(x, y, z, world);
-			Snitch snitch = manager.getSnitches().get(loc);
-
-			if (snitch != null) {
-				manager.setSnitchName(snitch, newName);
-				return true;
-			}
-		} catch (Exception e) {
-			return false;
+		messageText = messageText.substring(messageText.indexOf(':') + 1);
+		// "11.13, 11.25, 11.32"
+		String[] tokens = messageText.split(", +");
+		if (tokens.length <= 2) {
+			avgTps1MinPrev = avgTps1Min;
+			avgTps1Min = null;
+			avgTps5Min = null;
+			avgTps15Min = null;
+			updateNextTpsRunTime();
+			return true;
 		}
-		return false;
+
+		// Fix for TPS 20 - "*20.0" is rendered.
+		for (int i = 0; i < 3; i++) {
+			tokens[i] = tokens[i].replace("*", "");
+		}
+
+		avgTps1MinPrev = avgTps1Min;
+		avgTps1Min = Double.parseDouble(tokens[0]);
+		avgTps5Min = Double.parseDouble(tokens[1]);
+		avgTps15Min = Double.parseDouble(tokens[2]);
+		updateNextTpsRunTime();
+		return true;
 	}
 
-	private String hoverInMessageToString(ITextComponent msg) {
+	private boolean tryParseSnitchNotificationMessage(ITextComponent message, String messageText) {
+		Matcher matcher = snitchNotificationMessageStartRegex.matcher(messageText);
+		if (!matcher.matches()) {
+			return false;
+		}
+		Snitch snitch = snitchFromMessage(message, messageText, "a snitch notification");
+		if (snitch == null) {
+			return true;
+		}
+		manager.submitSnitch(snitch);
+		manager.saveSnitches();
+		return true;
+	}
+
+	private Snitch snitchFromMessage(
+			ITextComponent message, String messageText, String logMessageType) {
+		String hoverText = hoverTextFromMessage(message);
+		if (hoverText == null) {
+			SnitchMaster.logger.info(
+				String.format(
+					"[SnitchMaster] While parsing %s message [1]: "
+					+ "No hover text. [1]: '%s'",
+					logMessageType, messageText));
+			return null;
+		}
+		Snitch snitch = snitchFromSnitchMessageHoverText(hoverText);
+		if (snitch == null) {
+			SnitchMaster.logger.info(
+				String.format(
+					"[SnitchMaster] While parsing %s message [1]: "
+					+ "Failed to parse hover text [2]. [1]: '%s' [2]: '%s'",
+					logMessageType, messageText, hoverText));
+			return null;
+		}
+		return snitch;
+	}
+
+	private String hoverTextFromMessage(ITextComponent message) {
 		HoverEvent hover;
-		List<ITextComponent> siblings = msg.getSiblings();
+		List<ITextComponent> siblings = message.getSiblings();
 		if (siblings == null || siblings.size() <= 0) {
-			hover = msg.getStyle().getHoverEvent();
+			hover = message.getStyle().getHoverEvent();
 		} else {
 			ITextComponent hoverComponent = siblings.get(0);
 			hover = hoverComponent.getStyle().getHoverEvent();
@@ -194,100 +218,89 @@ public class ChatSnitchParser {
 		return text;
 	}
 
-	private boolean tryParsePlaceMessage(ITextComponent msg) {
-		String text = hoverInMessageToString(msg);
-		if (text == null) {
-			return false;
-		}
-
-		Snitch snitch = parseSnitchFromChat(text);
-		if (snitch == null) {
-			return false;
-		}
-		manager.submitSnitch(snitch);
-		return true;
-	}
-
-	private Snitch parseSnitchFromChat(String text) {
+	private Snitch snitchFromSnitchMessageHoverText(String hoverText) {
 		try {
-			Pattern placePattern = Pattern.compile(
-				"^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:(?:Hours to cull|Cull):\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
-			Matcher matcher = placePattern.matcher(text);
-			if (!matcher.matches())
-			   return null;
-
-			String worldName = matcher.group(1);
-			int x = Integer.parseInt(matcher.group(2));
-			int y = Integer.parseInt(matcher.group(3));
-			int z = Integer.parseInt(matcher.group(4));
-			String ctGroup = matcher.group(5);
-			String type = matcher.group(6).toLowerCase();
-			Double cullTime;
-			if (matcher.group(7) == null || matcher.group(7).isEmpty()) {
-				cullTime = SnitchMaster.CULL_TIME_ENABLED ? Snitch.MAX_CULL_TIME : Double.NaN;
-			} else {
-				cullTime = Double.parseDouble(matcher.group(7));
-			}
-			String name = matcher.group(9);
-
-			return new Snitch(
-				new Location(x, y, z, worldName),
-				SnitchTags.FROM_JALIST,
-				cullTime,
-				ctGroup,
-				name,
-				type);
+			return _snitchFromSnitchMessageHoverText(hoverText);
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
-	private boolean tryParseSnitchNotificationMessage(ITextComponent msg) {
-		String text = hoverInMessageToString(msg);
-		if (text == null) {
-			return false;
+	private Snitch _snitchFromSnitchMessageHoverText(String hoverText) {
+		Matcher matcher = snitchMessageHoverTextRegex.matcher(hoverText);
+		if (!matcher.matches()) {
+			return null;
 		}
 
-		Snitch snitch = parseSnitchFromChat(text);
+		String worldName = matcher.group(1);
+		int x = Integer.parseInt(matcher.group(2));
+		int y = Integer.parseInt(matcher.group(3));
+		int z = Integer.parseInt(matcher.group(4));
+		String ctGroup = matcher.group(5);
+		String type = matcher.group(6).toLowerCase();
+		Double cullTime;
+		if (matcher.group(7) == null || matcher.group(7).isEmpty()) {
+			cullTime = SnitchMaster.CULL_TIME_ENABLED ? Snitch.MAX_CULL_TIME : Double.NaN;
+		} else {
+			cullTime = Double.parseDouble(matcher.group(7));
+		}
+		String previousName = matcher.group(8);
+		String name = matcher.group(9);
+
+		return new Snitch(
+			new Location(x, y, z, worldName),
+			SnitchTags.FROM_JALIST,
+			cullTime,
+			ctGroup,
+			name,
+			previousName,
+			type);
+	}
+
+	private boolean tryParseSnitchCreateMessage(ITextComponent message, String messageText) {
+		Matcher matcher = snitchCreateMessageStartRegex.matcher(messageText);
+		if (!matcher.matches()) {
+			return false;
+		}
+		Snitch snitch = snitchFromMessage(message, messageText, "a snitch create");
 		if (snitch == null) {
 			return true;
 		}
 		manager.submitSnitch(snitch);
-		return true;
-	}
-
-	private boolean tryParseBreakMessage(ITextComponent msg) {
-		String text = hoverInMessageToString(msg);
-		if (text == null) {
-			return false;
-		}
-
-		Location loc = parseSnitchFromChatBreak(text);
-		manager.getSnitches().remove(loc);
 		manager.saveSnitches();
 		return true;
 	}
 
-	private Location parseSnitchFromChatBreak(String text) {
-		try {
-			Pattern placePattern = Pattern.compile(
-				"^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:Hours to cull:\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
-			Matcher matcher = placePattern.matcher(text);
-			if (!matcher.matches())
-			   return null;
-
-			String worldName = matcher.group(1);
-			int x = Integer.parseInt(matcher.group(2));
-			int y = Integer.parseInt(matcher.group(3));
-			int z = Integer.parseInt(matcher.group(4));
-			double cullTime;
-
-			String ctGroup = matcher.group(5);
-
-			return new Location(x, y, z, worldName);
-		} catch (Exception e) {
-			return null;
+	private boolean tryParseSnitchBreakMessage(ITextComponent message, String messageText) {
+		Matcher matcher = snitchBreakMessageStartRegex.matcher(messageText);
+		if (!matcher.matches()) {
+			return false;
 		}
+		Snitch snitch = snitchFromMessage(message, messageText, "a snitch break");
+		if (snitch == null) {
+			return true;
+		}
+		manager.getSnitches().remove(snitch.getLocation());
+		manager.saveSnitches();
+		return true;
+	}
+
+	private boolean tryParseSnitchNameChangeMessage(ITextComponent message, String messageText) {
+		Matcher matcher = snitchNameChangeMessageStartRegex.matcher(messageText);
+		if (!matcher.matches()) {
+			return false;
+		}
+		Snitch snitch = snitchFromMessage(message, messageText, "a snitch name change");
+		if (snitch == null) {
+			return true;
+		}
+		Snitch existingSnitch = manager.getSnitches().get(snitch.getLocation());
+		if (existingSnitch == null) {
+			return true;
+		}
+		manager.setSnitchName(existingSnitch, snitch.getName());
+		manager.saveSnitches();
+		return true;
 	}
 
 	private boolean tryParseJalistMsg(ITextComponent msg) {
@@ -295,15 +308,18 @@ public class ChatSnitchParser {
 		if (!snitchLines.trim().startsWith("Snitch List for")) {
 			return false;
 		}
-		SnitchMaster.logger.info("[SnitchMaster] Parsing /jalist message with the legacy parser ...");
+		SnitchMaster.logger.info(
+			"[SnitchMaster] Parsing /jalist message with the legacy parser ...");
 		if (tryParseJalistMsgLegacy(msg)) {
 			return true;
 		}
-		SnitchMaster.logger.info("[SnitchMaster] The legacy parser failed, trying the JSON parser ...");
+		SnitchMaster.logger.info(
+			"[SnitchMaster] The legacy parser failed, trying the JSON parser ...");
 		if (tryParseJalistMsgJson(msg)) {
 			return true;
 		}
-		SnitchMaster.logger.info("[SnitchMaster] The JSON parser failed, trying the fallback parser ...");
+		SnitchMaster.logger.info(
+			"[SnitchMaster] The JSON parser failed, trying the fallback parser ...");
 		if (tryParseJalistMsgFallback(msg)) {
 			return true;
 		}
@@ -389,7 +405,14 @@ public class ChatSnitchParser {
 		String type = matcher.group(6).toLowerCase();
 		String name = matcher.group(9);
 
-		return new Snitch(new Location(x, y, z, worldName), SnitchTags.FROM_JALIST, cullTime, ctGroup, name, type);
+		return new Snitch(
+			new Location(x, y, z, worldName),
+			SnitchTags.FROM_JALIST,
+			cullTime,
+			ctGroup,
+			name,
+			null,
+			type);
 	}
 
 	private boolean tryParseJalistMsgJson(ITextComponent msg) {
@@ -429,7 +452,7 @@ public class ChatSnitchParser {
 
 		Snitch snitch;
 		for (String hover : hovers) {
-			snitch = parseSnitchFromChat(hover);
+			snitch = snitchFromSnitchMessageHoverText(hover);
 			if (snitch == null) {
 				SnitchMaster.logger.error(
 					String.format(
@@ -495,7 +518,14 @@ public class ChatSnitchParser {
 		String type = null;
 		String name = matcher.group(6);
 
-		return new Snitch(new Location(x, y, z, world), SnitchTags.FROM_JALIST, cullTime, ctGroup, name, type);
+		return new Snitch(
+			new Location(x, y, z, world),
+			SnitchTags.FROM_JALIST,
+			cullTime,
+			ctGroup,
+			name,
+			null,
+			type);
 	}
 
 	@SubscribeEvent
@@ -639,31 +669,6 @@ public class ChatSnitchParser {
 		updatingSnitchList = true;
 		Minecraft.getMinecraft().player.sendChatMessage("/tps");
 		updateNextCommandRunTime();
-	}
-
-	private void parseTPS(String message) {
-		message = message.substring(message.indexOf(':') + 1);
-		// "11.13, 11.25, 11.32"
-		String[] tokens = message.split(", +");
-		if (tokens.length <= 2) {
-			avgTps1MinPrev = avgTps1Min;
-			avgTps1Min = null;
-			avgTps5Min = null;
-			avgTps15Min = null;
-			updateNextTpsRunTime();
-			return;
-		}
-
-		// Fix for TPS 20 - "*20.0" is rendered.
-		for (int i = 0; i < 3; i++) {
-			tokens[i] = tokens[i].replace("*", "");
-		}
-
-		avgTps1MinPrev = avgTps1Min;
-		avgTps1Min = Double.parseDouble(tokens[0]);
-		avgTps5Min = Double.parseDouble(tokens[1]);
-		avgTps15Min = Double.parseDouble(tokens[2]);
-		updateNextTpsRunTime();
 	}
 
 	/**

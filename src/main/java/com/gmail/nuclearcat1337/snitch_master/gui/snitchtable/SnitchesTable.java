@@ -98,7 +98,7 @@ public class SnitchesTable extends TableTopGui<Snitch> {
 	private final TableButtonColumn.OnButtonClick<Snitch> viewListsClick = new TableButtonColumn.OnButtonClick<Snitch>() {
 		@Override
 		public void onClick(Snitch item, GuiButton button, GuiScreen parent) {
-			String snitchName = item.getSnitchName().isEmpty() ? "Undefined" : item.getSnitchName();
+			String snitchName = item.getName().isEmpty() ? "Undefined" : item.getName();
 			mc.displayGuiScreen(new SnitchListsTable(parent, snitchMaster.getManager().getSnitchListsForSnitch(item), "Snitch Lists for Snitch " + snitchName, false, snitchMaster));
 		}
 	};

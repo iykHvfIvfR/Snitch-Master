@@ -51,7 +51,7 @@ public class EditSnitchScreen extends GuiScreen {
 
 		int yHeight = yStartHeight;
 
-		nameBox = new TextBox(snitch.getSnitchName(), fontRenderer, xLeft, yHeight, xTotalWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
+		nameBox = new TextBox(snitch.getName(), fontRenderer, xLeft, yHeight, xTotalWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
 
 		yHeight += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE + fontRenderer.FONT_HEIGHT;
 

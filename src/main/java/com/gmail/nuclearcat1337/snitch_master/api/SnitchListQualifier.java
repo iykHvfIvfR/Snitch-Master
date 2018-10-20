@@ -282,7 +282,7 @@ public class SnitchListQualifier {
 		} else if (token.equalsIgnoreCase(GROUP_TOKEN)) {
 			return snitch.getGroupName();
 		} else if (token.equalsIgnoreCase(NAME_TOKEN)) {
-			return snitch.getSnitchName();
+			return snitch.getName();
 		} else if (token.equalsIgnoreCase(WORLD_TOKEN)) {
 			return snitch.getLocation().getWorld();
 		} else {

@@ -198,7 +198,7 @@ public class SnitchManager {
 	}
 
 	public void setSnitchName(Snitch snitch, String name) {
-		snitch.setSnitchName(name);
+		snitch.setName(name);
 		requalifySnitch(snitch);
 	}
 
@@ -248,7 +248,7 @@ public class SnitchManager {
 			//If it does then change the cull time and group
 			contains.setCullTime(snitch.getCullTime());
 			contains.setGroupName(snitch.getGroupName());
-			contains.setSnitchName(snitch.getSnitchName());
+			contains.setName(snitch.getName());
 
 			if (snitch.isTagged(SnitchTags.FROM_JALIST)) {
 				contains.tags.remove(SnitchTags.IS_GONE); //Remove it the dirty way cause this is the manager

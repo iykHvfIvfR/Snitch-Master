@@ -58,7 +58,7 @@ public class SnitchRenderer {
 						if (renderText) {
 							if (GeneralUtils.DistanceSquared(location.getX(), location.getZ(), location.getY(), (int) mc.player.posX, (int) mc.player.posZ, (int) mc.player.posY) <= TEXT_RENDER_DISTANCE * TEXT_RENDER_DISTANCE) {
 								String[] text = new String[3];
-								text[0] = snitch.getSnitchName();
+								text[0] = snitch.getName();
 								text[1] = String.format("[%s] %s", snitch.getGroupName(), WordUtils.capitalize(snitch.getType()));
 								text[2] = String.format("[%d %d %d]", location.getX(), location.getY(), location.getZ());
 

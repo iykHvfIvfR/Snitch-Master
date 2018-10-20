@@ -42,7 +42,7 @@ public class SnitchNameColumn implements TableColumn<Snitch> {
 
 	@Override
 	public void draw(Snitch snitch, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
-		String text = snitch.getSnitchName().isEmpty() ? "Undefined" : snitch.getSnitchName();
+		String text = snitch.getName().isEmpty() ? "Undefined" : snitch.getName();
 		int yFinal = yPos + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
 		int nameWidth = mc.fontRenderer.getStringWidth(text);
 		int namePos = xPos + (columnWidth / 2) - (nameWidth / 2);
@@ -51,7 +51,7 @@ public class SnitchNameColumn implements TableColumn<Snitch> {
 
 	@Override
 	public int getDrawWidth(Snitch snitch) {
-		String text = snitch.getSnitchName().isEmpty() ? "Undefined" : snitch.getSnitchName();
+		String text = snitch.getName().isEmpty() ? "Undefined" : snitch.getName();
 		return mc.fontRenderer.getStringWidth(text);
 	}
 
@@ -67,8 +67,8 @@ public class SnitchNameColumn implements TableColumn<Snitch> {
 
 	@Override
 	public int compare(Snitch snitch, Snitch other) {
-		String one = snitch.getSnitchName().isEmpty() ? "Undefined" : snitch.getSnitchName();
-		String two = other.getSnitchName().isEmpty() ? "Undefined" : other.getSnitchName();
+		String one = snitch.getName().isEmpty() ? "Undefined" : snitch.getName();
+		String two = other.getName().isEmpty() ? "Undefined" : other.getName();
 		return one.compareTo(two);
 	}
 }
