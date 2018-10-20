@@ -30,13 +30,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ChatSnitchParser {
-	private static final Pattern snitchAlertPattern = Pattern.compile("\\s*\\*\\s*([^\\s]*)\\s\\b(entered snitch at|logged out in snitch at|logged in to snitch at)\\b\\s*([^\\s]*)\\s\\[([^\\s]*)\\s([-\\d]*)\\s([-\\d]*)\\s([-\\d]*)\\]");
-	private static final Pattern snitchCreateMessageStartRegex = Pattern.compile("(?i)^\\s*You've created .*");
-	private static final Pattern snitchInfoMessageStartRegex = Pattern.compile("(?i)^\\s*(?: \\* )?(?:(?:Unnamed )?Entry snitch|Page [0-9]* is empty for|Log for(?:unnamed)? snitch) .*");
-	private static final Pattern snitchBreakMessageStartRegex = Pattern.compile("(?i)^\\s*You've broken .*");
-	private static final Pattern snitchNameChangeMessageStartRegex = Pattern.compile("(?i)^\\s*Changed snitch name to .*");
-	private static final Pattern snitchNotificationMessageStartRegex = Pattern.compile("(?i)^\\s* \\* .+? snitch at .*");
-	private static final Pattern tpsMessageStartRegex = Pattern.compile("(?i)^\\s*TPS from last 1m, 5m, 15m: .*");
+	private static final Pattern snitchAlertPattern = Pattern.compile(
+		"\\s*\\*\\s*([^\\s]*)\\s\\b(entered snitch at|logged out in snitch at|logged in to snitch at)\\b\\s*([^\\s]*)\\s\\[([^\\s]*)\\s([-\\d]*)\\s([-\\d]*)\\s([-\\d]*)\\]");
+	private static final Pattern snitchCreateMessageStartRegex = Pattern.compile(
+		"(?i)^\\s*You've created .*");
+	private static final Pattern snitchInfoMessageStartRegex = Pattern.compile(
+		"(?i)^\\s*(?: \\* )?(?:(?:Unnamed )?Entry snitch|Page [0-9]* is empty for|Log for(?:unnamed)? snitch) .*");
+	private static final Pattern snitchBreakMessageStartRegex = Pattern.compile(
+		"(?i)^\\s*You've broken .*");
+	private static final Pattern snitchNameChangeMessageStartRegex = Pattern.compile(
+		"(?i)^\\s*Changed snitch name to .*");
+	private static final Pattern snitchNotificationMessageStartRegex = Pattern.compile(
+		"(?i)^\\s* \\* .+? snitch at .*");
+	private static final Pattern tpsMessageStartRegex = Pattern.compile(
+		"(?i)^\\s*TPS from last 1m, 5m, 15m: .*");
 	private static final Pattern snitchMessageHoverTextRegex = Pattern.compile(
 		"^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:(?:Hours to cull|Cull):\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
 
@@ -448,7 +455,9 @@ public class ChatSnitchParser {
 			hovers.add(text);
 		}
 		SnitchMaster.logger.info(
-			String.format("[SnitchMaster] JSON parser: Hover snitch line count in message: %d/10.", hovers.size()));
+			String.format(
+				"[SnitchMaster] JSON parser: Hover snitch line count in message: %d/10.",
+				hovers.size()));
 		if (hovers.size() == 0) {
 			return false;
 		}
