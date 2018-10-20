@@ -77,12 +77,10 @@ public class ChatSnitchParser {
 		if (msg == null) {
 			return;
 		}
-
 		String msgText = msg.getUnformattedText();
 		if (msgText == null) {
 			return;
 		}
-
 		if (msgText.contains(tpsMessage)) {
 			parseTPS(msgText);
 			return;
