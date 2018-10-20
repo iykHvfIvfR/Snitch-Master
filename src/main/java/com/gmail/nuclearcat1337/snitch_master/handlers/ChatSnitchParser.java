@@ -90,8 +90,6 @@ public class ChatSnitchParser {
 		if (msgText.contains("You've created")) {
 			if (tryParsePlaceMessage(msg)) {
 				manager.saveSnitches();
-
-				SnitchMaster.SendMessageToPlayer("Saved snitch from chat message");
 				return;
 			}
 		}
@@ -100,8 +98,6 @@ public class ChatSnitchParser {
 			if (tryParseBreakMessage(msg)) {
 				// Save the snitches now that we loaded a new one from chat.
 				manager.saveSnitches();
-
-				SnitchMaster.SendMessageToPlayer("Removed snitch from chat message");
 				return;
 			}
 		}
