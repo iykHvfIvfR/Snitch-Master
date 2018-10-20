@@ -150,8 +150,9 @@ public class ChatSnitchParser {
 			Pattern placePattern = Pattern.compile(
 				"^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:Hours to cull:\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
 			Matcher matcher = placePattern.matcher(text);
-			if (!matcher.matches())
-			   return false;
+			if (!matcher.matches()) {
+				return false;
+			}
 
 			String world = matcher.group(1);
 			int x = Integer.parseInt(matcher.group(2));
