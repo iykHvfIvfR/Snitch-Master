@@ -86,7 +86,7 @@ public class ChatSnitchParser {
 			return;
 		}
 
-		//Start of the chat message for creating a snitch block from /ctf or /ctr
+		// Start of the chat message for creating a snitch block from /ctf or /ctr.
 		if (msgText.contains("You've created")) {
 			if (tryParsePlaceMessage(msg)) {
 				manager.saveSnitches();
@@ -95,10 +95,10 @@ public class ChatSnitchParser {
 				return;
 			}
 		}
-		//Start of the chat message for creating a snitch block from /ctf or /ctr
+		// Start of the chat message for creating a snitch block from /ctf or /ctr.
 		if (msgText.contains("You've broken")) {
 			if (tryParseBreakMessage(msg)) {
-				//Save the snitches now that we loaded a new one from chat
+				// Save the snitches now that we loaded a new one from chat.
 				manager.saveSnitches();
 
 				SnitchMaster.SendMessageToPlayer("Removed snitch from chat message");
