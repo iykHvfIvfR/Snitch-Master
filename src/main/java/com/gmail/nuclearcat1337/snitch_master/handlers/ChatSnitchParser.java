@@ -372,7 +372,7 @@ public class ChatSnitchParser {
 		for (ITextComponent row : snitchRows) {
 			String hoverText = "";
 			try {
-				//For some reason row.getStyle() is never null
+				// For some reason row.getStyle() is never null.
 				HoverEvent event = row.getStyle().getHoverEvent();
 				if (event != null) {
 					hoverText = event.getValue().getUnformattedComponentText();
