@@ -101,12 +101,13 @@ public class ChatSnitchParser {
 				return;
 			}
 		}
-		else if (msgText.contains("Changed snitch name to")) {
+		if (msgText.contains("Changed snitch name to")) {
 			if (tryParseNameChangeMessage(msg)) {
 				manager.saveSnitches();
 				return;
 			}
-		} else if (msgText.contains(" * ")) {
+		}
+		if (msgText.contains(" * ")) {
 			if (tryParseSnitchNotificationMessage(msg)) {
 				manager.saveSnitches();
 				return;
