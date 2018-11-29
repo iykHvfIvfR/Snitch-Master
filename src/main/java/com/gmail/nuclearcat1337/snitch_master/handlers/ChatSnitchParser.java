@@ -115,7 +115,7 @@ public class ChatSnitchParser {
 
 		if (updatingSnitchList) {
 			if (containsAny(messageText, resetSequences)) {
-				resetUpdatingSnitchList(true, false);
+				resetUpdatingSnitchList(/* save = */ true, /* cancelled = */ false);
 				SnitchMaster.SendMessageToPlayer("Finished full snitch update");
 				return;
 			}
@@ -549,7 +549,7 @@ public class ChatSnitchParser {
 		}
 		// Player disconnected while the update was running.
 		if (Minecraft.getMinecraft().player == null) {
-			resetUpdatingSnitchList(true, true);
+			resetUpdatingSnitchList(/* save = */ true, /* cancelled = */ true);
 			return;
 		}
 
@@ -567,7 +567,7 @@ public class ChatSnitchParser {
 		}
 
 		if (maxJaListIndex != -1 && jaListIndex - 1 >= maxJaListIndex) {
-			resetUpdatingSnitchList(true, false);
+			resetUpdatingSnitchList(/* save = */ true, /* cancelled = */ false);
 			SnitchMaster.SendMessageToPlayer("Finished targeted snitch update");
 		} else {
 			Minecraft.getMinecraft().player.sendChatMessage("/jalistlong " + jaListIndex);
@@ -652,7 +652,7 @@ public class ChatSnitchParser {
 	}
 
 	public void updateSnitchList() {
-		resetUpdatingSnitchList(false, false);
+		resetUpdatingSnitchList(/* save = */ false, /* cancelled = */ false);
 
 		snitchesCopy = new HashSet<>();
 		loadedSnitches = new HashSet<>();
@@ -669,7 +669,7 @@ public class ChatSnitchParser {
 	}
 
 	public void updateSnitchList(int startIndex, int stopIndex) {
-		resetUpdatingSnitchList(false, false);
+		resetUpdatingSnitchList(/* save = */ false, /* cancelled = */ false);
 
 		jaListIndex = startIndex;
 		maxJaListIndex = stopIndex;
