@@ -358,7 +358,6 @@ public class ChatSnitchParser {
 		try {
 			ITextComponent snitchListComponent = msg.getSiblings().get(0);
 			snitchRows = snitchListComponent.getSiblings();
-
 			if (snitchRows.isEmpty()) {
 				return false;
 			}
