@@ -35,7 +35,7 @@ public class ChatSnitchParser {
 	private static final Pattern snitchCreateMessageStartRegex = Pattern.compile(
 		"(?i)^\\s*You've created .*");
 	private static final Pattern snitchInfoMessageStartRegex = Pattern.compile(
-		"(?i)^\\s*(?: \\* )?(?:(?:Unnamed )?Entry snitch|Page [0-9]* is empty for|Log for(?:unnamed)? snitch) .*");
+		"(?i)^\\s*(?: \\* )?(?:(?:Unnamed )?Entry snitch|Page [0-9]* is empty for|Log for(?: unnamed)? snitch).*");
 	private static final Pattern snitchBreakMessageStartRegex = Pattern.compile(
 		"(?i)^\\s*You've broken .*");
 	private static final Pattern snitchNameChangeMessageStartRegex = Pattern.compile(
