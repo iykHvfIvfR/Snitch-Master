@@ -330,6 +330,7 @@ public class ChatSnitchParser {
 			return true;
 		}
 		manager.setSnitchName(existingSnitch, snitch.getName());
+		manager.setSnitchGroup(existingSnitch, snitch.getGroupName());
 		manager.saveSnitches();
 		return true;
 	}
