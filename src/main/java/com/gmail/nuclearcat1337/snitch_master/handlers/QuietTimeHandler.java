@@ -109,7 +109,6 @@ public class QuietTimeHandler implements IAlertRecipient {
 			//That means that we have 2 parts: 1-TEXT YOU SEE IN CHAT, 2-TEXT THAT YOU SEE WHEN YOU HOVER
 			//Either of those 2 could be a string substitution or a variable instruction
 
-			String text;
 			//Move index to the first instruction part (text to show in chat)
 			index++;
 			String showText = getTextForCurrentInstruction(alert);

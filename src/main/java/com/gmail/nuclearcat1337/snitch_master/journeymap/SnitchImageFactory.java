@@ -12,7 +12,6 @@ import journeymap.client.api.util.UIState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.math.BlockPos;
-import scala.collection.parallel.ParIterableLike;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
