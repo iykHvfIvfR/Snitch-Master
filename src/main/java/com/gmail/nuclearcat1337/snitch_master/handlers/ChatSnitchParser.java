@@ -184,7 +184,8 @@ public class ChatSnitchParser {
 	}
 
 	private Snitch snitchFromMessage(
-			ITextComponent message, String messageText, String logMessageType) {
+		ITextComponent message, String messageText, String logMessageType
+	) {
 		String hoverText = hoverTextFromMessage(message);
 		if (hoverText == null) {
 			SnitchMaster.logger.info(
