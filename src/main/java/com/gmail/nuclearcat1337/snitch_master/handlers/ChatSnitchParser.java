@@ -45,7 +45,7 @@ public class ChatSnitchParser {
 	private static final Pattern tpsMessageStartRegex = Pattern.compile(
 		"(?i)^\\s*TPS from last 1m, 5m, 15m: .*");
 	private static final Pattern snitchMessageHoverTextRegex = Pattern.compile(
-		"^(?i)\\s*Location:\\s*\\[(\\S+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:(?:Hours to cull|Cull):\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
+		"^(?i)\\s*Location:\\s*\\[(.+?) (-?[0-9]+) (-?[0-9]+) (-?[0-9]+)\\]\\s*Group:\\s*(\\S+?)\\s*Type:\\s*(Entry|Logging)\\s*(?:(?:Hours to cull|Cull):\\s*([0-9]+\\.[0-9]+)h?)?\\s*(?:Previous name:\\s*(\\S+?))?\\s*(?:Name:\\s*(\\S+?))?\\s*", Pattern.MULTILINE);
 
 	private static final String[] resetSequences = {"Unknown command", " is empty", "You do not own any snitches nearby!"};
 
@@ -241,6 +241,13 @@ public class ChatSnitchParser {
 		}
 
 		String worldName = matcher.group(1);
+		switch (worldName) {
+			case "world": break;
+			case "world_nether": break;
+			case "world_the_end": break;
+			// The server is doing something stupid.
+			default: worldName = "world";
+		}
 		int x = Integer.parseInt(matcher.group(2));
 		int y = Integer.parseInt(matcher.group(3));
 		int z = Integer.parseInt(matcher.group(4));
