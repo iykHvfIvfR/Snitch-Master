@@ -29,6 +29,8 @@ public class SnitchImageFactory {
 		if (renderList != null) {
 			com.gmail.nuclearcat1337.snitch_master.util.Color color = renderList.getListColor();
 			MapImage image = new MapImage(createSnitchField((float) color.getRed(), (float) color.getGreen(), (float) color.getBlue()));
+			image.setRotation(0);
+
 			ILocation loc = snitch.getLocation();
 			String displayID = loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getWorld();
 
