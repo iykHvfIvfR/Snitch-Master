@@ -40,6 +40,10 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
+dependencies {
+    compile group: "info.journeymap", name: "journeymap-api", version: "1.12-1.4", changing: true
+}
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.
