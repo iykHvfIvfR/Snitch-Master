@@ -255,7 +255,15 @@ public class ChatSnitchParser {
 		String type = matcher.group(6).toLowerCase();
 		Double cullTime;
 		if (matcher.group(7) == null || matcher.group(7).isEmpty()) {
-			cullTime = SnitchMaster.CULL_TIME_ENABLED ? Snitch.MAX_CULL_TIME : Double.NaN;
+			if (SnitchMaster.CULL_TIME_ENABLED) {
+				if (type.equals("logging")) {
+					cullTime = Snitch.MAX_CULL_TIME_LOGGING;
+				} else {
+					cullTime = Snitch.MAX_CULL_TIME_ENTRY;
+				}
+			} else {
+				cullTime = Double.NaN;
+			}
 		} else {
 			cullTime = Double.parseDouble(matcher.group(7));
 		}

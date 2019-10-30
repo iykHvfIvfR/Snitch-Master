@@ -19,7 +19,8 @@ public class Snitch extends LocatableObject<Snitch> {
 	/**
 	 * The cull time amount that Snitches are reset to when a player walks through them.
 	 */
-	public static final Double MAX_CULL_TIME = 24*180D;
+	public static final Double MAX_CULL_TIME_ENTRY = 24*180D;
+	public static final Double MAX_CULL_TIME_LOGGING = 24*360D;
 
 	private final ILocation location;
 
@@ -57,7 +58,7 @@ public class Snitch extends LocatableObject<Snitch> {
 
 		this.tags = new HashSet<>();
 
-		this.cullTime = SnitchMaster.CULL_TIME_ENABLED ? MAX_CULL_TIME : Double.NaN;
+		this.cullTime = SnitchMaster.CULL_TIME_ENABLED ? MAX_CULL_TIME_ENTRY : Double.NaN;
 		this.ctGroup = DEFAULT_NAME;
 		this.name = DEFAULT_NAME;
 		this.previousName = DEFAULT_NAME;
