@@ -1,14 +1,25 @@
 package com.gmail.nuclearcat1337.snitch_master.handlers;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.gmail.nuclearcat1337.snitch_master.Settings;
 import com.gmail.nuclearcat1337.snitch_master.Settings.ChatSpamState;
 import com.gmail.nuclearcat1337.snitch_master.SnitchMaster;
 import com.gmail.nuclearcat1337.snitch_master.api.IAlertRecipient;
 import com.gmail.nuclearcat1337.snitch_master.api.SnitchAlert;
-import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchTags;
 import com.gmail.nuclearcat1337.snitch_master.snitches.Snitch;
 import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchManager;
+import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchTags;
 import com.gmail.nuclearcat1337.snitch_master.util.Location;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.event.HoverEvent;
@@ -16,17 +27,6 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
-import com.google.gson.JsonParser;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ChatSnitchParser {
 	private static final Pattern snitchAlertPattern = Pattern.compile(

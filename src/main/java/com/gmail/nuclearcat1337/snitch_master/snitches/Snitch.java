@@ -1,11 +1,15 @@
 package com.gmail.nuclearcat1337.snitch_master.snitches;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.gmail.nuclearcat1337.snitch_master.SnitchMaster;
 import com.gmail.nuclearcat1337.snitch_master.locatableobjectlist.ILocation;
 import com.gmail.nuclearcat1337.snitch_master.locatableobjectlist.LocatableObject;
 import com.gmail.nuclearcat1337.snitch_master.util.Location;
-
-import java.util.*;
 
 public class Snitch extends LocatableObject<Snitch> {
 	public static final String MAX_NAME_CHARACTERS = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
