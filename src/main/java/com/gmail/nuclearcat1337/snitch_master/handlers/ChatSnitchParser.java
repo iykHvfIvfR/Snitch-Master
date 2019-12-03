@@ -604,10 +604,10 @@ public class ChatSnitchParser {
 			delta = avgTps1MinPrev - avgTps1Min;
 		}
 		if (delta < 0) {
-			delta = 1.0;
+			delta = 0;
 		}
 		// Give the player some leeway to send their own chat messages.
-		double assumedTps = avgTps1Min - delta - 1;
+		double assumedTps = avgTps1Min - (delta * 2) - 1;
 		if (tpsIsDecreasing()) {
 			nextCommandRunTime = timeInXSeconds(tickTimeoutSec / (assumedTps - 1));
 			return;
@@ -638,11 +638,16 @@ public class ChatSnitchParser {
 
 		// TPS below 19 typically means the server isn't in ideal shape.
 		if (avgTps1Min < 19.0) {
+			nextTpsRunTime = timeInXSeconds(15);
+			return;
+		}
+
+		if (avgTps1Min < 19.8) {
 			nextTpsRunTime = timeInXSeconds(30);
 			return;
 		}
 
-		// TPS above 19, the server is probably stable.
+		// TPS at or above 19.8, the server is probably very stable.
 		nextTpsRunTime = timeInXSeconds(60);
 	}
 
